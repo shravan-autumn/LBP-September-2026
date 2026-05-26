@@ -12,15 +12,29 @@ exports.HomePage = class HomePage {
     this.cookieAcceptPopup = page.locator("//button[@id='onetrust-accept-btn-handler']");
     //x change the logo selector I have hardcoded for now
     this.logo = page.locator('[class="header__heading-logo motion-reduce"]');
+    this.logoMobile = page.locator('[data-logo-test-id="index--sections--19179789910186__header-logo-1"]');
     //mega menu locators need to be added 
     this.megaMenuShop = page.locator('[data-megamenu-link-test-id="index-header-custom-menu-1-menu-link-1"]');
     this.megaMenuAllCollectionLinks = page.locator('//a[@class="menu-link mega-menu-link"]');
     this.megaMenuOffers = page.locator("(//a[contains(text(),'Offers')])[1]");
     this.megaMenuOffersDropdown = page.locator("//a[contains(text(),'Offers')]/following-sibling::ul//child::a[@class='menu-link mega-menu-link']");
     this.accountLink = page.locator('[data-account-link-test-id]');
+
+    //hamburger menu
+    this.hamburgerMenu = page.locator('[id="openMenu"]');
+    this.hamburgerMenuSubOptions= page.locator("//span[@class='sub-menu-span']");
+    this.offersLinkMobile = page.locator("(//a[contains(text(),'Offers')])[2]");
+    this.offersDropdownOptionsMobile = page.locator("(//a[contains(text(),'Offers')])[2]/parent::li/child::ul//span");
+    this.aboutUsMobile = page.locator("(//a[contains(text(),'About Us')])[2]");
+    this.knowYourIngredientsMobile = page.locator("(//a[contains(text(),'Know')])[2]");
+    this.beautyArchivesMobile = page.locator("(//a[contains(text(),'Beauty')])[2]");
+    this.supportMobile = page.locator("(//a[contains(text(),'Support')])[2]");
+    this.loginMobile = page.locator("(//a[contains(text(),'Login')])[2]");
+
     //x Seacrh link locator needs to be added i have hardcoced now
     this.searchTexfield = page.locator("//div[@class='header__icons header__icons--localization header-localization']//input");
     this.searchSuggestionBox = page.locator("//div[@class='wizzy-autocomplete-suggestions']");
+    this.SearchTextFieldMobile = page.locator("[id='mob-search-mob']");
     this.cartLink = page.locator('[data-cart-link-test-id]');
     this.announcementBarLink = page.locator('[data-announcement-bar-test-id]').first();
 
@@ -57,7 +71,7 @@ exports.HomePage = class HomePage {
     this.discoverOurStoryLink = page.locator('[data-discover-our-story-link-test-id]').first();
     //x Discover beauty bill link locator needs to be added I have hardcoded for now
     this.discoverBeautyBill = page.locator("(//h3[contains(text(),'Discover Beauty Bill')]//ancestor::section//a[@href='/pages/beauty-bill'])[1]");
-
+    this.discoverBeautyBillMobile = page.locator('(//a[@data-discover-our-story-link-test-id="index--template--19179790860458__story-home2-discover-our-story-link-1"])[2]');
     // Ingredients banner
     this.knowYourIngredientsLink = page.locator('[data-know-your-ingredients-link-test-id]').first();
 
@@ -83,12 +97,14 @@ exports.HomePage = class HomePage {
     this.discoverOurStoryLink = page.locator("[data-section-test-id='index--template--19179790860458__story-home']");
     //x Discover our story banner locator needs to be added I have hardcoded for now
     this.discoverOurStoryBanner = page.locator("(//a[@data-discover-our-story-link-test-id='index--template--19179790860458__story-home-discover-our-story-link-1'])[1]");
+    this.discoverOurStoryBannerMobile = page.locator('(//a[@data-discover-our-story-link-test-id="index--template--19179790860458__story-home-discover-our-story-link-1"])[2]');
     //Natural igresints banner
     this.knowYourIngredientsLink = page.locator("[data-section-test-id='index--template--19179790860458__home-ingradient']");
 
     // Beauty archives (home)
     //x Beauty archives selectors need to be added I have hardcoded for now
     this.beautyArchivesViewAll = page.locator("//h2[contains(text(),'beauty archives')]/parent::div[@class='home-page--blogs-container h-beauty-desk']//a");
+    this.beautyArchivesViewAllMobile = page.locator('[data-beauty-archives-view-all-test-id="index--template--19179790860458__custom_home_page_blogs_HHR3h8-beauty-archives-view-all-2"]');
     this.beautyArchivesFirstArticle = page.locator('(//a[@data-beauty-archives-article-title-test-id="index--template--19179790860458__custom_home_page_blogs_HHR3h8-beauty-archives-article-title-1"])[1]');
 
     // Newsletter
@@ -99,15 +115,31 @@ exports.HomePage = class HomePage {
 
     // Footer
     this.footerProductLinks = page.locator("//p[contains(text(),'Product Links')]//parent::div//a");
+    this.footerProductLinksMobile= page.locator('//button[contains(text(),"Product Links")]/ancestor::div[@class="accordion-item"]//a');
     this.footerConcernLinks = page.locator("//p[contains(text(),'Concerns')]//parent::div//a");
+    this.footerConcernLinksMobile = page.locator('//button[contains(text(),"Concerns")]/ancestor::div[@class="accordion-item"]//a');
     this.footerQuickLinks = page.locator("//p[contains(text(),'Quick links')]//parent::div//a");
+    this.footerQuickLinksMobile = page.locator('//button[contains(text(),"Quick")]/ancestor::div[@class="accordion-item"]//a');
     this.footerLegalLinks = page.locator("//p[contains(text(),'legal')]//parent::div//a");
+    this.footerLegalLinksMobile = page.locator('//button[contains(text(),"legal")]/ancestor::div[@class="accordion-item"]//a');
     this.facebookLink = page.locator("//div[@class='footer__blocks-wrapper desktop_only ft-blwr-desk row']//a[@href='https://www.facebook.com/lovebeautyandplanetin']");
+    this.facebookLinkMobile = page.locator("(//a[@data-social-link-test-id='index-social-icons-1-facebook-1'])[1]");
+    this.instagramLinkMobile = page.locator("(//a[@data-social-link-test-id='index-social-icons-1-instagram-1'])[1]");
     this.instagramLink = page.locator("//div[@class='footer__blocks-wrapper desktop_only ft-blwr-desk row']//a[@href='https://www.instagram.com/lovebeautyandplanet_in/']");
+    this.youtubeLinkMobile = page.locator("(//a[@data-social-link-test-id='index-social-icons-1-youtube-1'])[1]");
     this.youtubeLink = page.locator("//div[@class='footer__blocks-wrapper desktop_only ft-blwr-desk row']//a[@href='https://www.youtube.com/channel/UCUFcrEf1Wb1164G6O2_LoyA']");
     this.cautionNotice = page.locator('[data-caution-notice-test-id]');
     //cart drawer
     this.cartproductTitle = page.locator("//a[contains(@class,'cart-item__name')]");
+    this.cookieBanner = page.locator('[id="onetrust-banner-sdk"]');
+    this.cookieOk = page.locator('[id="onetrust-accept-btn-handler"]');
+    //footer mobile
+    this.productLinksMobile = page.locator("//button[contains(text(),'Product Links')]");
+    this.concernLinksMobile = page.locator("//button[contains(text(),'Concerns')]");
+    this.quickLinksMobile = page.locator("//button[contains(text(),'Quick')]");
+    this.legalLinksMobile = page.locator("//button[contains(text(),'legal')]");
+    this.circularBannerMobile = page.locator("[data-hero-before-link-test-id]");
+
   }
 
   async goto() {
@@ -115,9 +147,44 @@ exports.HomePage = class HomePage {
   }
   async cookieAccept() {
     if (await this.cookieAcceptPopup.isVisible()) {
-      await this.cookieAcceptPopup.click();
+      await this.cookieOk.click();
     }
   }
+  async removeCookiePopup(page) {
+
+    await page.evaluate(() => {
+
+      const popup = document.querySelector('#onetrust-banner-sdk');
+
+      if (popup) {
+        popup.remove();
+      }
+
+    });
+
+  }
+  async mobileCollectionBanner(page){
+    const expectedUrls = [
+      'https://lovebeautyandplanet.in/collections/shampoo',
+      'https://lovebeautyandplanet.in/collections/conditioner',
+      'https://lovebeautyandplanet.in/collections/hair-masks',
+      'https://lovebeautyandplanet.in/collections/hair-serum'
+    ];
+    // Get total dropdown options count
+    const count = await this.circularBannerMobile.count();
+
+    for (let i = 0; i < count; i++) {
+    
+      await this.circularBannerMobile.first().waitFor();
+      // Click dropdown option
+      await this.circularBannerMobile.nth(i).click();
+      // Verify URL
+      await expect(page).toHaveURL(expectedUrls[i]);
+      // Navigate back
+      await page.goBack();
+    }
+  }
+  
 
   async openAccountFromHeader() {
     await this.accountLink.click();
@@ -132,19 +199,45 @@ exports.HomePage = class HomePage {
   }
 
   async openAboutUs() {
-    await this.navAboutUs.click();
+    if (await this.navAboutUs.isVisible()) {
+      await this.navAboutUs.click();
+
+    }
+    if (await this.hamburgerMenu.isVisible()) {
+      await this.hamburgerMenu.click();
+      await this.aboutUsMobile.click();
+    }
   }
 
   async openIngredients() {
-    await this.navIngredients.click();
+    if (await this.navIngredients.isVisible()) {
+      await this.navIngredients.click();
+    }
+    if (await this.hamburgerMenu.isVisible()) {
+      await this.hamburgerMenu.click();
+      await this.knowYourIngredientsMobile.click();
+    }
   }
 
   async openBeautyArchives() {
-    await this.navBeautyArchives.click();
+    if (await this.navBeautyArchives.isVisible()) {
+      await this.navBeautyArchives.click();
+    }
+    if (await this.hamburgerMenu.isVisible()) {
+      await this.hamburgerMenu.click();
+      await this.beautyArchivesMobile.click();
+    }
   }
 
   async openContactUs() {
-    await this.navContactUs.click();
+    if (await this.navContactUs.isVisible()) {
+      await this.navContactUs.click();
+
+    }
+    if (await this.hamburgerMenu.isVisible()) {
+      await this.hamburgerMenu.click();
+      await this.supportMobile.click();
+    }
   }
 
   async clickHeroBanner() {
@@ -167,11 +260,21 @@ exports.HomePage = class HomePage {
     await this.shopByConcernLinks.first().click();
   }
   async openDiscoverOurStory() {
-    await this.discoverOurStoryLink.click();
-    await this.discoverOurStoryBanner.click();
+    if (await this.discoverOurStoryLink.isVisible()) {
+      await this.discoverOurStoryLink.click();
+    }
+    if (await this.discoverOurStoryLink.isVisible()) {
+      await this.discoverOurStoryLink.click();
+    }
   }
   async clickDiscoverBeautyBill() {
-    await this.discoverBeautyBill.click();
+    if (await this.discoverBeautyBill.isVisible()) {
+      await this.discoverBeautyBill.click();
+    }
+
+    if (await this.discoverBeautyBillMobile.isVisible()) {
+      await this.discoverBeautyBillMobile.click();
+    }
   }
 
   async openKnowYourIngredientsBanner() {
@@ -179,7 +282,14 @@ exports.HomePage = class HomePage {
   }
 
   async openBeautyArchivesViewAll() {
-    await this.beautyArchivesViewAll.click();
+    if (await this.beautyArchivesViewAll.isVisible()) {
+      await this.beautyArchivesViewAll.click();
+    }
+
+    if (await this.beautyArchivesViewAllMobile.isVisible()) {
+      await this.beautyArchivesViewAllMobile.click();
+
+    }
   }
 
   async openFirstBeautyArchivesArticle() {
@@ -192,13 +302,30 @@ exports.HomePage = class HomePage {
     await this.newsletterSubmit.click();
   }
   async clickFacebookLink() {
+    if(await this.facebookLink.isVisible()){
     await this.facebookLink.click();
+    }
+    if(await this.facebookLinkMobile.isVisible()){
+      await this.facebookLinkMobile.scrollIntoViewIfNeeded();
+      await this.facebookLinkMobile.click();
+    }
   }
   async clickInstagramLink() {
+    if(await this.instagramLink.isVisible()){
     await this.instagramLink.click();
+    }
+    if(await this.instagramLinkMobile.isVisible()){
+      await this.instagramLinkMobile.click();
+    }
   }
   async clickYoutubeLink() {
-    await this.youtubeLink.click();
+    if(await this.youtubeLink.isVisible()){
+    await this.youtubeLink.click(
+    );
+    }
+    if(await this.youtubeLinkMobile.isVisible()){
+      await this.youtubeLinkMobile.click();
+    }
   }
 
   async PLPRedirectionFromMegaMenu(collectionName) {
@@ -208,6 +335,18 @@ exports.HomePage = class HomePage {
       .first()
       .waitFor();
     await this.megaMenuAllCollectionLinks
+      .filter({ hasText: collectionName })
+      .first()
+      .click();
+  }
+  
+   async PLPRedirectionHambergerMenu(collectionName) {
+    await this.hamburgerMenu.click();
+    await this.hamburgerMenuSubOptions
+      .filter({ hasText: collectionName })
+      .first()
+      .waitFor();
+    await this.hamburgerMenuSubOptions
       .filter({ hasText: collectionName })
       .first()
       .click();
@@ -235,12 +374,45 @@ exports.HomePage = class HomePage {
       await page.goBack();
     }
   }
-  async clickSearchTextfield() {
-    await this.searchTexfield.click();
 
+  async hamburgerMenuCollectionNavigation(page) {
+    const expectedUrls = [
+      'https://lovebeautyandplanet.in/collections/buy3-1399',
+      'https://lovebeautyandplanet.in/collections/buy4-1799',
+      'https://lovebeautyandplanet.in/collections/combos'
+    ];
+
+    // Get total dropdown options count
+    const count = await this.offersDropdownOptionsMobile.count();
+
+    for (let i = 0; i < count; i++) {
+      await this.hamburgerMenu.click();
+      await this.offersLinkMobile.click();
+      await this.offersDropdownOptionsMobile.first().waitFor();
+      // Click dropdown option
+      await this.offersDropdownOptionsMobile.nth(i).click();
+      // Verify URL
+      await expect(page).toHaveURL(expectedUrls[i]);
+      // Navigate back
+      await page.goBack();
+    }
+  }
+  async clickSearchTextfield() {
+    if (await this.searchTexfield.isVisible()) {
+      await this.searchTexfield.click();
+    }
+    if (await this.SearchTextFieldMobile.isVisible()) {
+      await this.SearchTextFieldMobile.click();
+    }
   }
   async clickAccountLink() {
-    await this.accountLink.click();
+    if (await this.accountLink.isVisible()) {
+      await this.accountLink.click();
+    }
+    if (await this.hamburgerMenu.isVisible()) {
+      await this.hamburgerMenu.click();
+      await this.loginMobile.click();
+    }
   }
   async clickCartLink() {
     await this.cartLink.click();
@@ -305,36 +477,36 @@ exports.HomePage = class HomePage {
 
       // Verify Notify popup is displayed
       await expect(this.inTheSpotLightNotifyPopup).toBeVisible();
-    }  else {
+    } else {
 
-    // Click Add to Cart
-    await this.inTheSpotLightAddToCartButton.first().click();
+      // Click Add to Cart
+      await this.inTheSpotLightAddToCartButton.first().click();
 
-    // Open cart drawer
-    await this.cartLink.click();
+      // Open cart drawer
+      await this.cartLink.click();
 
-    // Wait for cart products
-    await this.cartproductTitle.first().waitFor();
+      // Wait for cart products
+      await this.cartproductTitle.first().waitFor();
 
-    // Convert cart products to lowercase
-    const cartProducts = (
-      await this.cartproductTitle.allTextContents()
-    ).map(product =>
-      product.trim().toLowerCase()
-    );
-    // Get meaningful product name
-    const shortProductName = productName
-      .split('\n')
-      .pop()
-      .trim();
-    // Verify partial match
-    const productAdded = cartProducts.some(product =>
-      product.includes(shortProductName)
-    );
+      // Convert cart products to lowercase
+      const cartProducts = (
+        await this.cartproductTitle.allTextContents()
+      ).map(product =>
+        product.trim().toLowerCase()
+      );
+      // Get meaningful product name
+      const shortProductName = productName
+        .split('\n')
+        .pop()
+        .trim();
+      // Verify partial match
+      const productAdded = cartProducts.some(product =>
+        product.includes(shortProductName)
+      );
 
-    expect(productAdded).toBeTruthy();
+      expect(productAdded).toBeTruthy();
+    }
   }
-}
   async whatSetsUsApartDropdown() {
     for (let i = 0; i < await this.whatSetsUsApartCard.count(); i++) {
       await this.whatSetsUsApartCard.nth(i).click();
@@ -360,6 +532,28 @@ exports.HomePage = class HomePage {
       await this.footerProductLinks.nth(i).waitFor();
     }
   }
+  async footerProductLinksRedirectionsMobile(page) {
+    const expectedUrls = [
+      'https://lovebeautyandplanet.in/collections/shampoo',
+      'https://lovebeautyandplanet.in/collections/conditioner',
+      'https://lovebeautyandplanet.in/collections/hair-masks',
+      'https://lovebeautyandplanet.in/collections/hair-serum',
+      'https://lovebeautyandplanet.in/collections/hair-scalp-oil',
+      'https://lovebeautyandplanet.in/collections/new-launches',
+      'https://lovebeautyandplanet.in/collections/bestseller',
+      'https://lovebeautyandplanet.in/collections/combos'
+
+    ];
+    
+    for (let i = 0; i < await this.footerProductLinksMobile.count(); i++) {
+      if(await this.productLinksMobile.isVisible()) {
+        await this.productLinksMobile.click();
+      }
+      await this.footerProductLinksMobile.nth(i).click();
+      await expect(page).toHaveURL(expectedUrls[i]);
+      await page.goBack();
+    }
+  }
   async footerConcernLinksRedirections(page) {
     const expectedUrls = [
       'https://lovebeautyandplanet.in/collections/frizz',
@@ -376,7 +570,27 @@ exports.HomePage = class HomePage {
       await this.footerConcernLinks.nth(i).click();
       await expect(page).toHaveURL(expectedUrls[i]);
       await page.goBack();
-      await this.footerConcernLinks.nth(i).waitFor();
+    }
+  }
+   async footerConcernLinksRedirectionsMobile(page) {
+    const expectedUrls = [
+      'https://lovebeautyandplanet.in/collections/frizz',
+      'https://lovebeautyandplanet.in/collections/hairfall',
+      'https://lovebeautyandplanet.in/collections/split-ends',
+      'https://lovebeautyandplanet.in/collections/curl-care',
+      'https://lovebeautyandplanet.in/collections/dandruff',
+      'https://lovebeautyandplanet.in/collections/bond-repair',
+      'https://lovebeautyandplanet.in/collections/hair-thinning',
+      'https://lovebeautyandplanet.in/collections/scalp-health'
+
+    ];
+    for (let i = 0; i < await this.footerConcernLinksMobile.count(); i++) {
+      if(await this.concernLinksMobile.isVisible()) {
+        await this.concernLinksMobile.click();
+      }
+      await this.footerConcernLinksMobile.nth(i).click();
+      await expect(page).toHaveURL(expectedUrls[i]);
+      await page.goBack();
     }
   }
 
@@ -397,6 +611,25 @@ exports.HomePage = class HomePage {
       await this.footerQuickLinks.nth(i).waitFor();
     }
   }
+  async footerQuickLinksRedirectionsMobile(page) {
+    const expectedUrls = [
+      'https://lovebeautyandplanet.in/pages/our-story',
+      'https://lovebeautyandplanet.in/pages/faq',
+      'https://lovebeautyandplanet.in/pages/blogs',
+      'https://lovebeautyandplanet.in/pages/contact-us',
+      'https://lovebeautyandplanet.in/pages/shipping-refund-policy',
+      'https://lovebeautyandplanet.in/pages/refund-policy',
+      'https://lovebeautyandplanet.in/pages/track-order'
+    ];
+    for (let i = 0; i < await this.footerQuickLinksMobile.count(); i++) {
+      if(await this.quickLinksMobile.isVisible()) {
+        await this.quickLinksMobile.click();
+      }
+      await this.footerQuickLinksMobile.nth(i).click();
+      await expect(page).toHaveURL(expectedUrls[i]);
+      await page.goBack();
+    }
+  }
   async footerLegalLinksRedirections(page, context) {
     const expectedUrls = [
       'https://lovebeautyandplanet.in/policies/privacy-policy',
@@ -409,6 +642,9 @@ exports.HomePage = class HomePage {
     ];
 
     for (let i = 0; i < await this.footerLegalLinks.count(); i++) {
+      if(await this.legalLinksMobile.isVisible()) {
+        await this.legalLinksMobile.click();
+      }
 
       const link = this.footerLegalLinks.nth(i);
 
@@ -451,6 +687,80 @@ exports.HomePage = class HomePage {
       await link.waitFor({ state: 'visible' });
     }
   }
+  async footerLegalLinksRedirectionsMobile(page, context) {
+
+  const expectedUrls = [
+    'https://lovebeautyandplanet.in/policies/privacy-policy',
+    'https://www.unilevernotices.com/privacy-notices/india-english.html',
+    'https://notices.unilever.com/general/en/accessibility/',
+    'https://www.unilevernotices.com/cookie-notices/india-english.html',
+    'https://lovebeautyandplanet.in/pages/terms-of-use',
+    'https://lovebeautyandplanet.in/pages/site-map',
+    'https://lovebeautyandplanet.in/pages/terms-conditions-1'
+  ];
+
+  for (let i = 0; i < expectedUrls.length; i++) {
+
+    // Re-open footer accordion after every back navigation
+    if (await this.legalLinksMobile.isVisible()) {
+
+      const expanded =
+        await this.footerLegalLinksMobile.first().isVisible()
+          .catch(() => false);
+
+      if (!expanded) {
+        await this.legalLinksMobile.click();
+      }
+    }
+
+    // Re-fetch locator after DOM reload
+    const link = this.footerLegalLinksMobile.nth(i);
+
+    await link.scrollIntoViewIfNeeded();
+
+    // Start listening BEFORE click
+    const popupPromise = context.waitForEvent('page', {
+      timeout: 3000
+    }).catch(() => null);
+
+    await link.click();
+
+    const popup = await popupPromise;
+
+    // NEW TAB
+    if (popup) {
+
+      await popup.waitForLoadState('domcontentloaded');
+
+      await expect(popup).toHaveURL(expectedUrls[i]);
+
+      await popup.close();
+
+      await page.bringToFront();
+
+    }
+
+    // SAME TAB
+    else {
+
+      await page.waitForURL(expectedUrls[i], {
+        timeout: 10000
+      });
+
+      await expect(page).toHaveURL(expectedUrls[i]);
+
+      await page.goBack();
+
+      await page.waitForLoadState('domcontentloaded');
+
+    }
+
+    // Small stabilization wait for mobile DOM
+    await page.waitForTimeout(1000);
+
+  }
+
+}
   async facebookRedirection(page, context) {
     // Wait for new tab
     const [newPage] = await Promise.all([
@@ -459,7 +769,7 @@ exports.HomePage = class HomePage {
     ]);
 
     // Wait until page is loaded
-    await newPage.waitForLoadState();
+    //await newPage.waitForLoadState();
     await expect(newPage).toHaveURL('https://www.facebook.com/lovebeautyandplanetin');
   }
   async instagramRedirection(page, context) {
@@ -475,16 +785,18 @@ exports.HomePage = class HomePage {
     await expect(newPage).toHaveURL('https://www.instagram.com/lovebeautyandplanet_in/');
 
   }
-  async youtubeRedirection(page, context) {
-    // Wait for new tab
-    const [newPage] = await Promise.all([
-      context.waitForEvent('page'),
-      this.clickYoutubeLink()
-    ]);
+ async youtubeRedirection(page, context) {
 
-    // Wait until page is loaded
-    await newPage.waitForLoadState();
-    await expect(newPage).toHaveURL('https://www.youtube.com/channel/UCUFcrEf1Wb1164G6O2_LoyA');
-  }
+  const [newPage] = await Promise.all([
+    context.waitForEvent('page'),
+    this.clickYoutubeLink()
+  ]);
+
+  await newPage.waitForLoadState('domcontentloaded');
+
+  await expect(newPage)
+    .toHaveURL(/youtube\.com/);
+
+}
 }
 

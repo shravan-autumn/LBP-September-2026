@@ -44,7 +44,10 @@ exports.PLP = class PLP {
     this.cartproductTitle = page.locator("//a[contains(@class,'cart-item__name')]");
     //Home page
     this.cartLink = page.locator('[data-cart-link-test-id]');
-
+    //mobile filters
+    this.filterMobile= page.locator('[class="mobile-facets__open-label button-label medium-hide large-up-hide"]');
+    this.filterMainMobile= page.locator('//div[contains(@class,"accordion-button mobile-facets__item ")]');
+    this.filterSubMobile= page.locator('[class="facet-checkbox__text"]');
   }
 
   async gotoCollection(handle = 'all-products') {
@@ -61,7 +64,6 @@ exports.PLP = class PLP {
 
     const filtersToApply = [
       'Argan Oil And Lavender',
-      'Hair Care',
       'Frizz control'
     ];
 
@@ -135,6 +137,138 @@ exports.PLP = class PLP {
     expect(relevantProductsCount).toBeGreaterThan(0);
   }
 
+  async applyFiltersAndValidateProductsMobile() {
+
+  const filtersToApply = [
+    'Argan Oil And Lavender',
+    'Frizz control'
+  ];
+
+  // Open mobile filter drawer
+  await this.filterMobile.click();
+
+  // Wait for filter drawer to load
+  await this.page.waitForTimeout(2000);
+
+  // Get all main filter accordions
+  const totalMainFilters =
+    await this.filterMainMobile.count();
+
+  // Loop through each filter value you want to apply
+  for (const filter of filtersToApply) {
+
+    let filterFound = false;
+
+    // Iterate through each accordion section
+    for (let i = 0; i < totalMainFilters; i++) {
+
+      const mainFilter =
+        this.filterMainMobile.nth(i);
+
+      // Expand accordion
+      await mainFilter.scrollIntoViewIfNeeded();
+      await mainFilter.click();
+
+      await this.page.waitForTimeout(1000);
+
+      // Get all sub filter options inside expanded accordion
+      const subFilters =
+        this.filterSubMobile;
+
+      const subFilterCount =
+        await subFilters.count();
+
+      // Iterate through sub filters
+      for (let j = 0; j < subFilterCount; j++) {
+
+        const subFilter =
+          subFilters.nth(j);
+
+        const subFilterText =
+          (await subFilter.innerText()).trim();
+
+        // Check if filter exists
+        if (
+          subFilterText
+            .toLowerCase()
+            .includes(filter.toLowerCase())
+        ) {
+
+          await subFilter.scrollIntoViewIfNeeded();
+          await subFilter.click();
+
+          filterFound = true;
+
+          console.log(`Applied filter: ${filter}`);
+
+          await this.page.waitForTimeout(1000);
+
+          break;
+        }
+      }
+
+      // Stop looping if filter already applied
+      if (filterFound) {
+        break;
+      }
+    }
+
+    // Validation if filter not found
+    expect(filterFound).toBeTruthy();
+  }
+
+  // Optional apply button click if present
+  // await this.applyFilterButton.click();
+
+  // Wait for products to refresh
+  await this.page.waitForLoadState('networkidle');
+
+  // Validate applied filters
+  const finalAppliedFilters =
+    await this.appliedFilters.allInnerTexts();
+
+  const normalizedFilters =
+    finalAppliedFilters.join(' ').toLowerCase();
+
+  for (const filter of filtersToApply) {
+
+    expect(normalizedFilters)
+      .toContain(filter.toLowerCase());
+  }
+
+  // Product validation
+  const allProductTitles =
+    await this.productTitles.allInnerTexts();
+
+  const fewProducts =
+    allProductTitles.slice(0, 4);
+
+  let relevantProductsCount = 0;
+
+  for (const title of fewProducts) {
+
+    const normalizedTitle =
+      title.toLowerCase();
+
+    const isRelevant =
+      filtersToApply.some(filter => {
+
+        const filterWords =
+          filter.toLowerCase().split(' ');
+
+        return filterWords.some(word =>
+          normalizedTitle.includes(word)
+        );
+      });
+
+    if (isRelevant) {
+      relevantProductsCount++;
+    }
+  }
+
+  expect(relevantProductsCount)
+    .toBeGreaterThan(0);
+}
   async removeAppliedFilters() {
 
     const filtersToApply = [

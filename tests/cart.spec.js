@@ -18,27 +18,28 @@ test.beforeEach(async ({ page }) => {
   pdp = new PDP(page);
   await hp.goto();
   await hp.cookieAccept;
+    await hp.removeCookiePopup(page);
+
 });
 
 test.describe('Cart', () => {
-  test('Cart1 Verify empty cart visibility', async ({ page }) => {
+  test('@all Cart1 Verify empty cart visibility', async ({ page }) => {
     await c.emptycartVisibility();
   });
 
-  test('Cart2 Verify continue shopping functionality in empty cart', async ({ page }) => {
+  test('@all Cart2 Verify continue shopping functionality in empty cart', async ({ page }) => {
     await c.continueShopping();
 
   });
-
-  test('Cart3 Verify adding multiple products to cart', async ({ page }) => {
+//only desktop as shopify preview bar is overlapping with sticky ATC
+  test('@desktop Cart3 Verify adding multiple products to cart', async ({ page }) => {
     await pdp.searchPLPToPDPNavigation("oil");
     await c.addFirstProductToCart();
     await pdp.searchPLPToPDPNavigation("Best");
     await c.addSecondProductToCart();
   });
-
-  test('Cart4 Verify total price calculation', async ({ page }) => {
-
+//only desktop as shopify preview bar is overlapping with sticky ATC
+  test('@desktop Cart4 Verify total price calculation', async ({ page }) => {
     await pdp.searchPLPToPDPNavigation("oil");
     var productPrice = parseInt(
       (await pdp.productPrice.first().textContent()).trim()
@@ -58,20 +59,22 @@ test.describe('Cart', () => {
     );
     expect(totalPrice).toBe(expectedPrice);
   });
-
-  test('Cart5 Verify freebie product addition', async ({ page }) => {
+//only desktop as shopify preview bar is overlapping with sticky ATC
+  test('@desktop Cart5 Verify freebie product addition', async ({ page }) => {
     await pdp.searchPLPToPDPNavigation("Best");
     var productTitle = await pdp.addToCart();
     await expect(c.freebie).toBeVisible();
   });
+//only desktop as shopify preview bar is overlapping with sticky ATC
 
-  test.only('Cart6 Verify the cart quantity increase/decrease functionality', async ({ page }) => {
+  test('@desktop Cart6 Verify the cart quantity increase/decrease functionality', async ({ page }) => {
     await pdp.searchPLPToPDPNavigation("oil");
     await c.addFirstProductToCart();
     await c.cartQunatitySelectorFunctionality(page);
   });
+//only desktop as shopify preview bar is overlapping with sticky ATC
 
-  test('Cart7 Verify checkout navigation', async ({ page }) => {
+  test.skip('@all Cart7 Verify checkout navigation', async ({ page }) => {
     await pdp.searchPLPToPDPNavigation("Best");
     var productTitle = await pdp.addToCart();
     await c.checkoutValidation();

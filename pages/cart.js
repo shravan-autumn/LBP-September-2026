@@ -29,7 +29,7 @@ exports.Cart = class Cart {
     this.pdpproductTitle = page.locator('//div[@class="product__title"]');
     this.pdpproductPrice = page.locator('//div[@class="sing-product-variant"]//span[@class="pro-variant-price"]');
     this.quantitySelctor = page.locator('[data-quantity-variant-id="42670785069226"]');
-    this.quantityminus = page.locator('//tr//button[@name="minus"]');
+    this.quantityminus = page.locator('(//tr//button[@name="minus"])[2]');
     this.quantityplus = page.locator('//tr//button[@name="plus"]');
     this.cartLink = page.locator('[data-cart-link-test-id]');
 

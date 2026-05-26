@@ -48,6 +48,7 @@ exports.PDP = class PDP {
     //cart drawer
     this.cartproductTitle = page.locator("//a[contains(@class,'cart-item__name')]");
     this.closeCart = page.locator('(//button[@class="drawer__close"])[1]');
+    this.SearchTextFieldMobile = page.locator("[id='mob-search-mob']");
 
   }
 
@@ -90,11 +91,20 @@ exports.PDP = class PDP {
   }
 
   async searchPLPToPDPNavigation(productName) {
-    await this.searchTexfield.click();
+    if (await this.searchTexfield.isVisible()) {
+      await this.searchTexfield.click();
 
-    await this.searchTexfield.pressSequentially(productName, {
-      delay: 100
-    });
+      await this.searchTexfield.pressSequentially(productName, {
+        delay: 100
+      });
+    }
+    if (await this.SearchTextFieldMobile.isVisible()) {
+      await this.SearchTextFieldMobile.click();
+      await this.searchTexfield.pressSequentially(productName, {
+        delay: 100
+      });
+    }
+
     // Get first product name from PLP
     const firstProductName = await this.productTitlesSearchPLP
       .first()

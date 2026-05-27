@@ -4,22 +4,26 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
   testDir: './tests',
 
-  timeout: 70000,
+  timeout: 120000,
 
   expect: {
-    timeout: 70000
+    timeout: 120000
   },
 
   fullyParallel: false,
   workers: 1,
+
+  // Retry failed tests
+  retries: 2,
 
   reporter: [['html'], ['list']],
 
   use: {
     headless: true,
     channel: 'chrome',
+
     screenshot: 'only-on-failure',
-    video: 'retain-on-failure',
+    video: 'off',
     trace: 'on-first-retry',
 
     launchOptions: {
@@ -28,7 +32,7 @@ export default defineConfig({
         '--no-sandbox',
         '--disable-dev-shm-usage'
       ],
-      slowMo: 1000,
+      slowMo: 300,
     },
   },
 

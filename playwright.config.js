@@ -25,8 +25,10 @@ export default defineConfig({
     launchOptions: {
       args: [
         '--disable-blink-features=AutomationControlled',
+        '--no-sandbox',
+        '--disable-dev-shm-usage'
       ],
-      slowMo: 1000,
+      slowMo: 500,
     },
   },
 

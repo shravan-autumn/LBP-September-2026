@@ -16,7 +16,7 @@ export default defineConfig({
   reporter: [['html'], ['list']],
 
   use: {
-    headless: false,
+    headless: true,
     channel: 'chrome',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',

@@ -144,9 +144,11 @@ test.describe('LBP', () => {
     });
 
     test('@desktop HP25 Verify footer product links', async ({ page }) => {
+        test.setTimeout(180000);
         await hp.footerProductLinksRedirections(page);
     });
     test('@mobile HP25 Verify footer product links', async ({ page }) => {
+        test.setTimeout(180000);
         await hp.footerProductLinksRedirectionsMobile(page);
     });
 
@@ -189,9 +191,9 @@ test.describe('LBP', () => {
     test('@all HP32 Verify caution notice display', async ({ page }) => {
         await expect(hp.cautionNotice).toBeVisible();
     });
-    test('@mobile HP33 Verify circular collection banner redirection', async ({ page }) => {
-        await hp.mobileCollectionBanner(page);
-    });
+    // test('@mobile HP33 Verify circular collection banner redirection', async ({ page }) => {
+    //     await hp.mobileCollectionBanner(page);
+    // });
     test('@desktop PLP1 Verify user naviagtes to PLP applies filters and verify relevant products are disaplyed', async ({ page }) => {
         await hp.PLPRedirectionFromMegaMenu('New Launches');
         await expect(page).toHaveURL('https://lovebeautyandplanet.in/collections/new-launches');

@@ -87,6 +87,7 @@ exports.Cart = class Cart {
   }
   async addFirstProductToCart() {
     var productTitle = await this.addToCart();
+    
     // Wait for cart product
     await this.productTitle.first().waitFor();
     // Get first cart product

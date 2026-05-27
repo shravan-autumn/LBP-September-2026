@@ -19,7 +19,7 @@ export default defineConfig({
   reporter: [['html'], ['list']],
 
   use: {
-    headless: true,
+    headless: false,
     channel: 'chrome',
 
     screenshot: 'only-on-failure',
@@ -32,7 +32,7 @@ export default defineConfig({
         '--no-sandbox',
         '--disable-dev-shm-usage'
       ],
-      slowMo: 300,
+      slowMo: 1000,
     },
   },
 

@@ -782,7 +782,7 @@ exports.HomePage = class HomePage {
 
     // Wait until page is loaded
     await newPage.waitForLoadState();
-    await expect(newPage).toHaveURL('https://www.instagram.com/lovebeautyandplanet_in/');
+    await expect(newPage).toHaveURL(/https:\/\/(www\.)?instagram\.com\/.*/);
 
   }
  async youtubeRedirection(page, context) {

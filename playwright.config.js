@@ -28,7 +28,7 @@ export default defineConfig({
         '--no-sandbox',
         '--disable-dev-shm-usage'
       ],
-      slowMo: 500,
+      slowMo: 1000,
     },
   },
 

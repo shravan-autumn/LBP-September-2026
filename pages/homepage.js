@@ -22,7 +22,7 @@ exports.HomePage = class HomePage {
 
     //hamburger menu
     this.hamburgerMenu = page.locator('[id="openMenu"]');
-    this.hamburgerMenuSubOptions= page.locator("//span[@class='sub-menu-span']");
+    this.hamburgerMenuSubOptions = page.locator("//span[@class='sub-menu-span']");
     this.offersLinkMobile = page.locator("(//a[contains(text(),'Offers')])[2]");
     this.offersDropdownOptionsMobile = page.locator("(//a[contains(text(),'Offers')])[2]/parent::li/child::ul//span");
     this.aboutUsMobile = page.locator("(//a[contains(text(),'About Us')])[2]");
@@ -115,7 +115,7 @@ exports.HomePage = class HomePage {
 
     // Footer
     this.footerProductLinks = page.locator("//p[contains(text(),'Product Links')]//parent::div//a");
-    this.footerProductLinksMobile= page.locator('//button[contains(text(),"Product Links")]/ancestor::div[@class="accordion-item"]//a');
+    this.footerProductLinksMobile = page.locator('//button[contains(text(),"Product Links")]/ancestor::div[@class="accordion-item"]//a');
     this.footerConcernLinks = page.locator("//p[contains(text(),'Concerns')]//parent::div//a");
     this.footerConcernLinksMobile = page.locator('//button[contains(text(),"Concerns")]/ancestor::div[@class="accordion-item"]//a');
     this.footerQuickLinks = page.locator("//p[contains(text(),'Quick links')]//parent::div//a");
@@ -163,7 +163,7 @@ exports.HomePage = class HomePage {
     });
 
   }
-  async mobileCollectionBanner(page){
+  async mobileCollectionBanner(page) {
     const expectedUrls = [
       'https://lovebeautyandplanet.in/collections/shampoo',
       'https://lovebeautyandplanet.in/collections/conditioner',
@@ -174,7 +174,7 @@ exports.HomePage = class HomePage {
     const count = await this.circularBannerMobile.count();
 
     for (let i = 0; i < count; i++) {
-    
+
       await this.circularBannerMobile.first().waitFor();
       // Click dropdown option
       await this.circularBannerMobile.nth(i).click();
@@ -184,7 +184,7 @@ exports.HomePage = class HomePage {
       await page.goBack();
     }
   }
-  
+
 
   async openAccountFromHeader() {
     await this.accountLink.click();
@@ -302,28 +302,28 @@ exports.HomePage = class HomePage {
     await this.newsletterSubmit.click();
   }
   async clickFacebookLink() {
-    if(await this.facebookLink.isVisible()){
-    await this.facebookLink.click();
+    if (await this.facebookLink.isVisible()) {
+      await this.facebookLink.click();
     }
-    if(await this.facebookLinkMobile.isVisible()){
+    if (await this.facebookLinkMobile.isVisible()) {
       await this.facebookLinkMobile.scrollIntoViewIfNeeded();
       await this.facebookLinkMobile.click();
     }
   }
   async clickInstagramLink() {
-    if(await this.instagramLink.isVisible()){
-    await this.instagramLink.click();
+    if (await this.instagramLink.isVisible()) {
+      await this.instagramLink.click();
     }
-    if(await this.instagramLinkMobile.isVisible()){
+    if (await this.instagramLinkMobile.isVisible()) {
       await this.instagramLinkMobile.click();
     }
   }
   async clickYoutubeLink() {
-    if(await this.youtubeLink.isVisible()){
-    await this.youtubeLink.click(
-    );
+    if (await this.youtubeLink.isVisible()) {
+      await this.youtubeLink.click(
+      );
     }
-    if(await this.youtubeLinkMobile.isVisible()){
+    if (await this.youtubeLinkMobile.isVisible()) {
       await this.youtubeLinkMobile.click();
     }
   }
@@ -339,8 +339,8 @@ exports.HomePage = class HomePage {
       .first()
       .click();
   }
-  
-   async PLPRedirectionHambergerMenu(collectionName) {
+
+  async PLPRedirectionHambergerMenu(collectionName) {
     await this.hamburgerMenu.click();
     await this.hamburgerMenuSubOptions
       .filter({ hasText: collectionName })
@@ -371,7 +371,7 @@ exports.HomePage = class HomePage {
       // Verify URL
       await expect(page).toHaveURL(expectedUrls[i]);
       // Navigate back
-      await page.goBack();
+      //await page.goBack();
     }
   }
 
@@ -431,7 +431,10 @@ exports.HomePage = class HomePage {
       // Verify URL
       await expect(page).toHaveURL(expectedUrls[i]);
       // Navigate back
-      await page.goBack();
+      await page.goBack({
+        waitUntil: 'domcontentloaded',
+        timeout: 30000
+      });
     }
   }
 
@@ -464,6 +467,7 @@ exports.HomePage = class HomePage {
     }
   }
   async inTheSpotLightSection() {
+
     // Capture spotlight product title
     const productName = (
       await this.inTheSpotLightProductTitle.first().innerText()
@@ -477,6 +481,7 @@ exports.HomePage = class HomePage {
 
       // Verify Notify popup is displayed
       await expect(this.inTheSpotLightNotifyPopup).toBeVisible();
+
     } else {
 
       // Click Add to Cart
@@ -485,20 +490,30 @@ exports.HomePage = class HomePage {
       // Open cart drawer
       await this.cartLink.click();
 
-      // Wait for cart products
-      await this.cartproductTitle.first().waitFor();
+      // Wait for visible cart product
+      await this.cartproductTitle
+        .filter({ visible: true })
+        .first()
+        .waitFor({
+          state: 'visible',
+          timeout: 30000
+        });
 
-      // Convert cart products to lowercase
+      // Get visible cart products
       const cartProducts = (
-        await this.cartproductTitle.allTextContents()
+        await this.cartproductTitle
+          .filter({ visible: true })
+          .allTextContents()
       ).map(product =>
         product.trim().toLowerCase()
       );
+
       // Get meaningful product name
       const shortProductName = productName
         .split('\n')
         .pop()
         .trim();
+
       // Verify partial match
       const productAdded = cartProducts.some(product =>
         product.includes(shortProductName)
@@ -544,9 +559,9 @@ exports.HomePage = class HomePage {
       'https://lovebeautyandplanet.in/collections/combos'
 
     ];
-    
+
     for (let i = 0; i < await this.footerProductLinksMobile.count(); i++) {
-      if(await this.productLinksMobile.isVisible()) {
+      if (await this.productLinksMobile.isVisible()) {
         await this.productLinksMobile.click();
       }
       await this.footerProductLinksMobile.nth(i).click();
@@ -572,7 +587,7 @@ exports.HomePage = class HomePage {
       await page.goBack();
     }
   }
-   async footerConcernLinksRedirectionsMobile(page) {
+  async footerConcernLinksRedirectionsMobile(page) {
     const expectedUrls = [
       'https://lovebeautyandplanet.in/collections/frizz',
       'https://lovebeautyandplanet.in/collections/hairfall',
@@ -585,7 +600,7 @@ exports.HomePage = class HomePage {
 
     ];
     for (let i = 0; i < await this.footerConcernLinksMobile.count(); i++) {
-      if(await this.concernLinksMobile.isVisible()) {
+      if (await this.concernLinksMobile.isVisible()) {
         await this.concernLinksMobile.click();
       }
       await this.footerConcernLinksMobile.nth(i).click();
@@ -622,7 +637,7 @@ exports.HomePage = class HomePage {
       'https://lovebeautyandplanet.in/pages/track-order'
     ];
     for (let i = 0; i < await this.footerQuickLinksMobile.count(); i++) {
-      if(await this.quickLinksMobile.isVisible()) {
+      if (await this.quickLinksMobile.isVisible()) {
         await this.quickLinksMobile.click();
       }
       await this.footerQuickLinksMobile.nth(i).click();
@@ -642,7 +657,7 @@ exports.HomePage = class HomePage {
     ];
 
     for (let i = 0; i < await this.footerLegalLinks.count(); i++) {
-      if(await this.legalLinksMobile.isVisible()) {
+      if (await this.legalLinksMobile.isVisible()) {
         await this.legalLinksMobile.click();
       }
 
@@ -689,78 +704,78 @@ exports.HomePage = class HomePage {
   }
   async footerLegalLinksRedirectionsMobile(page, context) {
 
-  const expectedUrls = [
-    'https://lovebeautyandplanet.in/policies/privacy-policy',
-    'https://www.unilevernotices.com/privacy-notices/india-english.html',
-    'https://notices.unilever.com/general/en/accessibility/',
-    'https://www.unilevernotices.com/cookie-notices/india-english.html',
-    'https://lovebeautyandplanet.in/pages/terms-of-use',
-    'https://lovebeautyandplanet.in/pages/site-map',
-    'https://lovebeautyandplanet.in/pages/terms-conditions-1'
-  ];
+    const expectedUrls = [
+      'https://lovebeautyandplanet.in/policies/privacy-policy',
+      'https://www.unilevernotices.com/privacy-notices/india-english.html',
+      'https://notices.unilever.com/general/en/accessibility/',
+      'https://www.unilevernotices.com/cookie-notices/india-english.html',
+      'https://lovebeautyandplanet.in/pages/terms-of-use',
+      'https://lovebeautyandplanet.in/pages/site-map',
+      'https://lovebeautyandplanet.in/pages/terms-conditions-1'
+    ];
 
-  for (let i = 0; i < expectedUrls.length; i++) {
+    for (let i = 0; i < expectedUrls.length; i++) {
 
-    // Re-open footer accordion after every back navigation
-    if (await this.legalLinksMobile.isVisible()) {
+      // Re-open footer accordion after every back navigation
+      if (await this.legalLinksMobile.isVisible()) {
 
-      const expanded =
-        await this.footerLegalLinksMobile.first().isVisible()
-          .catch(() => false);
+        const expanded =
+          await this.footerLegalLinksMobile.first().isVisible()
+            .catch(() => false);
 
-      if (!expanded) {
-        await this.legalLinksMobile.click();
+        if (!expanded) {
+          await this.legalLinksMobile.click();
+        }
       }
+
+      // Re-fetch locator after DOM reload
+      const link = this.footerLegalLinksMobile.nth(i);
+
+      await link.scrollIntoViewIfNeeded();
+
+      // Start listening BEFORE click
+      const popupPromise = context.waitForEvent('page', {
+        timeout: 3000
+      }).catch(() => null);
+
+      await link.click();
+
+      const popup = await popupPromise;
+
+      // NEW TAB
+      if (popup) {
+
+        await popup.waitForLoadState('domcontentloaded');
+
+        await expect(popup).toHaveURL(expectedUrls[i]);
+
+        await popup.close();
+
+        await page.bringToFront();
+
+      }
+
+      // SAME TAB
+      else {
+
+        await page.waitForURL(expectedUrls[i], {
+          timeout: 10000
+        });
+
+        await expect(page).toHaveURL(expectedUrls[i]);
+
+        await page.goBack();
+
+        await page.waitForLoadState('domcontentloaded');
+
+      }
+
+      // Small stabilization wait for mobile DOM
+      await page.waitForTimeout(1000);
+
     }
-
-    // Re-fetch locator after DOM reload
-    const link = this.footerLegalLinksMobile.nth(i);
-
-    await link.scrollIntoViewIfNeeded();
-
-    // Start listening BEFORE click
-    const popupPromise = context.waitForEvent('page', {
-      timeout: 3000
-    }).catch(() => null);
-
-    await link.click();
-
-    const popup = await popupPromise;
-
-    // NEW TAB
-    if (popup) {
-
-      await popup.waitForLoadState('domcontentloaded');
-
-      await expect(popup).toHaveURL(expectedUrls[i]);
-
-      await popup.close();
-
-      await page.bringToFront();
-
-    }
-
-    // SAME TAB
-    else {
-
-      await page.waitForURL(expectedUrls[i], {
-        timeout: 10000
-      });
-
-      await expect(page).toHaveURL(expectedUrls[i]);
-
-      await page.goBack();
-
-      await page.waitForLoadState('domcontentloaded');
-
-    }
-
-    // Small stabilization wait for mobile DOM
-    await page.waitForTimeout(1000);
 
   }
-
-}
   async facebookRedirection(page, context) {
     // Wait for new tab
     const [newPage] = await Promise.all([
@@ -785,18 +800,18 @@ exports.HomePage = class HomePage {
     await expect(newPage).toHaveURL(/https:\/\/(www\.)?instagram\.com\/.*/);
 
   }
- async youtubeRedirection(page, context) {
+  async youtubeRedirection(page, context) {
 
-  const [newPage] = await Promise.all([
-    context.waitForEvent('page'),
-    this.clickYoutubeLink()
-  ]);
+    const [newPage] = await Promise.all([
+      context.waitForEvent('page'),
+      this.clickYoutubeLink()
+    ]);
 
-  await newPage.waitForLoadState('domcontentloaded');
+    await newPage.waitForLoadState('domcontentloaded');
 
-  await expect(newPage)
-    .toHaveURL(/youtube\.com/);
+    await expect(newPage)
+      .toHaveURL(/youtube\.com/);
 
-}
+  }
 }
 

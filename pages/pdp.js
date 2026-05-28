@@ -59,6 +59,7 @@ exports.PDP = class PDP {
   async checkInvalidPincode(value) {
     await this.pincodeInput.fill(value);
     await this.pincodeCheckBtn.click();
+    await this.pincodeError.waitFor({ state: 'visible', timeout: 10000 });
     await expect(this.pincodeError).toBeVisible();
   }
 
@@ -76,7 +77,7 @@ exports.PDP = class PDP {
 
   async increaseQuantity() {
     await expect(this.atcButton).toBeVisible();
-await expect(this.atcButton).toBeEnabled();
+    await expect(this.atcButton).toBeEnabled();
     await this.atcButton.click();
     const before = await this.qtyInput.inputValue();
     await this.qtyPlus.click();
@@ -109,20 +110,34 @@ await expect(this.atcButton).toBeEnabled();
       });
     }
 
-    // Get first product name from PLP
-    const firstProductName = await this.productTitlesSearchPLP
-      .first()
-      .textContent();
-    // Open first product
-    await this.productTitlesSearchPLP.click();
+   await this.productTitlesSearchPLP.first().waitFor({
+  state: 'visible',
+  timeout: 30000
+});
+
+const firstProductName = await this.productTitlesSearchPLP
+  .first()
+  .textContent();
+
+await this.productTitlesSearchPLP.first().click();
 
     return firstProductName;
   }
   async writeToUsNavigation() {
-    await this.faqtab.click();
-    await this.writeToUs.waitFor();
-    await this.writeToUs.click();
-  }
+
+  await this.faqtab.click();
+
+  const visibleWriteToUs = this.writeToUs
+    .filter({ visible: true })
+    .first();
+
+  await visibleWriteToUs.waitFor({
+    state: 'visible',
+    timeout: 30000
+  });
+
+  await visibleWriteToUs.click();
+}
   async youmayalsolikeNavigation() {
     await this.ymalViewAll.click();
   }
@@ -140,24 +155,34 @@ await expect(this.atcButton).toBeEnabled();
       await this.viewproductsLink.nth(i).waitFor();
     }
   }
-  async addToCartFromPDP() {
-    const productTitle = await this.addToCart();
+ async addToCartFromPDP() {
 
-    // Wait for cart product
-    await this.cartproductTitle.first().waitFor();
+  const productTitle = await this.addToCart();
 
-    // Get first cart product
-    const cartTitle = await this.cartproductTitle.first().textContent();
+  // Wait for visible cart product
+  const visibleCartProduct = this.cartproductTitle
+    .filter({ visible: true })
+    .first();
 
-    // Take few words from PDP title
-    const expectedText = productTitle
-      .toLowerCase()
-      .trim()
-      .split(' ')
-      .slice(0, 5)
-      .join(' ');
+  await visibleCartProduct.waitFor({
+    state: 'visible',
+    timeout: 30000
+  });
 
-    // Validate cart contains similar text
-    expect(cartTitle.toLowerCase()).toContain(expectedText);
-  }
+  // Get cart product title
+  const cartTitle =
+    await visibleCartProduct.textContent() || '';
+
+  // Take few words from PDP title
+  const expectedText = productTitle
+    .toLowerCase()
+    .trim()
+    .split(' ')
+    .slice(0, 5)
+    .join(' ');
+
+  // Validate cart contains similar text
+  expect(cartTitle.toLowerCase())
+    .toContain(expectedText);
+}
 }

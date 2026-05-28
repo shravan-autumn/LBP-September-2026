@@ -364,32 +364,64 @@ test.describe('LBP', () => {
         await c.addSecondProductToCart();
     });
     //only desktop as shopify preview bar is overlapping with sticky ATC
-    test('@desktop Cart4 Verify total price calculation', async ({ page }) => {
-        await pdp.searchPLPToPDPNavigation("oil");
-        var productPrice = parseInt(
-            (await pdp.productPrice.first().textContent()).trim()
-        );
-        await pdp.addToCart();
-        await c.closecart();
-        // Second product
-        await pdp.searchPLPToPDPNavigation("Best");
-        var productPrice1 = parseInt(
-            (await pdp.productPrice.first().textContent()).trim()
-        );
-        await pdp.addToCart();
-        var expectedPrice = productPrice1 + productPrice;
-        await c.cartTotalPrice.waitFor();
-        const totalPrice = parseInt(
-            (await c.cartTotalPrice.textContent()).replace(/[^\d]/g, '')
-        );
-        expect(totalPrice).toBe(expectedPrice);
+   test('@desktop Cart4 Verify total price calculation', async ({ page }) => {
+
+    await pdp.searchPLPToPDPNavigation("oil");
+
+    await pdp.productPrice.first().waitFor({
+        state: 'visible'
     });
+
+    const productPrice = parseInt(
+        (await pdp.productPrice.first().textContent())
+        .replace(/[^\d]/g, '')
+    );
+
+    await pdp.addToCart();
+    await c.closecart();
+
+    // Second product
+    await pdp.searchPLPToPDPNavigation("Best");
+
+    await pdp.productPrice.first().waitFor({
+        state: 'visible'
+    });
+
+    const productPrice1 = parseInt(
+        (await pdp.productPrice.first().textContent())
+        .replace(/[^\d]/g, '')
+    );
+
+    await pdp.addToCart();
+
+    const expectedPrice = productPrice1 + productPrice;
+
+    await c.cartTotalPrice.waitFor({
+        state: 'visible'
+    });
+
+    const totalPrice = parseInt(
+        (await c.cartTotalPrice.textContent())
+        .replace(/[^\d]/g, '')
+    );
+
+    expect(totalPrice).toBe(expectedPrice);
+});
     //only desktop as shopify preview bar is overlapping with sticky ATC
-    test('@desktop Cart5 Verify freebie product addition', async ({ page }) => {
-        await pdp.searchPLPToPDPNavigation("Best");
-        var productTitle = await pdp.addToCart();
-        await expect(c.freebie).toBeVisible();
+  test('@desktop Cart5 Verify freebie product addition', async ({ page }) => {
+
+    await pdp.searchPLPToPDPNavigation("Best");
+
+    await pdp.addToCart();
+
+    await c.freebie.waitFor({
+        state: 'visible',
+        timeout: 30000
     });
+
+    await expect(c.freebie).toBeVisible();
+
+});
     //only desktop as shopify preview bar is overlapping with sticky ATC
 
     test('@desktop Cart6 Verify the cart quantity increase/decrease functionality', async ({ page }) => {

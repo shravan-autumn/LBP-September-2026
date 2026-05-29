@@ -184,7 +184,7 @@ test.describe('LBP', () => {
 
     });
 
-    test.only('@all HP30 Verify footer instagram links', async ({ page, context }) => {
+    test('@all HP30 Verify footer instagram links', async ({ page, context }) => {
         await hp.instagramRedirection(page, context);
     });
     test('@all HP31 Verify footer youtube links', async ({ page, context }) => {

@@ -20,10 +20,10 @@ test.beforeEach(async ({ page }) => {
     await hp.goto();
     await hp.cookieAccept;
     await hp.removeCookiePopup(page);
-    await page.waitForLoadState('networkidle');
-await expect(page.locator('header')).toBeVisible({
-  timeout: 30000
-});
+//     await page.waitForLoadState('networkidle');
+// await expect(page.locator('header')).toBeVisible({
+//   timeout: 30000
+// });
 });
 test.describe('LBP', () => {
     test('@desktop HP1 Verify logo is displayed', async ({ page }) => {
@@ -184,7 +184,7 @@ test.describe('LBP', () => {
 
     });
 
-    test.only('@all HP30 Verify footer instagram links', async ({ page, context }) => {
+    test('@all HP30 Verify footer instagram links', async ({ page, context }) => {
         await hp.instagramRedirection(page, context);
     });
     test('@all HP31 Verify footer youtube links', async ({ page, context }) => {

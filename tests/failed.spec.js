@@ -22,7 +22,7 @@ test.beforeEach(async ({ page }) => {
     await hp.removeCookiePopup(page);
 
 });
-test.describe('LBP', () => {
+test.describe('Failed', () => {
         test('@all HP30 Verify footer instagram links', async ({ page, context }) => {
             await hp.instagramRedirection(page, context);
         });

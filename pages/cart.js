@@ -123,25 +123,15 @@ exports.Cart = class Cart {
     expect(cartTitle.toLowerCase()).toContain(expectedText);
     await this.closecart();
   }
-  async cartQunatitySelectorFunctionality() {
+  async cartQunatitySelectorFunctionality(page) {
 
   await this.cartLink.click();
-
-  await this.cartTotalPrice.waitFor({
-    state: 'visible',
-    timeout: 30000
-  });
 
   // Initial price
   const initialPrice = parseInt(
     (await this.cartTotalPrice.textContent()).replace(/[^\d]/g, '')
   );
-
   // Increase quantity
-  await this.quantityplus.waitFor({
-    state: 'visible'
-  });
-
   await this.quantityplus.click();
 
   // Wait until total price increases
@@ -153,13 +143,12 @@ exports.Cart = class Cart {
 
     expect(updatedPrice).toBeGreaterThan(initialPrice);
 
-  }).toPass({ timeout: 30000 });
+  }).toPass();
 
+  const increasedPrice = parseInt(
+    (await this.cartTotalPrice.textContent()).replace(/[^\d]/g, '')
+  );
   // Decrease quantity
-  await this.quantityminus.waitFor({
-    state: 'visible'
-  });
-
   await this.quantityminus.click();
 
   // Wait until price returns back
@@ -171,7 +160,7 @@ exports.Cart = class Cart {
 
     expect(updatedPrice).toBe(initialPrice);
 
-  }).toPass({ timeout: 30000 });
+  }).toPass();
 
   const decreasedPrice = parseInt(
     (await this.cartTotalPrice.textContent()).replace(/[^\d]/g, '')

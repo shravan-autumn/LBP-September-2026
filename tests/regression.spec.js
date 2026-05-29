@@ -20,7 +20,10 @@ test.beforeEach(async ({ page }) => {
     await hp.goto();
     await hp.cookieAccept;
     await hp.removeCookiePopup(page);
-
+    await page.waitForLoadState('networkidle');
+await expect(page.locator('header')).toBeVisible({
+  timeout: 30000
+});
 });
 test.describe('LBP', () => {
     test('@desktop HP1 Verify logo is displayed', async ({ page }) => {
@@ -424,7 +427,7 @@ test.describe('LBP', () => {
 });
     //only desktop as shopify preview bar is overlapping with sticky ATC
 
-    test.only('@desktop Cart6 Verify the cart quantity increase/decrease functionality', async ({ page }) => {
+    test('@desktop Cart6 Verify the cart quantity increase/decrease functionality', async ({ page }) => {
         await pdp.searchPLPToPDPNavigation("oil");
         await c.addFirstProductToCart();
         await c.cartQunatitySelectorFunctionality(page);

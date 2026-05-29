@@ -13,13 +13,13 @@ export default defineConfig({
   fullyParallel: false,
   workers: 1,
 
-  // Retry failed tests
-  retries: 2,
+  forbidOnly: !!process.env.CI,
+  retries: process.env.CI ? 2 : 0,
 
   reporter: [['html'], ['list']],
 
   use: {
-    headless: true,
+    headless: false,
     channel: 'chrome',
 
     screenshot: 'only-on-failure',
@@ -32,7 +32,7 @@ export default defineConfig({
         '--no-sandbox',
         '--disable-dev-shm-usage'
       ],
-      slowMo: 0,
+    slowMo: process.env.CI ? 0 : 500
     },
   },
 

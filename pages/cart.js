@@ -80,11 +80,14 @@ exports.Cart = class Cart {
   async expectFreebiePresent() {
     await expect(this.freebieRow.first()).toBeVisible();
   }
-  async addToCart() {
-    const productTitle = await this.pdpproductTitle.textContent();
-    await this.pdpatcButton.click();
-    return productTitle;
-  }
+ async addToCart() {
+  await expect(this.pdpproductTitle).toBeVisible();
+
+  const productTitle = await this.pdpproductTitle.textContent();
+
+  await this.pdpatcButton.click();
+  return productTitle;
+}
   async addFirstProductToCart() {
     var productTitle = await this.addToCart();
     

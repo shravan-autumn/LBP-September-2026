@@ -88,6 +88,7 @@ exports.PDP = class PDP {
     await expect(this.atcButton).toBeVisible();
 await expect(this.atcButton).toBeEnabled();
     await this.atcButton.click();
+    await this.qtyInput.waitFor({ state: 'visible'});
     const before = await this.qtyInput.inputValue();
     await this.qtyPlus.click();
     await this.closeCart.click();

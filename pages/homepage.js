@@ -796,8 +796,8 @@ exports.HomePage = class HomePage {
     ]);
 
     // Wait until page is loaded
-    await newPage.waitForLoadState();
-    await expect(newPage).toHaveURL('https://www.instagram.com/lovebeautyandplanet_in');
+    //await newPage.waitForLoadState();
+    await expect(newPage).toHaveURL('https://www.instagram.com/lovebeautyandplanet_in/');
 
   }
   async youtubeRedirection(page, context) {

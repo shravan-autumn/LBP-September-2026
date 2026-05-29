@@ -32,7 +32,7 @@ export default defineConfig({
         '--no-sandbox',
         '--disable-dev-shm-usage'
       ],
-    slowMo: process.env.CI ? 0 : 500
+    slowMo: process.env.CI ? 0 : 1000
     },
   },
 

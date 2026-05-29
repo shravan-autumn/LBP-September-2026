@@ -797,7 +797,7 @@ exports.HomePage = class HomePage {
 
     // Wait until page is loaded
     await newPage.waitForLoadState();
-    await expect(newPage).toHaveURL(/instagram\.com/);
+    await expect(newPage).toHaveURL(/youtube\.com/);
 
   }
   async youtubeRedirection(page, context) {

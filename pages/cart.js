@@ -81,8 +81,16 @@ exports.Cart = class Cart {
     await expect(this.freebieRow.first()).toBeVisible();
   }
  async addToCart() {
-  await expect(this.pdpproductTitle).toBeVisible();
+  console.log("Current URL:", this.page.url());
+  await this.page.screenshot({
+  path: `before-pdp-${Date.now()}.png`,
+  fullPage: true
+});
+await this.page.waitForLoadState('domcontentloaded');
 
+await expect(this.pdpproductTitle).toBeVisible({
+  timeout: 60000
+});
   const productTitle = await this.pdpproductTitle.textContent();
 
   await this.pdpatcButton.click();

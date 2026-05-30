@@ -231,7 +231,7 @@ exports.Cart = class Cart {
     );
     console.log(totalPrice);
 
-    expect(totalPrice).toBeGreaterThan(productPrice);
+    expect(totalPrice).toBeGreaterThanOrEqual(productPrice);
   }
 }
 

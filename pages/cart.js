@@ -36,7 +36,7 @@ exports.Cart = class Cart {
     this.qtyPlus = page.locator('[data-qty-plus-test-id]').first();
     this.qtyMinus = page.locator('[data-qty-minus-test-id]').first();
     this.productPrice = page.locator('//div[@class="sing-product-variant"]//span[@class="pro-variant-price"]');
-    this.hpProductTitle = page.locator("//section[@class='home-products']//p[@class='h-pro-card-cnt-description']");
+    this.hpProductTitle = page.locator("[data-product-title-link-test-id]");
 
 
 

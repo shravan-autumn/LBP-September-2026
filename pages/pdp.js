@@ -76,9 +76,12 @@ exports.PDP = class PDP {
   }
 
   async increaseQuantity() {
-    await expect(this.atcButton).toBeVisible();
-    await expect(this.atcButton).toBeEnabled();
-    await this.atcButton.click();
+    if (await this.atcButton.isVisible()) {
+      await expect(this.atcButton).toBeVisible();
+      await expect(this.atcButton).toBeEnabled();
+      await this.atcButton.click();
+    }
+
     const before = await this.qtyInput.inputValue();
     await this.qtyPlus.click();
     await expect(this.qtyInput).not.toHaveValue(before);

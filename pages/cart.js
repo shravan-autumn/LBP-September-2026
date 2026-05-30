@@ -32,6 +32,11 @@ exports.Cart = class Cart {
     this.quantityminus = page.locator('(//tr//button[@name="minus"])[2]');
     this.quantityplus = page.locator('//tr//button[@name="plus"]');
     this.cartLink = page.locator('[data-cart-link-test-id]');
+    //pdp
+    this.qtyPlus = page.locator('[data-qty-plus-test-id]').first();
+    this.qtyMinus = page.locator('[data-qty-minus-test-id]').first();
+    this.productPrice = page.locator('//div[@class="sing-product-variant"]//span[@class="pro-variant-price"]');
+
 
 
 
@@ -80,17 +85,17 @@ exports.Cart = class Cart {
   async expectFreebiePresent() {
     await expect(this.freebieRow.first()).toBeVisible();
   }
- async addToCart() {
-  await expect(this.pdpproductTitle).toBeVisible();
+  async addToCart() {
+    await expect(this.pdpproductTitle).toBeVisible();
 
-  const productTitle = await this.pdpproductTitle.textContent();
+    const productTitle = await this.pdpproductTitle.textContent();
 
-  await this.pdpatcButton.click();
-  return productTitle;
-}
+    await this.pdpatcButton.click();
+    return productTitle;
+  }
   async addFirstProductToCart() {
     var productTitle = await this.addToCart();
-    
+
     // Wait for cart product
     await this.productTitle.first().waitFor();
     // Get first cart product
@@ -108,7 +113,7 @@ exports.Cart = class Cart {
   }
   async addSecondProductToCart() {
     var productTitle = await this.addToCart();
-    if(await this.cartLink.isVisible()){
+    if (await this.cartLink.isVisible()) {
       await this.cartLink.click();
     }
     // Wait for cart product
@@ -128,48 +133,86 @@ exports.Cart = class Cart {
   }
   async cartQunatitySelectorFunctionality(page) {
 
-  await this.cartLink.click();
+    await this.cartLink.click();
 
-  // Initial price
-  const initialPrice = parseInt(
-    (await this.cartTotalPrice.textContent()).replace(/[^\d]/g, '')
-  );
-  // Increase quantity
-  await this.quantityplus.click();
+    // Initial price
+    const initialPrice = parseInt(
+      (await this.cartTotalPrice.textContent()).replace(/[^\d]/g, '')
+    );
+    // Increase quantity
+    await this.quantityplus.click();
 
-  // Wait until total price increases
-  await expect(async () => {
+    // Wait until total price increases
+    await expect(async () => {
 
-    const updatedPrice = parseInt(
+      const updatedPrice = parseInt(
+        (await this.cartTotalPrice.textContent()).replace(/[^\d]/g, '')
+      );
+
+      expect(updatedPrice).toBeGreaterThan(initialPrice);
+
+    }).toPass();
+
+    const increasedPrice = parseInt(
+      (await this.cartTotalPrice.textContent()).replace(/[^\d]/g, '')
+    );
+    // Decrease quantity
+    await this.quantityminus.click();
+
+    // Wait until price returns back
+    await expect(async () => {
+
+      const updatedPrice = parseInt(
+        (await this.cartTotalPrice.textContent()).replace(/[^\d]/g, '')
+      );
+
+      expect(updatedPrice).toBe(initialPrice);
+
+    }).toPass();
+
+    const decreasedPrice = parseInt(
       (await this.cartTotalPrice.textContent()).replace(/[^\d]/g, '')
     );
 
-    expect(updatedPrice).toBeGreaterThan(initialPrice);
+    expect(decreasedPrice).toBe(initialPrice);
+  }
 
-  }).toPass();
+  async totalPriceCalculation() {
+    await this.productPrice.first().waitFor({
+      state: 'visible'
+    });
 
-  const increasedPrice = parseInt(
-    (await this.cartTotalPrice.textContent()).replace(/[^\d]/g, '')
-  );
-  // Decrease quantity
-  await this.quantityminus.click();
-
-  // Wait until price returns back
-  await expect(async () => {
-
-    const updatedPrice = parseInt(
-      (await this.cartTotalPrice.textContent()).replace(/[^\d]/g, '')
+    const productPrice = parseInt(
+      (await this.productPrice.first().textContent())
+        .replace(/[^\d]/g, '')
     );
 
-    expect(updatedPrice).toBe(initialPrice);
+    await this.pdpatcButton.click();
+    await this.closecart();
+    await this.qtyPlus.click();
+    await this.qtyPlus.click();
 
-  }).toPass();
 
-  const decreasedPrice = parseInt(
-    (await this.cartTotalPrice.textContent()).replace(/[^\d]/g, '')
-  );
+    // await pdp.increaseQuantity();
+    console.log(productPrice);
 
-  expect(decreasedPrice).toBe(initialPrice);
-}
+
+    await this.cartTotalPrice.waitFor({
+      state: 'visible'
+    });
+    await expect.poll(async () => {
+      return parseInt(
+        (await this.cartTotalPrice.textContent()).replace(/[^\d]/g, '')
+      );
+    }, { timeout: 10000 }).toBeGreaterThan(productPrice);
+
+    const totalPrice = parseInt(
+      (await this.cartTotalPrice.textContent())
+        .replace(/[^\d]/g, '')
+    );
+    console.log(totalPrice);
+
+    expect(totalPrice).toBeGreaterThan(productPrice);
+  }
 }
 

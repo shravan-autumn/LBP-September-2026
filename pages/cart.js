@@ -26,7 +26,7 @@ exports.Cart = class Cart {
     this.gokwikPopup = page.locator('//div[@class="gokwik-modal gokwik-modal-content"]');
     this.hidebar = page.locator('(//span[@class="_TextLabel_1ymlj_49"])[1]');
     this.pdpatcButton = page.locator('//button[contains(@class,"product-form__submit button button--full-width button--secondary")]');
-    this.pdpproductTitle = page.locator('//div[contains(@class,"product__ti")]');
+    this.pdpproductTitle = page.locator('[class="product__title"]>h1');
     this.pdpproductPrice = page.locator('//div[@class="sing-product-variant"]//span[@class="pro-variant-price"]');
     this.quantitySelctor = page.locator('[data-quantity-variant-id="42670785069226"]');
     this.quantityminus = page.locator('(//tr//button[@name="minus"])[2]');

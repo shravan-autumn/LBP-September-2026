@@ -438,6 +438,10 @@ exports.HomePage = class HomePage {
       });
     }
   }
+  async hpToPDPRedirection(page) {
+  await this.productTitle.first().waitFor();
+  await this.productTitle.first().click();  
+  }
 
   async addFirstProductToCartFromCollectionTab(page) {
     const productName = (await this.productTitle.first().innerText()).toLowerCase();

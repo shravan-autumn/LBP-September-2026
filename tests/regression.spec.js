@@ -369,7 +369,8 @@ test.describe('LBP', () => {
     });
     //only desktop as shopify preview bar is overlapping with sticky ATC
     test.only('@desktop Cart4 Verify total price updation', async ({ page }) => {
-        await pdp.searchPLPToPDPNavigation("oil");
+        await hp.hpToPDPRedirection(page);
+        //await pdp.searchPLPToPDPNavigation("oil");
         await c.totalPriceCalculation();
     });
     //only desktop as shopify preview bar is overlapping with sticky ATC

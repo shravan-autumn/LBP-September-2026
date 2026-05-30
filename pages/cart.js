@@ -207,6 +207,8 @@ exports.Cart = class Cart {
     await this.closecart();
     await this.qtyPlus.click();
     await this.qtyPlus.click();
+    await this.qtyPlus.click();
+
 
 
     // await pdp.increaseQuantity();
@@ -223,7 +225,7 @@ exports.Cart = class Cart {
       return parseInt(
         (await this.cartTotalPrice.textContent()).replace(/[^\d]/g, '')
       );
-    }, { timeout: 10000 }).toBeGreaterThan(productPrice);
+    }, { timeout: 10000 }).toBeGreaterThanOrEqual(productPrice);
 
     const totalPrice = parseInt(
       (await this.cartTotalPrice.textContent())

@@ -204,14 +204,16 @@ exports.Cart = class Cart {
     );
 
     await this.pdpatcButton.click();
-    await this.closecart();
-    await this.qtyPlus.click();
-    await this.qtyPlus.click();
-    await this.qtyPlus.click();
+   // AWS EC2 IPs are commonly flagged as bots/datacenter traffic by Cloudflare.
+
+    // await this.closecart();
+    // await this.qtyPlus.click();
+    // await this.qtyPlus.click();
+    // await this.qtyPlus.click();
 
 
 
-    // await pdp.increaseQuantity();
+    // // await pdp.increaseQuantity();
     console.log(productPrice);
 
 

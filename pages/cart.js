@@ -81,7 +81,6 @@ exports.Cart = class Cart {
     await expect(this.freebieRow.first()).toBeVisible();
   }
   async addToCart() {
-    console.log("Current URL:", this.page.url());
     await expect(this.pdpproductTitle).toBeVisible();
 
     const productTitle = await this.pdpproductTitle.textContent();
@@ -108,10 +107,6 @@ exports.Cart = class Cart {
       .slice(0, 5)
       .join(' ');
     // Validate cart contains similar text
-    console.log(
-  "Cart Items:",
-  await this.productTitle.count()
-);
     expect(cartTitle.toLowerCase()).toContain(expectedText);
     await this.closecart();
   }
@@ -128,10 +123,6 @@ exports.Cart = class Cart {
       .split(' ')
       .slice(0, 5)
       .join(' ');
-      console.log(
-  "Cart Items:",
-  await this.productTitle.count()
-);
     // Validate cart contains similar text
     expect(cartTitle.toLowerCase()).toContain(expectedText);
     await this.closecart();

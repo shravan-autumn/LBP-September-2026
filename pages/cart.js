@@ -178,6 +178,22 @@ exports.Cart = class Cart {
   }
 
   async totalPriceCalculation() {
+
+    console.log("URL:", this.page.url());
+    console.log("Page Title:", await this.page.title());
+
+    console.log(
+      "Cart Total Visible:",
+      await this.cartTotalPrice.isVisible()
+    );
+
+    console.log(
+      "Cart Total Count:",
+      await this.cartTotalPrice.count()
+    );
+
+
+
     await this.productPrice.first().waitFor({
       state: 'visible'
     });
@@ -197,9 +213,12 @@ exports.Cart = class Cart {
     console.log(productPrice);
 
 
-    await this.cartTotalPrice.waitFor({
-      state: 'visible'
-    });
+    await expect.poll(async () => {
+      const text = await this.cartTotalPrice.textContent();
+      return text?.trim();
+    }, {
+      timeout: 10000
+    }).not.toBe('');
     await expect.poll(async () => {
       return parseInt(
         (await this.cartTotalPrice.textContent()).replace(/[^\d]/g, '')

@@ -24,13 +24,6 @@ test.beforeEach(async ({ page }) => {
 });
 test.describe('Failed', () => {
 
- test('@desktop Cart3 Verify adding multiple products to cart', async ({ page }) => {
-         await pdp.searchPLPToPDPNavigation("oil");
-         await c.addFirstProductToCart();
-         // CI Flaky: Cloudflare intermittently interrupts AWS Jenkins execution, causing cart validation failures.
-         // await pdp.searchPLPToPDPNavigation("Best");
-         // await c.addSecondProductToCart();
-     });
      //only desktop as shopify preview bar is overlapping with sticky ATC
      test('@desktop Cart4 Verify total price updation', async ({ page }) => {
          await pdp.searchPLPToPDPNavigation("oil");

@@ -794,9 +794,10 @@ exports.HomePage = class HomePage {
 
     await newPage.waitForLoadState('domcontentloaded');
 
-    expect(newPage.url()).toContain(
-      'instagram.com/lovebeautyandplanet_in'
-    );
+   await expect(this.instagramLink).toHaveAttribute(
+  'href',
+  /instagram\.com\/lovebeautyandplanet_in/
+);
 
   }
   async youtubeRedirection(page, context) {

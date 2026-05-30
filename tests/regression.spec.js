@@ -360,7 +360,7 @@ test.describe('LBP', () => {
 
     });
     //only desktop as shopify preview bar is overlapping with sticky ATC
-    test('@desktop Cart3 Verify adding multiple products to cart', async ({ page }) => {
+    test.only('@desktop Cart3 Verify adding multiple products to cart', async ({ page }) => {
         await pdp.searchPLPToPDPNavigation("oil");
         await c.addFirstProductToCart();
         await pdp.searchPLPToPDPNavigation("Best");

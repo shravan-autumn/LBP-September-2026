@@ -20,10 +20,10 @@ test.beforeEach(async ({ page }) => {
     await hp.goto();
     await hp.cookieAccept;
     await hp.removeCookiePopup(page);
-//     await page.waitForLoadState('networkidle');
-// await expect(page.locator('header')).toBeVisible({
-//   timeout: 30000
-// });
+    //     await page.waitForLoadState('networkidle');
+    // await expect(page.locator('header')).toBeVisible({
+    //   timeout: 30000
+    // });
 });
 test.describe('LBP', () => {
     test('@desktop HP1 Verify logo is displayed', async ({ page }) => {
@@ -368,27 +368,25 @@ test.describe('LBP', () => {
         // await c.addSecondProductToCart();
     });
     //only desktop as shopify preview bar is overlapping with sticky ATC
-   test.only('@desktop Cart4 Verify total price calculation', async ({ page }) => {
-
-    await pdp.searchPLPToPDPNavigation("oil");
-
-   await c.totalPriceCalculation();
-});
-    //only desktop as shopify preview bar is overlapping with sticky ATC
-  test('@desktop Cart5 Verify freebie product addition', async ({ page }) => {
-
-    await pdp.searchPLPToPDPNavigation("Best");
-
-    await pdp.addToCart();
-
-    await c.freebie.waitFor({
-        state: 'visible',
-        timeout: 30000
+    test('@desktop Cart4 Verify total price updation', async ({ page }) => {
+        await pdp.searchPLPToPDPNavigation("oil");
+        await c.totalPriceCalculation();
     });
+    //only desktop as shopify preview bar is overlapping with sticky ATC
+    test('@desktop Cart5 Verify freebie product addition', async ({ page }) => {
 
-    await expect(c.freebie).toBeVisible();
+        await pdp.searchPLPToPDPNavigation("Best");
 
-});
+        await pdp.addToCart();
+
+        await c.freebie.waitFor({
+            state: 'visible',
+            timeout: 30000
+        });
+
+        await expect(c.freebie).toBeVisible();
+
+    });
     //only desktop as shopify preview bar is overlapping with sticky ATC
 
     test('@desktop Cart6 Verify the cart quantity increase/decrease functionality', async ({ page }) => {

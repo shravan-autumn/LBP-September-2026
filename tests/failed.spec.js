@@ -24,7 +24,7 @@ test.beforeEach(async ({ page }) => {
 });
 test.describe('Failed', () => {
 
-  test('@desktop Cart3 Verify adding multiple products to cart', async ({ page }) => {
+ test('@desktop Cart3 Verify adding multiple products to cart', async ({ page }) => {
          await pdp.searchPLPToPDPNavigation("oil");
          await c.addFirstProductToCart();
          // CI Flaky: Cloudflare intermittently interrupts AWS Jenkins execution, causing cart validation failures.
@@ -32,47 +32,8 @@ test.describe('Failed', () => {
          // await c.addSecondProductToCart();
      });
      //only desktop as shopify preview bar is overlapping with sticky ATC
-    test('@desktop Cart4 Verify total price calculation', async ({ page }) => {
- 
-     await pdp.searchPLPToPDPNavigation("oil");
- 
-     await pdp.productPrice.first().waitFor({
-         state: 'visible'
+     test('@desktop Cart4 Verify total price updation', async ({ page }) => {
+         await pdp.searchPLPToPDPNavigation("oil");
+         await c.totalPriceCalculation();
      });
- 
-     const productPrice = parseInt(
-         (await pdp.productPrice.first().textContent())
-         .replace(/[^\d]/g, '')
-     );
- 
-     await pdp.addToCart();
-     await c.closecart();
- 
-     // Second product
-     await pdp.searchPLPToPDPNavigation("Best");
- 
-     await pdp.productPrice.first().waitFor({
-         state: 'visible'
-     });
- 
-     const productPrice1 = parseInt(
-         (await pdp.productPrice.first().textContent())
-         .replace(/[^\d]/g, '')
-     );
- 
-     await pdp.addToCart();
- 
-     const expectedPrice = productPrice1 + productPrice;
- 
-     await c.cartTotalPrice.waitFor({
-         state: 'visible'
-     });
- 
-     const totalPrice = parseInt(
-         (await c.cartTotalPrice.textContent())
-         .replace(/[^\d]/g, '')
-     );
- 
-     expect(totalPrice).toBe(expectedPrice);
- });
 });

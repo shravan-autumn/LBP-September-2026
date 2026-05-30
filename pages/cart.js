@@ -225,9 +225,21 @@ exports.Cart = class Cart {
       (await this.cartTotalPrice.textContent())
         .replace(/[^\d]/g, '')
     );
-   // console.log(totalPrice);
+    // console.log(totalPrice);
 
     expect(totalPrice).toBeGreaterThanOrEqual(productPrice);
+  }
+
+  async freebieVisibility() {
+    await this.hpProductTitle.first().waitFor();
+    await this.hpProductTitle.first().click();
+    await this.pdpatcButton.click();
+    await this.freebie.waitFor({
+      state: 'visible',
+      timeout: 30000
+    });
+
+    await expect(this.freebie).toBeVisible();
   }
 }
 

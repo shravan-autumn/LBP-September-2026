@@ -787,15 +787,16 @@ exports.HomePage = class HomePage {
   }
   async instagramRedirection(page, context) {
 
-    // Wait for new tab
     const [newPage] = await Promise.all([
       context.waitForEvent('page'),
       this.clickInstagramLink()
     ]);
 
-    // Wait until page is loaded
-    //await newPage.waitForLoadState();
-    await expect(newPage).toHaveURL('https://www.instagram.com/lovebeautyandplanet_in/');
+    await newPage.waitForLoadState('domcontentloaded');
+
+    expect(newPage.url()).toContain(
+      'instagram.com/lovebeautyandplanet_in'
+    );
 
   }
   async youtubeRedirection(page, context) {

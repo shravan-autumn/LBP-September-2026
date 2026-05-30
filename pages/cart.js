@@ -36,6 +36,7 @@ exports.Cart = class Cart {
     this.qtyPlus = page.locator('[data-qty-plus-test-id]').first();
     this.qtyMinus = page.locator('[data-qty-minus-test-id]').first();
     this.productPrice = page.locator('//div[@class="sing-product-variant"]//span[@class="pro-variant-price"]');
+    this.hpProductTitle = page.locator("//section[@class='home-products']//p[@class='h-pro-card-cnt-description']");
 
 
 
@@ -179,6 +180,9 @@ exports.Cart = class Cart {
 
   async totalPriceCalculation() {
 
+    await this.hpProductTitle.first().waitFor();
+    await this.hpProductTitle.first().click();
+
     console.log("URL:", this.page.url());
     console.log("Page Title:", await this.page.title());
 
@@ -204,7 +208,7 @@ exports.Cart = class Cart {
     );
 
     await this.pdpatcButton.click();
-   // AWS EC2 IPs are commonly flagged as bots/datacenter traffic by Cloudflare.
+    // AWS EC2 IPs are commonly flagged as bots/datacenter traffic by Cloudflare.
 
     // await this.closecart();
     // await this.qtyPlus.click();

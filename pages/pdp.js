@@ -20,7 +20,7 @@ exports.PDP = class PDP {
     this.breadcrumbCollections = page.locator('[data-breadcrumb-collections-test-id]').first();
 
     // ATC + quantity (from shared snippets)
-    this.atcButton = page.locator('//button[@id="ProductSubmitButton-template--19179790532778__main"]');
+    this.atcButton = page.locator('//button[contains(@class,"product-form__submit button button--full-width button--secondary")]');
     this.qtyPlus = page.locator('[data-qty-plus-test-id]').first();
     this.qtyMinus = page.locator('[data-qty-minus-test-id]').first();
     this.qtyInput = page.locator('[data-qty-input-test-id]').first();
@@ -86,9 +86,9 @@ exports.PDP = class PDP {
 
   async decreaseQuantity() {
     await expect(this.atcButton).toBeVisible();
-await expect(this.atcButton).toBeEnabled();
+    await expect(this.atcButton).toBeEnabled();
     await this.atcButton.click();
-    await this.qtyInput.waitFor({ state: 'visible'});
+    await this.qtyInput.waitFor({ state: 'visible' });
     const before = await this.qtyInput.inputValue();
     await this.qtyPlus.click();
     await this.closeCart.click();
@@ -111,34 +111,34 @@ await expect(this.atcButton).toBeEnabled();
       });
     }
 
-   await this.productTitlesSearchPLP.first().waitFor({
-  state: 'visible',
-  timeout: 30000
-});
+    await this.productTitlesSearchPLP.first().waitFor({
+      state: 'visible',
+      timeout: 30000
+    });
 
-const firstProductName = await this.productTitlesSearchPLP
-  .first()
-  .textContent();
+    const firstProductName = await this.productTitlesSearchPLP
+      .first()
+      .textContent();
 
-await this.productTitlesSearchPLP.first().click();
+    await this.productTitlesSearchPLP.first().click();
 
     return firstProductName;
   }
   async writeToUsNavigation() {
 
-  await this.faqtab.click();
+    await this.faqtab.click();
 
-  const visibleWriteToUs = this.writeToUs
-    .filter({ visible: true })
-    .first();
+    const visibleWriteToUs = this.writeToUs
+      .filter({ visible: true })
+      .first();
 
-  await visibleWriteToUs.waitFor({
-    state: 'visible',
-    timeout: 30000
-  });
+    await visibleWriteToUs.waitFor({
+      state: 'visible',
+      timeout: 30000
+    });
 
-  await visibleWriteToUs.click();
-}
+    await visibleWriteToUs.click();
+  }
   async youmayalsolikeNavigation() {
     await this.ymalViewAll.click();
   }
@@ -156,34 +156,34 @@ await this.productTitlesSearchPLP.first().click();
       await this.viewproductsLink.nth(i).waitFor();
     }
   }
- async addToCartFromPDP() {
+  async addToCartFromPDP() {
 
-  const productTitle = await this.addToCart();
+    const productTitle = await this.addToCart();
 
-  // Wait for visible cart product
-  const visibleCartProduct = this.cartproductTitle
-    .filter({ visible: true })
-    .first();
+    // Wait for visible cart product
+    const visibleCartProduct = this.cartproductTitle
+      .filter({ visible: true })
+      .first();
 
-  await visibleCartProduct.waitFor({
-    state: 'visible',
-    timeout: 30000
-  });
+    await visibleCartProduct.waitFor({
+      state: 'visible',
+      timeout: 30000
+    });
 
-  // Get cart product title
-  const cartTitle =
-    await visibleCartProduct.textContent() || '';
+    // Get cart product title
+    const cartTitle =
+      await visibleCartProduct.textContent() || '';
 
-  // Take few words from PDP title
-  const expectedText = productTitle
-    .toLowerCase()
-    .trim()
-    .split(' ')
-    .slice(0, 5)
-    .join(' ');
+    // Take few words from PDP title
+    const expectedText = productTitle
+      .toLowerCase()
+      .trim()
+      .split(' ')
+      .slice(0, 5)
+      .join(' ');
 
-  // Validate cart contains similar text
-  expect(cartTitle.toLowerCase())
-    .toContain(expectedText);
-}
+    // Validate cart contains similar text
+    expect(cartTitle.toLowerCase())
+      .toContain(expectedText);
+  }
 }

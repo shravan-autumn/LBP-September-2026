@@ -793,11 +793,11 @@ exports.HomePage = class HomePage {
     ]);
 
     await newPage.waitForLoadState('domcontentloaded');
-
-   await expect(this.instagramLink).toHaveAttribute(
-  'href',
-  /instagram\.com\/lovebeautyandplanet_in/
-);
+    //note: Instagram is blocking/restricting access from the Jenkins server IP
+    await expect(this.instagramLink).toHaveAttribute(
+      'href',
+      /instagram\.com\/lovebeautyandplanet_in/
+    );
 
   }
   async youtubeRedirection(page, context) {

@@ -25,8 +25,8 @@ test.beforeEach(async ({ page }) => {
 test.describe('Failed', () => {
 
     test('@desktop Cart6 Verify the cart quantity increase/decrease functionality', async ({ page }) => {
-            await pdp.searchPLPToPDPNavigation("oil");
-            await c.addFirstProductToCart();
+            // await pdp.searchPLPToPDPNavigation("oil");
+            // await c.addFirstProductToCart();
             await c.cartQunatitySelectorFunctionality(page);
         });
 });

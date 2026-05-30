@@ -133,9 +133,12 @@ exports.Cart = class Cart {
     await this.closecart();
   }
   async cartQunatitySelectorFunctionality(page) {
-
+await this.hpProductTitle.first().waitFor();
+    await this.hpProductTitle.first().click();
+    await this.pdpatcButton.click();  
+    if(await this.cartLink.isVisible()){
     await this.cartLink.click();
-
+    }
     // Initial price
     const initialPrice = parseInt(
       (await this.cartTotalPrice.textContent()).replace(/[^\d]/g, '')

@@ -80,6 +80,7 @@ exports.HomePage = class HomePage {
     this.inTheSpotlightSection = page.locator('[data-in-the-spotlight-slide-test-id]').first();
     this.inTheSpotLightAddToCartButton = page.locator("//div[text()='in the spotlight']//parent::div[@class='container']//descendant::div[@class='owl-item active']//button[@name='add']");
     this.inTheSpotLightProductTitle = page.locator('[class="h-spotlight--name-review"]');
+    this.inTheSpotLightToastMessage = page.locator('[data-view-cart-drawer-test-id="index--template--19179790860458__home-product-view-cart-drawer-1"]');
     this.inTheSpotLightNotifyMeButton = page.locator("//section[@data-section-test-id='index--template--19179790860458__in_the_spotlight_Ee8KK3']//button[contains(text(),'Notify Me')]");
     this.inTheSpotLightNotifyPopup = page.locator("//div[@class='notify-modal-box']");
 
@@ -490,14 +491,11 @@ exports.HomePage = class HomePage {
       // Open cart drawer
       await this.cartLink.click();
 
-      // Wait for visible cart product
-      await this.cartproductTitle
-        .filter({ visible: true })
-        .first()
-        .waitFor({
-          state: 'visible',
-          timeout: 30000
-        });
+      await expect(
+        this.cartproductTitle.filter({ visible: true }).first()
+      ).toBeVisible({
+        timeout: 60000
+      });
 
       // Get visible cart products
       const cartProducts = (

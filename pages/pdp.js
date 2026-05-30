@@ -33,7 +33,7 @@ exports.PDP = class PDP {
 
     // Details / FAQ / Reviews presence
     this.detailsSection = page.locator('[data-id="pdp-details"]');
-    this.reviewsSection = page.locator('[class="yotpo-headline"]');
+    this.reviewsSection = page.locator('[id="yotpo-headline-reviews"]');
     this.faqSection = page.locator('//button[contains(text(),"FAQS")]');
     this.writeToUs = page.locator("//a[contains(text(),'Write to us')]");
     this.reelsSection = page.locator('[id="reelUp_playlist_3503"]');

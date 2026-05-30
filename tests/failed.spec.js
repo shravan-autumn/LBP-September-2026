@@ -24,13 +24,8 @@ test.beforeEach(async ({ page }) => {
 });
 test.describe('Failed', () => {
 
-    test('@desktop PDP6 Verify quantity increase', async ({ page }) => {
-        await pdp.searchPLPToPDPNavigation("oil");
-        await pdp.increaseQuantity();
-    });
-
-    test('@desktop PDP7 Verify quantity decrease', async ({ page }) => {
-        await pdp.searchPLPToPDPNavigation("oil");
-        await pdp.decreaseQuantity();
-    });
+   test('@all PDP8 Verify reviews section display', async ({ page }) => {
+           await pdp.searchPLPToPDPNavigation("best");
+           await expect(pdp.reviewsSection).toBeVisible();
+       });
 });

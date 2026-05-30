@@ -96,43 +96,34 @@ exports.PDP = class PDP {
     await expect(this.qtyInput).toHaveValue(before);
   }
 
- async searchPLPToPDPNavigation(productName) {
-  if (await this.searchTexfield.isVisible()) {
-    await this.searchTexfield.click();
+  async searchPLPToPDPNavigation(productName) {
+    if (await this.searchTexfield.isVisible()) {
+      await this.searchTexfield.click();
 
-    await this.searchTexfield.pressSequentially(productName, {
-      delay: 100
+      await this.searchTexfield.pressSequentially(productName, {
+        delay: 100
+      });
+    }
+    if (await this.SearchTextFieldMobile.isVisible()) {
+      await this.SearchTextFieldMobile.click();
+      await this.searchTexfield.pressSequentially(productName, {
+        delay: 100
+      });
+    }
+
+    await this.productTitlesSearchPLP.first().waitFor({
+      state: 'visible',
+      timeout: 30000
     });
+
+    const firstProductName = await this.productTitlesSearchPLP
+      .first()
+      .textContent();
+
+    await this.productTitlesSearchPLP.first().click();
+
+    return firstProductName;
   }
-
-  if (await this.SearchTextFieldMobile.isVisible()) {
-    await this.SearchTextFieldMobile.click();
-
-    await this.searchTexfield.pressSequentially(productName, {
-      delay: 100
-    });
-  }
-
-  await this.productTitlesSearchPLP.first().waitFor({
-    state: 'visible',
-    timeout: 30000
-  });
-
-  const firstProductName = await this.productTitlesSearchPLP
-    .first()
-    .textContent();
-
- await Promise.all([
-  this.page.waitForURL(/\/products\//, {
-    timeout: 60000
-  }),
-  this.productTitlesSearchPLP.first().click()
-]);
-
-
-  return firstProductName;
-}
-
   async writeToUsNavigation() {
 
     await this.faqtab.click();

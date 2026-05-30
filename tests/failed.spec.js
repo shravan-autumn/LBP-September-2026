@@ -23,8 +23,7 @@ test.beforeEach(async ({ page }) => {
 
 });
 test.describe('Failed', () => {
-        test('@all HP30 Verify footer instagram links', async ({ page, context }) => {
-            await hp.instagramRedirection(page, context);
-        });
-
+         test('@all HP17 Verify In the Spotlight section and add to cart functionality', async ({ page }) => {
+                await hp.inTheSpotLightSection();
+            });
 });

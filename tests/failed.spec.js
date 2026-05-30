@@ -24,9 +24,18 @@ test.beforeEach(async ({ page }) => {
 });
 test.describe('Failed', () => {
 
-     //only desktop as shopify preview bar is overlapping with sticky ATC
-     test('@desktop Cart4 Verify total price updation', async ({ page }) => {
-         await pdp.searchPLPToPDPNavigation("oil");
-         await c.totalPriceCalculation();
-     });
+    test('@desktop Cart5 Verify freebie product addition', async ({ page }) => {
+    
+            await pdp.searchPLPToPDPNavigation("Best");
+    
+            await pdp.addToCart();
+    
+            await c.freebie.waitFor({
+                state: 'visible',
+                timeout: 30000
+            });
+    
+            await expect(c.freebie).toBeVisible();
+    
+        });
 });

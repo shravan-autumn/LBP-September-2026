@@ -24,8 +24,10 @@ test.beforeEach(async ({ page }) => {
 });
 test.describe('Failed', () => {
 
-   test('@all PDP8 Verify reviews section display', async ({ page }) => {
-           await pdp.searchPLPToPDPNavigation("best");
-           await expect(pdp.reviewsSection).toBeVisible();
-       });
+   test('@desktop Cart3 Verify adding multiple products to cart', async ({ page }) => {
+          await pdp.searchPLPToPDPNavigation("oil");
+          await c.addFirstProductToCart();
+          await pdp.searchPLPToPDPNavigation("Best");
+          await c.addSecondProductToCart();
+      });
 });

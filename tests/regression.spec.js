@@ -321,7 +321,7 @@ test.describe('LBP', () => {
         await pdp.decreaseQuantity();
     });
 
-    test.only('@all PDP8 Verify reviews section display', async ({ page }) => {
+    test('@all PDP8 Verify reviews section display', async ({ page }) => {
         await pdp.searchPLPToPDPNavigation("best");
         await expect(pdp.reviewsSection).toBeVisible();
     });

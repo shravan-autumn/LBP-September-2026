@@ -183,21 +183,6 @@ exports.Cart = class Cart {
     await this.hpProductTitle.first().waitFor();
     await this.hpProductTitle.first().click();
 
-    console.log("URL:", this.page.url());
-    console.log("Page Title:", await this.page.title());
-
-    console.log(
-      "Cart Total Visible:",
-      await this.cartTotalPrice.isVisible()
-    );
-
-    console.log(
-      "Cart Total Count:",
-      await this.cartTotalPrice.count()
-    );
-
-
-
     await this.productPrice.first().waitFor({
       state: 'visible'
     });
@@ -218,26 +203,29 @@ exports.Cart = class Cart {
 
 
     // // await pdp.increaseQuantity();
-    console.log(productPrice);
+    //console.log(productPrice);
 
 
-    await expect.poll(async () => {
-      const text = await this.cartTotalPrice.textContent();
-      return text?.trim();
-    }, {
-      timeout: 10000
-    }).not.toBe('');
-    await expect.poll(async () => {
-      return parseInt(
-        (await this.cartTotalPrice.textContent()).replace(/[^\d]/g, '')
-      );
-    }, { timeout: 10000 }).toBeGreaterThanOrEqual(productPrice);
+    // await expect.poll(async () => {
+    //   const text = await this.cartTotalPrice.textContent();
+    //   return text?.trim();
+    // }, {
+    //   timeout: 10000
+    // }).not.toBe('');
+    // await expect.poll(async () => {
+    //   return parseInt(
+    //     (await this.cartTotalPrice.textContent()).replace(/[^\d]/g, '')
+    //   );
+    // }, { timeout: 10000 }).toBeGreaterThanOrEqual(productPrice);
+    await this.cartTotalPrice.first().waitFor({
+      state: 'visible'
+    });
 
     const totalPrice = parseInt(
       (await this.cartTotalPrice.textContent())
         .replace(/[^\d]/g, '')
     );
-    console.log(totalPrice);
+   // console.log(totalPrice);
 
     expect(totalPrice).toBeGreaterThanOrEqual(productPrice);
   }

@@ -122,10 +122,14 @@ exports.PDP = class PDP {
     .first()
     .textContent();
 
-  await Promise.all([
-    this.page.waitForLoadState('domcontentloaded'),
-    this.productTitlesSearchPLP.first().click()
-  ]);
+ await Promise.all([
+  this.page.waitForURL(/\/products\//, {
+    timeout: 60000
+  }),
+  this.productTitlesSearchPLP.first().click()
+]);
+
+await this.page.waitForLoadState('networkidle');
 
   return firstProductName;
 }

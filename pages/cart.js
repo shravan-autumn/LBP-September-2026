@@ -80,14 +80,35 @@ exports.Cart = class Cart {
   async expectFreebiePresent() {
     await expect(this.freebieRow.first()).toBeVisible();
   }
-  async addToCart() {
-    await expect(this.pdpproductTitle).toBeVisible();
+async addToCart() {
 
-    const productTitle = await this.pdpproductTitle.textContent();
+  await this.page.waitForLoadState('domcontentloaded');
 
-    await this.pdpatcButton.click();
-    return productTitle;
+  // Cloudflare handling
+  if (
+    this.page.url().includes('__cf_chl_rt_tk') ||
+    await this.page.locator('text=Verify you are human').count() > 0 ||
+    await this.page.locator('text=Just a moment').count() > 0
+  ) {
+
+    console.log('Cloudflare detected');
+
+    await this.page.waitForLoadState('networkidle', {
+      timeout: 60000
+    });
   }
+
+  await expect(this.pdpproductTitle).toBeVisible({
+    timeout: 60000
+  });
+
+  const productTitle =
+    await this.pdpproductTitle.textContent();
+
+  await this.pdpatcButton.click();
+
+  return productTitle;
+}
   async addFirstProductToCart() {
     
     var productTitle = await this.addToCart();

@@ -374,7 +374,7 @@ test.describe('LBP', () => {
         await c.totalPriceCalculation();
     });
     //only desktop as shopify preview bar is overlapping with sticky ATC
-    test.only('@desktop Cart5 Verify freebie product addition', async ({ page }) => {
+    test('@desktop Cart5 Verify freebie product addition', async ({ page }) => {
 
         await c.freebieVisibility();
 

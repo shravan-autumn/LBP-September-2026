@@ -24,18 +24,9 @@ test.beforeEach(async ({ page }) => {
 });
 test.describe('Failed', () => {
 
-    test('@desktop Cart5 Verify freebie product addition', async ({ page }) => {
-    
-            await pdp.searchPLPToPDPNavigation("Best");
-    
-            await pdp.addToCart();
-    
-            await c.freebie.waitFor({
-                state: 'visible',
-                timeout: 30000
-            });
-    
-            await expect(c.freebie).toBeVisible();
-    
+    test('@desktop Cart6 Verify the cart quantity increase/decrease functionality', async ({ page }) => {
+            await pdp.searchPLPToPDPNavigation("oil");
+            await c.addFirstProductToCart();
+            await c.cartQunatitySelectorFunctionality(page);
         });
 });

@@ -9,7 +9,7 @@ exports.Cart = class Cart {
     this.emptyCartContinueShopping = page.locator("//div[@class='cart-drawer__warnings center']//a[@href='/collections/all']");
     this.cartLink = page.locator('[data-cart-link-test-id]');
 
-    this.productTitle = page.locator("//td[@class='cart-item__details']//a");
+    this.productTitle = page.locator('[class="cart-item__name h4 break"]');
     this.pageUrlMarker = page.locator('[data-page-url-test-id]');
 
     this.cartItemsSection = page.locator('[data-section-test-id*="main-cart-items"]').first();

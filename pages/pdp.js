@@ -129,7 +129,6 @@ exports.PDP = class PDP {
   this.productTitlesSearchPLP.first().click()
 ]);
 
-await this.page.waitForLoadState('networkidle');
 
   return firstProductName;
 }

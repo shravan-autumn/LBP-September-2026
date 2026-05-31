@@ -512,9 +512,9 @@ exports.HomePage = class HomePage {
       // } catch {
       //await this.page.goto('https://lovebeautyandplanet.in/cart');
       //}
-      if (await this.cartCount.textContent() === '1') {
+      await this.page.waitForTimeout(5000);
         await this.page.goto('https://lovebeautyandplanet.in/cart');
-      }
+    
 
       await expect(
         this.cartproductTitle.filter({ visible: true }).first()

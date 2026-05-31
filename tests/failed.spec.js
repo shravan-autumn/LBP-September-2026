@@ -24,10 +24,6 @@ test.beforeEach(async ({ page }) => {
 });
 test.describe('Failed', () => {
 
-    test('@desktop PDP6 Verify quantity increase', async ({ page }) => {
-            await pdp.searchPLPToPDPNavigation("oil");
-            await pdp.increaseQuantity();
-        });
         //just desktop as shopify preview bar is overlapping with sticky ATC
     
         test('@desktop PDP7 Verify quantity decrease', async ({ page }) => {

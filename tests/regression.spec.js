@@ -32,7 +32,10 @@ test.describe('LBP', () => {
     test('@mobile HP1 Verify logo is displayed', async ({ page }) => {
         await expect(hp.logoMobile).toBeVisible();
     });
-
+    test('@all PDP8 Verify reviews section display', async ({ page }) => {
+        await pdp.searchPLPToPDPNavigation("best");
+        await expect(pdp.reviewsSection).toBeVisible();
+    });
     test('@all HP2 Verify announcement bar navigation', async ({ page }) => {
         await hp.clickAnnouncementBar();
         await expect(page).toHaveURL("https://lovebeautyandplanet.in/collections/bundle-offers");
@@ -101,6 +104,12 @@ test.describe('LBP', () => {
         await hp.shopByConcernSectionRedirections(page);
     });
 
+    test('@desktop Cart4 Verify total price updation', async ({ page }) => {
+       // await hp.hpToPDPRedirection(page);
+        //await pdp.searchPLPToPDPNavigation("oil");
+        await c.totalPriceCalculation();
+    });
+
     test('@all HP16 Verify Discover Beauty Bill navigation', async ({ page }) => {
         await hp.clickDiscoverBeautyBill();
         await expect(page).toHaveURL("https://lovebeautyandplanet.in/pages/beauty-bill");
@@ -163,6 +172,7 @@ test.describe('LBP', () => {
         await hp.footerConcernLinksRedirectionsMobile(page);
     });
 
+ 
     test('@desktop HP27 Verify footer quick links', async ({ page }) => {
         await hp.footerQuickLinksRedirections(page);
     });
@@ -194,9 +204,15 @@ test.describe('LBP', () => {
     test('@all HP32 Verify caution notice display', async ({ page }) => {
         await expect(hp.cautionNotice).toBeVisible();
     });
-    // test('@mobile HP33 Verify circular collection banner redirection', async ({ page }) => {
-    //     await hp.mobileCollectionBanner(page);
-    // });
+
+    //only desktop as shopify preview bar is overlapping with sticky ATC
+    test('@desktop Cart5 Verify freebie product addition', async ({ page }) => {
+
+        await c.freebieVisibility();
+
+    });
+
+    
     test('@desktop PLP1 Verify user naviagtes to PLP applies filters and verify relevant products are disaplyed', async ({ page }) => {
         await hp.PLPRedirectionFromMegaMenu('New Launches');
         await expect(page).toHaveURL('https://lovebeautyandplanet.in/collections/new-launches');
@@ -321,10 +337,7 @@ test.describe('LBP', () => {
         await pdp.decreaseQuantity();
     });
 
-    test('@all PDP8 Verify reviews section display', async ({ page }) => {
-        await pdp.searchPLPToPDPNavigation("best");
-        await expect(pdp.reviewsSection).toBeVisible();
-    });
+    //PDP8 in HP
 
     test('@all PDP9 Verify details section display', async ({ page }) => {
         await pdp.searchPLPToPDPNavigation("best");
@@ -368,17 +381,10 @@ test.describe('LBP', () => {
         // await c.addSecondProductToCart();
     });
     //only desktop as shopify preview bar is overlapping with sticky ATC
-    test('@desktop Cart4 Verify total price updation', async ({ page }) => {
-       // await hp.hpToPDPRedirection(page);
-        //await pdp.searchPLPToPDPNavigation("oil");
-        await c.totalPriceCalculation();
-    });
-    //only desktop as shopify preview bar is overlapping with sticky ATC
-    test('@desktop Cart5 Verify freebie product addition', async ({ page }) => {
+    //Cart4 in HP
+   
 
-        await c.freebieVisibility();
-
-    });
+    //cart5 in HP
     //only desktop as shopify preview bar is overlapping with sticky ATC
 
     test('@desktop Cart6 Verify the cart quantity increase/decrease functionality', async ({ page }) => {
@@ -386,6 +392,7 @@ test.describe('LBP', () => {
         // await c.addFirstProductToCart();
         await c.cartQunatitySelectorFunctionality(page);
     });
+    
     //only desktop as shopify preview bar is overlapping with sticky ATC
 
     test.skip('@all Cart7 Verify checkout navigation', async ({ page }) => {

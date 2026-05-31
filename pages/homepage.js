@@ -479,72 +479,56 @@ exports.HomePage = class HomePage {
       await this.shopByConcernLinks.nth(i).waitFor();
     }
   }
-  async inTheSpotLightSection() {
+async inTheSpotLightSection() {
 
-    // Capture spotlight product title
-    const productName = (
-      await this.inTheSpotLightProductTitle.first().innerText()
-    ).trim().toLowerCase();
+  // Capture spotlight product title
+  const productName = (
+    await this.inTheSpotLightProductTitle.first().innerText()
+  ).trim().toLowerCase();
 
-    // Check whether Notify Me button is visible
-    if (await this.inTheSpotLightNotifyMeButton.first().isVisible()) {
+  // Check whether Notify Me button is visible
+  if (await this.inTheSpotLightNotifyMeButton.first().isVisible()) {
 
-      // Click Notify Me
-      await this.inTheSpotLightNotifyMeButton.first().click();
+    // Click Notify Me
+    await this.inTheSpotLightNotifyMeButton.first().click();
 
-      // Verify Notify popup is displayed
-      await expect(this.inTheSpotLightNotifyPopup).toBeVisible();
+    // Verify Notify popup is displayed
+    await expect(this.inTheSpotLightNotifyPopup).toBeVisible();
 
-    } else {
+  } else {
 
-      await this.cartVisiblity();
-      // Click Add to Cart
-      await this.inTheSpotLightAddToCartButton.first().click();
+    await this.cartVisiblity();
 
-      // Open cart drawer
-      // if (await this.cartLink.isVisible()) {
-      //   await this.cartLink.click();
-      // }
-      // console.log("Clicked on cart link");
+    // Click Add to Cart
+    await this.inTheSpotLightAddToCartButton.first().click();
 
-      // try {
-      //   await expect(this.cartHeading).toBeVisible({ timeout: 3000 });
-      // } catch {
-      //await this.page.goto('https://lovebeautyandplanet.in/cart');
-      //}
-      await this.page.waitForTimeout(5000);
-        await this.page.goto('https://lovebeautyandplanet.in/cart');
-    
+    // Open cart drawer
+    await this.cartLink.click();
 
-      await expect(
-        this.cartproductTitle.filter({ visible: true }).first()
-      ).toBeVisible({
-        timeout: 60000
-      });
+    // Wait for cart product to appear
+    await this.cartproductTitle.first().waitFor();
 
-      // Get visible cart products
-      const cartProducts = (
-        await this.cartproductTitle
-          .filter({ visible: true })
-          .allTextContents()
-      ).map(product =>
-        product.trim().toLowerCase()
-      );
+    // Get all cart product titles
+    const cartProducts = await this.cartproductTitle.allTextContents();
 
-      // Get meaningful product name
-      const shortProductName = productName
-        .split('\n')
-        .pop()
-        .trim();
+    // Convert cart products to lowercase
+    const lowerCaseProducts = cartProducts.map(product =>
+      product.trim().toLowerCase()
+    );
 
-      // Verify partial match
-      const productAdded = cartProducts.some(product =>
-        product.includes(shortProductName)
-      );
+    // Extract actual product name from spotlight title
+    const expectedProduct = productName
+      .split('\n')
+      .pop()
+      .trim();
 
-      expect(productAdded).toBeTruthy();
-    }
+    console.log('Expected Product:', expectedProduct);
+    console.log('Cart Products:', lowerCaseProducts);
+
+    // Validate product exists in cart
+    expect(lowerCaseProducts.join(' ')).toContain(expectedProduct);
   }
+}
   async whatSetsUsApartDropdown() {
     for (let i = 0; i < await this.whatSetsUsApartCard.count(); i++) {
       await this.whatSetsUsApartCard.nth(i).click();

@@ -237,6 +237,13 @@ await this.hpProductTitle.first().waitFor();
     await this.hpProductTitle.first().waitFor();
     await this.hpProductTitle.first().click();
     await this.pdpatcButton.click();
+    // if(await this.qtyPlus.isVisible()){
+    // await this.qtyPlus.click();
+    // }
+    // if(await this.cartLink.isVisible()){
+    // await this.cartLink.click();
+    // await this.quantityplus.click();
+    // }
     await this.freebie.waitFor({
       state: 'visible',
       timeout: 30000

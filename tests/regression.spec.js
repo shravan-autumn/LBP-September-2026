@@ -26,6 +26,12 @@ test.beforeEach(async ({ page }) => {
     // });
 });
 test.describe('LBP', () => {
+     //only desktop as shopify preview bar is overlapping with sticky ATC
+    test('@desktop Cart5 Verify freebie product addition', async ({ page }) => {
+
+        await c.freebieVisibility();
+
+    });
     test('@desktop HP1 Verify logo is displayed', async ({ page }) => {
         await expect(hp.logo).toBeVisible();
     });
@@ -71,6 +77,12 @@ test.describe('LBP', () => {
         await hp.clickSearchTextfield();
         expect(hp.searchSuggestionBox).toBeVisible();
     });
+      //just desktop as shopify preview bar is overlapping with sticky ATC
+
+    test('@desktop PDP6 Verify quantity increase', async ({ page }) => {
+        await pdp.searchPLPToPDPNavigation("oil");
+        await pdp.increaseQuantity();
+    });
 
     test("@all HP9 Verify account page navigation form header", async ({ page }) => {
         await hp.clickAccountLink();
@@ -113,6 +125,12 @@ test.describe('LBP', () => {
     test('@all HP16 Verify Discover Beauty Bill navigation', async ({ page }) => {
         await hp.clickDiscoverBeautyBill();
         await expect(page).toHaveURL("https://lovebeautyandplanet.in/pages/beauty-bill");
+    });
+    //just desktop as shopify preview bar is overlapping with sticky ATC
+
+    test.only('@desktop PDP7 Verify quantity decrease', async ({ page }) => {
+        await pdp.searchPLPToPDPNavigation("oil");
+        await pdp.decreaseQuantity();
     });
 
     test('@all HP17 Verify In the Spotlight section and add to cart functionality', async ({ page }) => {
@@ -164,6 +182,13 @@ test.describe('LBP', () => {
         await hp.footerProductLinksRedirectionsMobile(page);
     });
 
+     //only desktop as shopify preview bar is overlapping with sticky ATC
+
+    test('@desktop Cart6 Verify the cart quantity increase/decrease functionality', async ({ page }) => {
+        // await pdp.searchPLPToPDPNavigation("oil");
+        // await c.addFirstProductToCart();
+        await c.cartQunatitySelectorFunctionality(page);
+    });
     test('@desktop HP26 Verify footer concern links', async ({ page }) => {
         await hp.footerConcernLinksRedirections(page);
     });
@@ -188,6 +213,10 @@ test.describe('LBP', () => {
         test.setTimeout(180000);
         await hp.footerLegalLinksRedirectionsMobile(page, context);
     });
+     test('@all PDP9 Verify details section display', async ({ page }) => {
+        await pdp.searchPLPToPDPNavigation("best");
+        await expect(pdp.detailsSection).toBeVisible();
+    });
 
     test('@desktop HP29 Verify footer facebook links', async ({ page, context }) => {
         await hp.facebookRedirection(page, context);
@@ -205,12 +234,7 @@ test.describe('LBP', () => {
         await expect(hp.cautionNotice).toBeVisible();
     });
 
-    //only desktop as shopify preview bar is overlapping with sticky ATC
-    test('@desktop Cart5 Verify freebie product addition', async ({ page }) => {
-
-        await c.freebieVisibility();
-
-    });
+   
 
     
     test('@desktop PLP1 Verify user naviagtes to PLP applies filters and verify relevant products are disaplyed', async ({ page }) => {
@@ -324,25 +348,12 @@ test.describe('LBP', () => {
         await pdp.searchPLPToPDPNavigation("oil");
         await pdp.addToCartFromPDP();
     });
-    //just desktop as shopify preview bar is overlapping with sticky ATC
-
-    test('@desktop PDP6 Verify quantity increase', async ({ page }) => {
-        await pdp.searchPLPToPDPNavigation("oil");
-        await pdp.increaseQuantity();
-    });
-    //just desktop as shopify preview bar is overlapping with sticky ATC
-
-    test('@desktop PDP7 Verify quantity decrease', async ({ page }) => {
-        await pdp.searchPLPToPDPNavigation("oil");
-        await pdp.decreaseQuantity();
-    });
+  
+    
 
     //PDP8 in HP
 
-    test('@all PDP9 Verify details section display', async ({ page }) => {
-        await pdp.searchPLPToPDPNavigation("best");
-        await expect(pdp.detailsSection).toBeVisible();
-    });
+   
 
     test('@all PDP10 Verify FAQ section display', async ({ page }) => {
         await pdp.searchPLPToPDPNavigation("best");
@@ -385,14 +396,8 @@ test.describe('LBP', () => {
    
 
     //cart5 in HP
-    //only desktop as shopify preview bar is overlapping with sticky ATC
+   //Cart 6 in HP
 
-    test('@desktop Cart6 Verify the cart quantity increase/decrease functionality', async ({ page }) => {
-        // await pdp.searchPLPToPDPNavigation("oil");
-        // await c.addFirstProductToCart();
-        await c.cartQunatitySelectorFunctionality(page);
-    });
-    
     //only desktop as shopify preview bar is overlapping with sticky ATC
 
     test.skip('@all Cart7 Verify checkout navigation', async ({ page }) => {

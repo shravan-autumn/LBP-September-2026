@@ -43,7 +43,7 @@ export default defineConfig({
         isCI ? '--window-size=1920,1080' : '--start-maximized',
       ],
 
-      slowMo: isCI ? 0 : 500,
+      slowMo: isCI ? 1000 : 1000,
     },
   },
 

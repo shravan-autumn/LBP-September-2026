@@ -107,14 +107,9 @@ exports.PDP = class PDP {
     const before = await this.qtyInput.inputValue();
     await this.qtyPlus.click();
     await this.page.waitForTimeout(8000);
+    await this.qtyMinus.click();
 
-    if (await this.cartHeading.isVisible()) {
-      await this.closeCart.click();
-    }
-
-    if (await this.qtyMinus.isVisible()) {
-      await this.qtyMinus.click();
-    } else if (await this.qtyMinus2.isVisible()) {
+    if (await this.qtyMinus2.isVisible()) {
       await this.qtyMinus2.click();
     }
     await expect(this.qtyInput).toHaveValue(before);

@@ -131,7 +131,7 @@ exports.HomePage = class HomePage {
     this.youtubeLink = page.locator("//div[@class='footer__blocks-wrapper desktop_only ft-blwr-desk row']//a[@href='https://www.youtube.com/channel/UCUFcrEf1Wb1164G6O2_LoyA']");
     this.cautionNotice = page.locator('[data-caution-notice-test-id]');
     //cart drawer
-    this.cartproductTitle = page.locator("//a[contains(@class,'cart-item__name')]");
+    this.cartproductTitle = page.locator('[class="cart-item__name h4 break"]');
     this.cookieBanner = page.locator('[id="onetrust-banner-sdk"]');
     this.cookieOk = page.locator('[id="onetrust-accept-btn-handler"]');
     //footer mobile
@@ -493,8 +493,9 @@ exports.HomePage = class HomePage {
       await this.inTheSpotLightAddToCartButton.first().click();
 
       // Open cart drawer
+      if(await this.cartLink.isVisible()){
       await this.cartLink.click();
-
+      }
       await expect(
         this.cartproductTitle.filter({ visible: true }).first()
       ).toBeVisible({

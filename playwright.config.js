@@ -22,7 +22,7 @@ export default defineConfig({
 
   use: {
     // ✅ correct way: CI = headless, local = headed
-    headless: isCI ? true : false,
+    headless: isCI ? true : true,
 
     channel: 'chrome',
 

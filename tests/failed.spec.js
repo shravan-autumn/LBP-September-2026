@@ -24,7 +24,14 @@ test.beforeEach(async ({ page }) => {
 });
 test.describe('Failed', () => {
 
-    test('@all HP17 Verify In the Spotlight section and add to cart functionality', async ({ page }) => {
-            await hp.inTheSpotLightSection();
+    test('@desktop PDP6 Verify quantity increase', async ({ page }) => {
+            await pdp.searchPLPToPDPNavigation("oil");
+            await pdp.increaseQuantity();
+        });
+        //just desktop as shopify preview bar is overlapping with sticky ATC
+    
+        test('@desktop PDP7 Verify quantity decrease', async ({ page }) => {
+            await pdp.searchPLPToPDPNavigation("oil");
+            await pdp.decreaseQuantity();
         });
 });

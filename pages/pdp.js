@@ -21,9 +21,10 @@ exports.PDP = class PDP {
 
     // ATC + quantity (from shared snippets)
     this.atcButton = page.locator('//button[contains(@class,"product-form__submit button button--full-width button--secondary")]');
-    this.qtyPlus = page.locator('[data-qty-plus-test-id]').first();
-    this.qtyMinus = page.locator('[data-qty-minus-test-id]').first();
-    this.qtyInput = page.locator('[data-qty-input-test-id]').first();
+    this.qtyPlus = page.locator('(//button[contains(@class,"quantity__button no-js-hidden")])[4]').first();
+    this.qtyMinus = page.locator('(//button[contains(@class,"quantity__button no-js-hidden")])[3]').first();
+    this.qtyMinus2= page.locator('(//button[contains(@class,"quantity__button no-js-hidden")])[7]').first();
+    this.qtyInput = page.locator('(//input[@class="quantity__input"])[1]').first();
 
     // Pincode validation
     this.pincodeInput = page.locator('[data-pincode-input-test-id]').first();
@@ -49,6 +50,7 @@ exports.PDP = class PDP {
     this.cartproductTitle = page.locator("//a[contains(@class,'cart-item__name')]");
     this.closeCart = page.locator('(//button[@class="drawer__close"])[1]');
     this.SearchTextFieldMobile = page.locator("[id='mob-search-mob']");
+    this.cartHeading = page.locator('[class="drawer__heading cart-heading"]');
 
   }
 
@@ -76,10 +78,15 @@ exports.PDP = class PDP {
   }
 
   async increaseQuantity() {
-    if (await this.atcButton.isVisible()) {
-      await expect(this.atcButton).toBeVisible();
-      await expect(this.atcButton).toBeEnabled();
-      await this.atcButton.click();
+    // if (await this.atcButton.isVisible()) {
+    //   await expect(this.atcButton).toBeVisible();
+    //   await expect(this.atcButton).toBeEnabled();
+    //   await this.atcButton.click();
+    // }
+    await this.atcButton.click();
+    await this.page.waitForTimeout(8000);
+    if (await this.cartHeading.isVisible()) {
+      await this.closeCart.click();
     }
 
     const before = await this.qtyInput.inputValue();
@@ -88,14 +95,28 @@ exports.PDP = class PDP {
   }
 
   async decreaseQuantity() {
-    await expect(this.atcButton).toBeVisible();
-    await expect(this.atcButton).toBeEnabled();
+    // await expect(this.atcButton).toBeVisible();
+    // await expect(this.atcButton).toBeEnabled();
     await this.atcButton.click();
+    await this.page.waitForTimeout(8000);
+
+    if (await this.cartHeading.isVisible()) {
+      await this.closeCart.click();
+    }
     await this.qtyInput.waitFor({ state: 'visible' });
     const before = await this.qtyInput.inputValue();
     await this.qtyPlus.click();
-    await this.closeCart.click();
-    await this.qtyMinus.click();
+    await this.page.waitForTimeout(8000);
+
+    if (await this.cartHeading.isVisible()) {
+      await this.closeCart.click();
+    }
+
+    if (await this.qtyMinus.isVisible()) {
+      await this.qtyMinus.click();
+    } else if (await this.qtyMinus2.isVisible()) {
+      await this.qtyMinus2.click();
+    }
     await expect(this.qtyInput).toHaveValue(before);
   }
 

@@ -106,7 +106,7 @@ test.describe('LBP', () => {
         await expect(page).toHaveURL("https://lovebeautyandplanet.in/pages/beauty-bill");
     });
 
-    test.only('@all HP17 Verify In the Spotlight section and add to cart functionality', async ({ page }) => {
+    test('@all HP17 Verify In the Spotlight section and add to cart functionality', async ({ page }) => {
         await hp.inTheSpotLightSection();
     });
 

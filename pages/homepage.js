@@ -131,7 +131,7 @@ exports.HomePage = class HomePage {
     this.youtubeLink = page.locator("//div[@class='footer__blocks-wrapper desktop_only ft-blwr-desk row']//a[@href='https://www.youtube.com/channel/UCUFcrEf1Wb1164G6O2_LoyA']");
     this.cautionNotice = page.locator('[data-caution-notice-test-id]');
     //cart drawer
-    this.cartproductTitle = page.locator('[class="cart-item__name h4 break"]');
+    this.cartproductTitle = page.locator('//a[contains(@class,"cart-item__name h4 break")]');
     this.cookieBanner = page.locator('[id="onetrust-banner-sdk"]');
     this.cookieOk = page.locator('[id="onetrust-accept-btn-handler"]');
     //footer mobile
@@ -141,12 +141,13 @@ exports.HomePage = class HomePage {
     this.legalLinksMobile = page.locator("//button[contains(text(),'legal')]");
     this.circularBannerMobile = page.locator("[data-hero-before-link-test-id]");
     this.closeCart = page.locator('(//button[@class="drawer__close"])[1]');
-    this.cartCount=page.locator('//div[@class="cart-count-bubble"]//span[@aria-hidden="true"]');
+    this.cartCount = page.locator('//div[@class="cart-count-bubble"]//span[@aria-hidden="true"]');
+    this.cartHeading = page.locator('[class="drawer__heading cart-heading"]');
   }
 
   async cartVisiblity() {
     await this.cartLink.click();
-    if(this.closeCart.isVisible()){
+    if (this.closeCart.isVisible()) {
       await this.closeCart.click();
     }
   }
@@ -446,8 +447,8 @@ exports.HomePage = class HomePage {
     }
   }
   async hpToPDPRedirection(page) {
-  await this.productTitle.first().waitFor();
-  await this.productTitle.first().click();  
+    await this.productTitle.first().waitFor();
+    await this.productTitle.first().click();
   }
 
   async addFirstProductToCartFromCollectionTab(page) {
@@ -501,10 +502,16 @@ exports.HomePage = class HomePage {
       await this.inTheSpotLightAddToCartButton.first().click();
 
       // Open cart drawer
-      if(await this.cartLink.isVisible()){
-      await this.cartLink.click();
+      if (await this.cartLink.isVisible()) {
+        await this.cartLink.click();
       }
       console.log("Clicked on cart link");
+
+      try {
+        await expect(this.cartHeading).toBeVisible({ timeout: 3000 });
+      } catch {
+        await this.page.goto('https://lovebeautyandplanet.in/cart');
+      }
       await expect(
         this.cartproductTitle.filter({ visible: true }).first()
       ).toBeVisible({

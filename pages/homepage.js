@@ -502,17 +502,20 @@ exports.HomePage = class HomePage {
       await this.inTheSpotLightAddToCartButton.first().click();
 
       // Open cart drawer
-      if (await this.cartLink.isVisible()) {
-        await this.cartLink.click();
-      }
-      console.log("Clicked on cart link");
+      // if (await this.cartLink.isVisible()) {
+      //   await this.cartLink.click();
+      // }
+      // console.log("Clicked on cart link");
 
-      try {
-        await expect(this.cartHeading).toBeVisible({ timeout: 3000 });
-      } catch {
+      // try {
+      //   await expect(this.cartHeading).toBeVisible({ timeout: 3000 });
+      // } catch {
+      //await this.page.goto('https://lovebeautyandplanet.in/cart');
+      //}
+      if (await this.cartCount.textContent() === '1') {
         await this.page.goto('https://lovebeautyandplanet.in/cart');
       }
-      
+
       await expect(
         this.cartproductTitle.filter({ visible: true }).first()
       ).toBeVisible({

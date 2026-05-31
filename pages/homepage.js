@@ -141,7 +141,7 @@ exports.HomePage = class HomePage {
     this.legalLinksMobile = page.locator("//button[contains(text(),'legal')]");
     this.circularBannerMobile = page.locator("[data-hero-before-link-test-id]");
     this.closeCart = page.locator('(//button[@class="drawer__close"])[1]');
-
+    this.cartCount=page.locator('//div[@class="cart-count-bubble"]//span[@aria-hidden="true"]');
   }
 
   async cartVisiblity() {

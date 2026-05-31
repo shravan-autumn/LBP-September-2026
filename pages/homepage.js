@@ -504,6 +504,7 @@ exports.HomePage = class HomePage {
       if(await this.cartLink.isVisible()){
       await this.cartLink.click();
       }
+      console.log("Clicked on cart link");
       await expect(
         this.cartproductTitle.filter({ visible: true }).first()
       ).toBeVisible({

@@ -128,7 +128,7 @@ test.describe('LBP', () => {
     });
     //just desktop as shopify preview bar is overlapping with sticky ATC
 
-    test.only('@desktop PDP7 Verify quantity decrease', async ({ page }) => {
+    test('@desktop PDP7 Verify quantity decrease', async ({ page }) => {
         await pdp.searchPLPToPDPNavigation("oil");
         await pdp.decreaseQuantity();
     });

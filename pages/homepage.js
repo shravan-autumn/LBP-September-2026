@@ -140,9 +140,16 @@ exports.HomePage = class HomePage {
     this.quickLinksMobile = page.locator("//button[contains(text(),'Quick')]");
     this.legalLinksMobile = page.locator("//button[contains(text(),'legal')]");
     this.circularBannerMobile = page.locator("[data-hero-before-link-test-id]");
+    this.closeCart = page.locator('(//button[@class="drawer__close"])[1]');
 
   }
 
+  async cartVisiblity() {
+    await this.cartLink.click();
+    if(this.closeCart.isVisible()){
+      await this.closeCart.click();
+    }
+  }
   async goto() {
     await this.page.goto('https://lovebeautyandplanet.in/?preview_theme_id=145663918250');
   }
@@ -489,6 +496,7 @@ exports.HomePage = class HomePage {
 
     } else {
 
+      await this.cartVisiblity();
       // Click Add to Cart
       await this.inTheSpotLightAddToCartButton.first().click();
 

@@ -512,6 +512,7 @@ exports.HomePage = class HomePage {
       } catch {
         await this.page.goto('https://lovebeautyandplanet.in/cart');
       }
+      
       await expect(
         this.cartproductTitle.filter({ visible: true }).first()
       ).toBeVisible({

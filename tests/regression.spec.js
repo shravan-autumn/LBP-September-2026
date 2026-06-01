@@ -54,7 +54,7 @@ test.describe('LBP', () => {
         await hp.hamburgerMenuCollectionNavigation(page);
     });
 
-    test.only('@all HP4 Verify About Us navigation', async ({ page }) => {
+    test('@all HP4 Verify About Us navigation', async ({ page }) => {
         await hp.openAboutUs();
         await expect(page).toHaveURL("https://lovebeautyandplanet.in/pages/our-story");
     });

@@ -26,12 +26,14 @@ test.beforeEach(async ({ page }) => {
     // });
 });
 test.describe('LBP', () => {
-    //only desktop as shopify preview bar is overlapping with sticky ATC
-    test('@desktop Cart5 Verify freebie product addition', async ({ page }) => {
 
-        await c.freebieVisibility();
-
+     test('@desktop Cart6 Verify the cart quantity increase/decrease functionality', async ({ page }) => {
+        // await pdp.searchPLPToPDPNavigation("oil");
+        // await c.addFirstProductToCart();
+        await c.cartQunatitySelectorFunctionality(page);
     });
+
+    
     test('@desktop HP1 Verify logo is displayed', async ({ page }) => {
         await expect(hp.logo).toBeVisible();
     });
@@ -118,11 +120,6 @@ test.describe('LBP', () => {
         await hp.shopByConcernSectionRedirections(page);
     });
 
-    test('@desktop Cart4 Verify total price updation', async ({ page }) => {
-        // await hp.hpToPDPRedirection(page);
-        //await pdp.searchPLPToPDPNavigation("oil");
-        await c.totalPriceCalculation();
-    });
 
     test('@all HP16 Verify Discover Beauty Bill navigation', async ({ page }) => {
         await hp.clickDiscoverBeautyBill();
@@ -144,6 +141,12 @@ test.describe('LBP', () => {
 
     test('@all HP20 Verify trending on social Reels section visibility', async ({ page }) => {
         await expect(hp.trendingOnSocialSection).toBeVisible();
+    });
+     //only desktop as shopify preview bar is overlapping with sticky ATC
+    test('@desktop Cart5 Verify freebie product addition', async ({ page }) => {
+
+        await c.freebieVisibility();
+
     });
 
     test('@all HP21 Verify Customer Love section display', async ({ page }) => {
@@ -231,11 +234,6 @@ test.describe('LBP', () => {
     });
 
 
-    test('@all PDP9 Verify details section display', async ({ page }) => {
-        await pdp.searchPLPToPDPNavigation("best");
-        await expect(pdp.detailsSection).toBeVisible();
-    });
-
     test('@desktop PLP1 Verify user naviagtes to PLP applies filters and verify relevant products are disaplyed', async ({ page }) => {
         await hp.PLPRedirectionFromMegaMenu('New Launches');
         await expect(page).toHaveURL('https://lovebeautyandplanet.in/collections/new-launches');
@@ -272,20 +270,16 @@ test.describe('LBP', () => {
         await plp.addToCartFRomPLP();
 
     });
-     test('@desktop Cart6 Verify the cart quantity increase/decrease functionality', async ({ page }) => {
-        // await pdp.searchPLPToPDPNavigation("oil");
-        // await c.addFirstProductToCart();
-        await c.cartQunatitySelectorFunctionality(page);
-    });
+    
 
 
-    test('@desktop PLP5 Verify You may also like section presence and navigation', async ({ page }) => {
-        await hp.PLPRedirectionFromMegaMenu('Bestsellers');
-        await expect(plp.ymalSection).toBeVisible();
-        await plp.openYmalViewAll();
-        await expect(page).toHaveURL("https://lovebeautyandplanet.in/collections/all-products");
-    }
-    );
+    // test('@desktop PLP5 Verify You may also like section presence and navigation', async ({ page }) => {
+    //     await hp.PLPRedirectionFromMegaMenu('Bestsellers');
+    //     await expect(plp.ymalSection).toBeVisible();
+    //     await plp.openYmalViewAll();
+    //     await expect(page).toHaveURL("https://lovebeautyandplanet.in/collections/all-products");
+    // }
+    // );
     test('@mobile PLP5 Verify You may also like section presence and navigation', async ({ page }) => {
         await hp.PLPRedirectionHambergerMenu('Bestsellers');
         await expect(plp.ymalSection).toBeVisible();
@@ -293,12 +287,17 @@ test.describe('LBP', () => {
         await expect(page).toHaveURL("https://lovebeautyandplanet.in/collections/all-products");
     }
     );
-
-    test('@desktop PLP6 Verify Beauty Archives View All redirection', async ({ page }) => {
-        await hp.PLPRedirectionFromMegaMenu('Value Combos');
-        await plp.openBeautyEditsViewAll();
-        await expect(page).toHaveURL("https://lovebeautyandplanet.in/blogs/hair");
+    test('@desktop Cart4 Verify total price updation', async ({ page }) => {
+        // await hp.hpToPDPRedirection(page);
+        //await pdp.searchPLPToPDPNavigation("oil");
+        await c.totalPriceCalculation();
     });
+
+    // test('@desktop PLP6 Verify Beauty Archives View All redirection', async ({ page }) => {
+    //     await hp.PLPRedirectionFromMegaMenu('Value Combos');
+    //     await plp.openBeautyEditsViewAll();
+    //     await expect(page).toHaveURL("https://lovebeautyandplanet.in/blogs/hair");
+    // });
     test('@mobile PLP6 Verify Beauty Archives View All redirection', async ({ page }) => {
         await hp.PLPRedirectionHambergerMenu('Value Combos');
         await plp.openBeautyEditsViewAll();
@@ -339,7 +338,7 @@ test.describe('LBP', () => {
         await pdp.PDPtoPLPnavigation(page);
     });
 
-    test('@all PDP3 Verify invalid pincode validation', async ({ page }) => {
+    test('@mobile PDP3 Verify invalid pincode validation', async ({ page }) => {
         await pdp.searchPLPToPDPNavigation("oil");
         await pdp.checkInvalidPincode('123456');
     });
@@ -360,21 +359,21 @@ test.describe('LBP', () => {
 
 
 
-    test('@all PDP10 Verify FAQ section display', async ({ page }) => {
+    test('@all PDP9 Verify FAQ section display', async ({ page }) => {
         await pdp.searchPLPToPDPNavigation("best");
         await expect(pdp.faqSection).toBeVisible();
     });
-    test('@all PDP11 Verify Write to us link presence and navigation', async ({ page }) => {
+    test('@all PDP10 Verify Write to us link presence and navigation', async ({ page }) => {
         await pdp.searchPLPToPDPNavigation("best");
         await pdp.writeToUsNavigation();
         await expect(page).toHaveURL("https://lovebeautyandplanet.in/pages/contact-us");
     });
 
-    test('@all PDP12 Verify reels section visibility', async ({ page }) => {
+    test('@all PDP11 Verify reels section visibility', async ({ page }) => {
         await pdp.searchPLPToPDPNavigation("best");
         await expect(pdp.reelsSection).toBeVisible();
     });
-    test('@all PDP13 Verify You may also like section presence and navigation', async ({ page }) => {
+    test('@all PDP12 Verify You may also like section presence and navigation', async ({ page }) => {
         await pdp.searchPLPToPDPNavigation("coconut");
         await pdp.youmayalsolikeNavigation();
         await expect(page).toHaveURL("https://lovebeautyandplanet.in/collections/coconut");

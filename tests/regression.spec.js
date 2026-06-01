@@ -56,7 +56,7 @@ test.describe('LBP', () => {
         await expect(page).toHaveURL("https://lovebeautyandplanet.in/pages/our-story");
     });
 
-    test('@all PDP8 Verify reviews section display', async ({ page }) => {
+    test('@mobile PDP8 Verify reviews section display', async ({ page }) => {
         await pdp.searchPLPToPDPNavigation("best");
         await expect(pdp.reviewsSection).toBeVisible();
     });
@@ -128,12 +128,7 @@ test.describe('LBP', () => {
         await hp.clickDiscoverBeautyBill();
         await expect(page).toHaveURL("https://lovebeautyandplanet.in/pages/beauty-bill");
     });
-    //just desktop as shopify preview bar is overlapping with sticky ATC
-
-    test('@desktop PDP7 Verify quantity decrease', async ({ page }) => {
-        await pdp.searchPLPToPDPNavigation("oil");
-        await pdp.decreaseQuantity();
-    });
+   
 
     test('@all HP17 Verify In the Spotlight section and add to cart functionality', async ({ page }) => {
         await hp.inTheSpotLightSection();
@@ -174,6 +169,12 @@ test.describe('LBP', () => {
         await hp.openFirstBeautyArchivesArticle();
         await expect(page).toHaveURL("https://lovebeautyandplanet.in/blogs/hair/post-festive-season-hair-care-tips");
     });
+     //just desktop as shopify preview bar is overlapping with sticky ATC
+
+    test('@desktop PDP7 Verify quantity decrease', async ({ page }) => {
+        await pdp.searchPLPToPDPNavigation("oil");
+        await pdp.decreaseQuantity();
+    });
 
     test('@desktop HP25 Verify footer product links', async ({ page }) => {
         test.setTimeout(180000);
@@ -195,12 +196,7 @@ test.describe('LBP', () => {
 
     //only desktop as shopify preview bar is overlapping with sticky ATC
 
-    test('@desktop Cart6 Verify the cart quantity increase/decrease functionality', async ({ page }) => {
-        // await pdp.searchPLPToPDPNavigation("oil");
-        // await c.addFirstProductToCart();
-        await c.cartQunatitySelectorFunctionality(page);
-    });
-
+   
     test('@desktop HP27 Verify footer quick links', async ({ page }) => {
         await hp.footerQuickLinksRedirections(page);
     });
@@ -276,6 +272,12 @@ test.describe('LBP', () => {
         await plp.addToCartFRomPLP();
 
     });
+     test('@desktop Cart6 Verify the cart quantity increase/decrease functionality', async ({ page }) => {
+        // await pdp.searchPLPToPDPNavigation("oil");
+        // await c.addFirstProductToCart();
+        await c.cartQunatitySelectorFunctionality(page);
+    });
+
 
     test('@desktop PLP5 Verify You may also like section presence and navigation', async ({ page }) => {
         await hp.PLPRedirectionFromMegaMenu('Bestsellers');

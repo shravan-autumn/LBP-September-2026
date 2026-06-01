@@ -23,7 +23,7 @@ exports.PDP = class PDP {
     this.atcButton = page.locator('//button[contains(@class,"product-form__submit button button--full-width button--secondary")]');
     this.qtyPlus = page.locator('(//button[contains(@class,"quantity__button no-js-hidden")])[4]').first();
     this.qtyMinus = page.locator('(//button[contains(@class,"quantity__button no-js-hidden")])[3]').first();
-    this.qtyMinus2= page.locator('(//button[contains(@class,"quantity__button no-js-hidden")])[7]').first();
+    this.qtyMinus2 = page.locator('(//button[contains(@class,"quantity__button no-js-hidden")])[7]').first();
     this.qtyInput = page.locator('(//input[@class="quantity__input"])[1]').first();
 
     // Pincode validation
@@ -97,6 +97,14 @@ exports.PDP = class PDP {
   async decreaseQuantity() {
     // await expect(this.atcButton).toBeVisible();
     // await expect(this.atcButton).toBeEnabled();
+    page.on('response', response => {
+      if (
+        response.status() === 403 ||
+        response.url().includes('cdn-cgi')
+      ) {
+        console.log('Possible Cloudflare challenge:', response.url());
+      }
+    });
     await this.atcButton.click();
     await this.page.waitForTimeout(8000);
 

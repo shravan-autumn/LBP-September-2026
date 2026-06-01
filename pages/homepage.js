@@ -262,6 +262,14 @@ exports.HomePage = class HomePage {
   }
 
   async addFirstProductToCartFromCollectionTab() {
+     page.on('response', response => {
+            if (
+                response.status() === 403 ||
+                response.url().includes('cdn-cgi')
+            ) {
+                console.log('Possible Cloudflare challenge:', response.url());
+            }
+        });
     await this.firstAtcButton.click();
   }
 
@@ -455,6 +463,14 @@ exports.HomePage = class HomePage {
     const productName = (await this.productTitle.first().innerText()).toLowerCase();
     await this.addToCartButton.first().click();
     await this.cartLink.click();
+    page.on('response', response => {
+      if (
+        response.status() === 403 ||
+        response.url().includes('cdn-cgi')
+      ) {
+        console.log('Possible Cloudflare challenge:', response.url());
+      }
+    });
     await this.cartproductTitle.first().waitFor();
     const cartProducts = await this.cartproductTitle.allTextContents();
     const lowerCaseProducts = cartProducts.map(product =>
@@ -479,56 +495,64 @@ exports.HomePage = class HomePage {
       await this.shopByConcernLinks.nth(i).waitFor();
     }
   }
-async inTheSpotLightSection() {
+  async inTheSpotLightSection() {
 
-  // Capture spotlight product title
-  const productName = (
-    await this.inTheSpotLightProductTitle.first().innerText()
-  ).trim().toLowerCase();
+    // Capture spotlight product title
+    const productName = (
+      await this.inTheSpotLightProductTitle.first().innerText()
+    ).trim().toLowerCase();
 
-  // Check whether Notify Me button is visible
-  if (await this.inTheSpotLightNotifyMeButton.first().isVisible()) {
+    // Check whether Notify Me button is visible
+    if (await this.inTheSpotLightNotifyMeButton.first().isVisible()) {
 
-    // Click Notify Me
-    await this.inTheSpotLightNotifyMeButton.first().click();
+      // Click Notify Me
+      await this.inTheSpotLightNotifyMeButton.first().click();
 
-    // Verify Notify popup is displayed
-    await expect(this.inTheSpotLightNotifyPopup).toBeVisible();
+      // Verify Notify popup is displayed
+      await expect(this.inTheSpotLightNotifyPopup).toBeVisible();
 
-  } else {
+    } else {
 
-    await this.cartVisiblity();
+      await this.cartVisiblity();
 
-    // Click Add to Cart
-    await this.inTheSpotLightAddToCartButton.first().click();
+      // Click Add to Cart
+      await this.inTheSpotLightAddToCartButton.first().click();
 
-    // Open cart drawer
-    await this.cartLink.click();
+      // Open cart drawer
+      await this.cartLink.click();
+      page.on('response', response => {
+        if (
+          response.status() === 403 ||
+          response.url().includes('cdn-cgi')
+        ) {
+          console.log('Possible Cloudflare challenge:', response.url());
+        }
+      });
 
-    // Wait for cart product to appear
-    await this.cartproductTitle.first().waitFor();
+      // Wait for cart product to appear
+      await this.cartproductTitle.first().waitFor();
 
-    // Get all cart product titles
-    const cartProducts = await this.cartproductTitle.allTextContents();
+      // Get all cart product titles
+      const cartProducts = await this.cartproductTitle.allTextContents();
 
-    // Convert cart products to lowercase
-    const lowerCaseProducts = cartProducts.map(product =>
-      product.trim().toLowerCase()
-    );
+      // Convert cart products to lowercase
+      const lowerCaseProducts = cartProducts.map(product =>
+        product.trim().toLowerCase()
+      );
 
-    // Extract actual product name from spotlight title
-    const expectedProduct = productName
-      .split('\n')
-      .pop()
-      .trim();
+      // Extract actual product name from spotlight title
+      const expectedProduct = productName
+        .split('\n')
+        .pop()
+        .trim();
 
-    console.log('Expected Product:', expectedProduct);
-    console.log('Cart Products:', lowerCaseProducts);
+      console.log('Expected Product:', expectedProduct);
+      console.log('Cart Products:', lowerCaseProducts);
 
-    // Validate product exists in cart
-    expect(lowerCaseProducts.join(' ')).toContain(expectedProduct);
+      // Validate product exists in cart
+      expect(lowerCaseProducts.join(' ')).toContain(expectedProduct);
+    }
   }
-}
   async whatSetsUsApartDropdown() {
     for (let i = 0; i < await this.whatSetsUsApartCard.count(); i++) {
       await this.whatSetsUsApartCard.nth(i).click();

@@ -27,7 +27,6 @@ export default defineConfig({
     channel: 'chrome',
 
     // ✅ consistent viewport handling
-    viewport: null,
 
     screenshot: 'only-on-failure',
     video: 'off',
@@ -55,7 +54,10 @@ export default defineConfig({
         browserName: 'chromium',
 
         // optional but good for consistency
-        viewport: null,
+         viewport: { width: 1440, height: 900 },
+        //headless =false, viewport = null is required to open the browser in full screen
+        //viewport: null,
+
       },
     },
 

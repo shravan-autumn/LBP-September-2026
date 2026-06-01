@@ -27,13 +27,6 @@ test.beforeEach(async ({ page }) => {
 });
 test.describe('LBP', () => {
 
-    test('@desktop Cart6 Verify the cart quantity increase/decrease functionality', async ({ page }) => {
-        // await pdp.searchPLPToPDPNavigation("oil");
-        // await c.addFirstProductToCart();
-        await c.cartQunatitySelectorFunctionality(page);
-    });
-
-
     test('@desktop HP1 Verify logo is displayed', async ({ page }) => {
         await expect(hp.logo).toBeVisible();
     });
@@ -47,29 +40,26 @@ test.describe('LBP', () => {
     });
 
     test('@desktop HP3 Verify megamenu collection navigation', async ({ page }) => {
-        page.on('response', response => {
-            if (
-                response.status() === 403 ||
-                response.url().includes('cdn-cgi')
-            ) {
-                console.log('Possible Cloudflare challenge:', response.url());
-            }
-        });
+        // page.on('response', response => {
+        //     if (
+        //         response.status() === 403 ||
+        //         response.url().includes('cdn-cgi')
+        //     ) {
+        //         console.log('Possible Cloudflare challenge:', response.url());
+        //     }
+        // });
         await hp.megamenuCollectionNavigation(page);
     });
     test('@mobile HP3 Verify hamburger menucollection navigation', async ({ page }) => {
         await hp.hamburgerMenuCollectionNavigation(page);
     });
 
-    test('@all HP4 Verify About Us navigation', async ({ page }) => {
+    test.only('@all HP4 Verify About Us navigation', async ({ page }) => {
         await hp.openAboutUs();
         await expect(page).toHaveURL("https://lovebeautyandplanet.in/pages/our-story");
     });
 
-    test('@mobile PDP8 Verify reviews section display', async ({ page }) => {
-        await pdp.searchPLPToPDPNavigation("best");
-        await expect(pdp.reviewsSection).toBeVisible();
-    });
+
 
     test('@all HP5 Verify Know Your Ingredients navigation', async ({ page }) => {
         await hp.openIngredients();
@@ -91,18 +81,6 @@ test.describe('LBP', () => {
     });
     //just desktop as shopify preview bar is overlapping with sticky ATC
 
-    test('@desktop PDP6 Verify quantity increase', async ({ page }) => {
-        await pdp.searchPLPToPDPNavigation("oil");
-        page.on('response', response => {
-            if (
-                response.status() === 403 ||
-                response.url().includes('cdn-cgi')
-            ) {
-                console.log('Possible Cloudflare challenge:', response.url());
-            }
-        });
-        await pdp.increaseQuantity();
-    });
 
     test("@all HP9 Verify account page navigation form header", async ({ page }) => {
         await hp.clickAccountLink();
@@ -129,7 +107,7 @@ test.describe('LBP', () => {
     });
 
     test('@all HP14 Verify add to cart functionality from collection tab', async ({ page }) => {
-        
+
         await hp.addFirstProductToCartFromCollectionTab(page);
     });
 
@@ -159,12 +137,6 @@ test.describe('LBP', () => {
     test('@all HP20 Verify trending on social Reels section visibility', async ({ page }) => {
         await expect(hp.trendingOnSocialSection).toBeVisible();
     });
-    //only desktop as shopify preview bar is overlapping with sticky ATC
-    test('@desktop Cart5 Verify freebie product addition', async ({ page }) => {
-
-        await c.freebieVisibility();
-
-    });
 
     test('@all HP21 Verify Customer Love section display', async ({ page }) => {
         await expect(hp.customerLoveSection).toBeVisible();
@@ -189,20 +161,7 @@ test.describe('LBP', () => {
         await hp.openFirstBeautyArchivesArticle();
         await expect(page).toHaveURL("https://lovebeautyandplanet.in/blogs/hair/post-festive-season-hair-care-tips");
     });
-    //just desktop as shopify preview bar is overlapping with sticky ATC
 
-    test('@desktop PDP7 Verify quantity decrease', async ({ page }) => {
-        await pdp.searchPLPToPDPNavigation("oil");
-        page.on('response', response => {
-            if (
-                response.status() === 403 ||
-                response.url().includes('cdn-cgi')
-            ) {
-                console.log('Possible Cloudflare challenge:', response.url());
-            }
-        });
-        await pdp.decreaseQuantity();
-    });
 
     test('@desktop HP25 Verify footer product links', async ({ page }) => {
         test.setTimeout(180000);
@@ -307,24 +266,20 @@ test.describe('LBP', () => {
     // );
     test('@mobile PLP5 Verify You may also like section presence and navigation', async ({ page }) => {
         await hp.PLPRedirectionHambergerMenu('Bestsellers');
-        page.on('response', response => {
-            if (
-                response.status() === 403 ||
-                response.url().includes('cdn-cgi')
-            ) {
-                console.log('Possible Cloudflare challenge:', response.url());
-            }
-        });
+        // page.on('response', response => {
+        //     if (
+        //         response.status() === 403 ||
+        //         response.url().includes('cdn-cgi')
+        //     ) {
+        //         console.log('Possible Cloudflare challenge:', response.url());
+        //     }
+        // });
         await expect(plp.ymalSection).toBeVisible();
         await plp.openYmalViewAll();
         await expect(page).toHaveURL("https://lovebeautyandplanet.in/collections/all-products");
     }
     );
-    test('@desktop Cart4 Verify total price updation', async ({ page }) => {
-        // await hp.hpToPDPRedirection(page);
-        //await pdp.searchPLPToPDPNavigation("oil");
-        await c.totalPriceCalculation();
-    });
+
 
     // test('@desktop PLP6 Verify Beauty Archives View All redirection', async ({ page }) => {
     //     await hp.PLPRedirectionFromMegaMenu('Value Combos');
@@ -373,14 +328,14 @@ test.describe('LBP', () => {
 
     test('@mobile PDP3 Verify invalid pincode validation', async ({ page }) => {
         await pdp.searchPLPToPDPNavigation("oil");
-        page.on('response', response => {
-            if (
-                response.status() === 403 ||
-                response.url().includes('cdn-cgi')
-            ) {
-                console.log('Possible Cloudflare challenge:', response.url());
-            }
-        });
+        // page.on('response', response => {
+        //     if (
+        //         response.status() === 403 ||
+        //         response.url().includes('cdn-cgi')
+        //     ) {
+        //         console.log('Possible Cloudflare challenge:', response.url());
+        //     }
+        // });
         await pdp.checkInvalidPincode('123456');
     });
 
@@ -394,11 +349,38 @@ test.describe('LBP', () => {
         await pdp.addToCartFromPDP();
     });
 
+    test('@desktop PDP6 Verify quantity increase', async ({ page }) => {
+        await pdp.searchPLPToPDPNavigation("oil");
+        // page.on('response', response => {
+        //     if (
+        //         response.status() === 403 ||
+        //         response.url().includes('cdn-cgi')
+        //     ) {
+        //         console.log('Possible Cloudflare challenge:', response.url());
+        //     }
+        // });
+        await pdp.increaseQuantity();
+    });
+    //just desktop as shopify preview bar is overlapping with sticky ATC
+
+    test('@desktop PDP7 Verify quantity decrease', async ({ page }) => {
+        await pdp.searchPLPToPDPNavigation("oil");
+        // page.on('response', response => {
+        //     if (
+        //         response.status() === 403 ||
+        //         response.url().includes('cdn-cgi')
+        //     ) {
+        //         console.log('Possible Cloudflare challenge:', response.url());
+        //     }
+        // });
+        await pdp.decreaseQuantity();
+    });
 
 
-    //PDP8 in HP
-
-
+    test('@mobile PDP8 Verify reviews section display', async ({ page }) => {
+        await pdp.searchPLPToPDPNavigation("best");
+        await expect(pdp.reviewsSection).toBeVisible();
+    });
 
     test('@all PDP9 Verify FAQ section display', async ({ page }) => {
         await pdp.searchPLPToPDPNavigation("best");
@@ -437,12 +419,24 @@ test.describe('LBP', () => {
         // await c.addSecondProductToCart();
     });
     //only desktop as shopify preview bar is overlapping with sticky ATC
-    //Cart4 in HP
+    test('@desktop Cart4 Verify total price updation', async ({ page }) => {
+        // await hp.hpToPDPRedirection(page);
+        //await pdp.searchPLPToPDPNavigation("oil");
+        await c.totalPriceCalculation();
+    });
+    //only desktop as shopify preview bar is overlapping with sticky ATC
+    test('@desktop Cart5 Verify freebie product addition', async ({ page }) => {
+
+        await c.freebieVisibility();
+
+    });
 
 
-    //cart5 in HP
-    //Cart 6 in HP
-
+    test('@desktop Cart6 Verify the cart quantity increase/decrease functionality', async ({ page }) => {
+        // await pdp.searchPLPToPDPNavigation("oil");
+        // await c.addFirstProductToCart();
+        await c.cartQunatitySelectorFunctionality(page);
+    });
     //only desktop as shopify preview bar is overlapping with sticky ATC
 
     test.skip('@all Cart7 Verify checkout navigation', async ({ page }) => {

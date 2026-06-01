@@ -152,14 +152,14 @@ exports.Cart = class Cart {
       const updatedPrice = parseInt(
         (await this.cartTotalPrice.textContent()).replace(/[^\d]/g, '')
       );
-      page.on('response', response => {
-        if (
-          response.status() === 403 ||
-          response.url().includes('cdn-cgi')
-        ) {
-          console.log('Possible Cloudflare challenge:', response.url());
-        }
-      });
+      // page.on('response', response => {
+      //   if (
+      //     response.status() === 403 ||
+      //     response.url().includes('cdn-cgi')
+      //   ) {
+      //     console.log('Possible Cloudflare challenge:', response.url());
+      //   }
+      // });
 
       expect(updatedPrice).toBeGreaterThan(initialPrice);
 
@@ -193,14 +193,14 @@ exports.Cart = class Cart {
 
     await this.hpProductTitle.first().waitFor();
     await this.hpProductTitle.first().click();
-    page.on('response', response => {
-      if (
-        response.status() === 403 ||
-        response.url().includes('cdn-cgi')
-      ) {
-        console.log('Possible Cloudflare challenge:', response.url());
-      }
-    });
+    // page.on('response', response => {
+    //   if (
+    //     response.status() === 403 ||
+    //     response.url().includes('cdn-cgi')
+    //   ) {
+    //     console.log('Possible Cloudflare challenge:', response.url());
+    //   }
+    // });
 
     await this.productPrice.first().waitFor({
       state: 'visible'

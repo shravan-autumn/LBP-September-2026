@@ -97,14 +97,14 @@ exports.PDP = class PDP {
   async decreaseQuantity() {
     // await expect(this.atcButton).toBeVisible();
     // await expect(this.atcButton).toBeEnabled();
-    page.on('response', response => {
-      if (
-        response.status() === 403 ||
-        response.url().includes('cdn-cgi')
-      ) {
-        console.log('Possible Cloudflare challenge:', response.url());
-      }
-    });
+    // page.on('response', response => {
+    //   if (
+    //     response.status() === 403 ||
+    //     response.url().includes('cdn-cgi')
+    //   ) {
+    //     console.log('Possible Cloudflare challenge:', response.url());
+    //   }
+    // });
     await this.atcButton.click();
     await this.page.waitForTimeout(8000);
 

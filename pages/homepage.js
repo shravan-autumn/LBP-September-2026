@@ -11,7 +11,7 @@ exports.HomePage = class HomePage {
     //X cookie popup selectors need to be added I have hardcoded for now
     this.cookieAcceptPopup = page.locator("//button[@id='onetrust-accept-btn-handler']");
     //x change the logo selector I have hardcoded for now
-    this.logo = page.locator('[class="header__heading-logo motion-reduce"]');
+    this.logo = page.locator('[class="header__heading-logo-wrapper"]');
     this.logoMobile = page.locator('[data-logo-test-id="index--sections--19179789910186__header-logo-1"]');
     //mega menu locators need to be added 
     this.megaMenuShop = page.locator('[data-megamenu-link-test-id="index-header-custom-menu-1-menu-link-1"]');
@@ -262,14 +262,14 @@ exports.HomePage = class HomePage {
   }
 
   async addFirstProductToCartFromCollectionTab() {
-     page.on('response', response => {
-            if (
-                response.status() === 403 ||
-                response.url().includes('cdn-cgi')
-            ) {
-                console.log('Possible Cloudflare challenge:', response.url());
-            }
-        });
+    //  page.on('response', response => {
+    //         if (
+    //             response.status() === 403 ||
+    //             response.url().includes('cdn-cgi')
+    //         ) {
+    //             console.log('Possible Cloudflare challenge:', response.url());
+    //         }
+    //     });
     await this.firstAtcButton.click();
   }
 
@@ -463,14 +463,14 @@ exports.HomePage = class HomePage {
     const productName = (await this.productTitle.first().innerText()).toLowerCase();
     await this.addToCartButton.first().click();
     await this.cartLink.click();
-    page.on('response', response => {
-      if (
-        response.status() === 403 ||
-        response.url().includes('cdn-cgi')
-      ) {
-        console.log('Possible Cloudflare challenge:', response.url());
-      }
-    });
+    // page.on('response', response => {
+    //   if (
+    //     response.status() === 403 ||
+    //     response.url().includes('cdn-cgi')
+    //   ) {
+    //     console.log('Possible Cloudflare challenge:', response.url());
+    //   }
+    // });
     await this.cartproductTitle.first().waitFor();
     const cartProducts = await this.cartproductTitle.allTextContents();
     const lowerCaseProducts = cartProducts.map(product =>
@@ -520,14 +520,14 @@ exports.HomePage = class HomePage {
 
       // Open cart drawer
       await this.cartLink.click();
-      page.on('response', response => {
-        if (
-          response.status() === 403 ||
-          response.url().includes('cdn-cgi')
-        ) {
-          console.log('Possible Cloudflare challenge:', response.url());
-        }
-      });
+      // page.on('response', response => {
+      //   if (
+      //     response.status() === 403 ||
+      //     response.url().includes('cdn-cgi')
+      //   ) {
+      //     console.log('Possible Cloudflare challenge:', response.url());
+      //   }
+      // });
 
       // Wait for cart product to appear
       await this.cartproductTitle.first().waitFor();

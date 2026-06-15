@@ -170,7 +170,7 @@ test.describe('Homepage', () => {
     await hp.footerLegalLinksRedirectionsMobile(page, context);
   });
 
-  test.only('@desktop HP29 Verify footer facebook links', async ({ page, context }) => {
+  test('@desktop HP29 Verify footer facebook links', async ({ page, context }) => {
     await hp.facebookRedirection(page, context);
 
   });

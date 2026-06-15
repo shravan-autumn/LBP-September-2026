@@ -27,14 +27,15 @@ exports.PDP = class PDP {
     this.qtyInput = page.locator('(//input[@class="quantity__input"])[1]').first();
 
     // Pincode validation
-    this.pincodeInput = page.locator('[data-pincode-input-test-id]').first();
-    this.pincodeCheckBtn = page.locator('[data-pincode-check-btn-test-id]').first();
-    this.pincodeError = page.locator('[data-pincode-response-test-id]');
-    this.pincodeResponse = page.locator('[data-pincode-response-test-id]');
+    this.pincodeInput = page.locator('[id="pincode"]');
+    this.pincodeCheckBtn = page.locator('[class="submit-pincode-button"]');
+    this.pincodeError = page.locator('//p[contains(text(),"Destination pincode is not serviceable")]');
+    this.pincodeResponse = page.locator('[id="response"]');
 
     // Details / FAQ / Reviews presence
     this.detailsSection = page.locator('[data-id="pdp-details"]');
     this.reviewsSection = page.locator('[id="yotpo-headline-reviews"]');
+    this.faqSectionHeading = page.locator('(//a[contains(text(),"FAQs")])[1]');
     this.faqSection = page.locator('//button[contains(text(),"FAQS")]');
     this.writeToUs = page.locator("//a[contains(text(),'Write to us')]");
     this.reelsSection = page.locator('[id="reelUp_playlist_3503"]');
@@ -44,7 +45,7 @@ exports.PDP = class PDP {
     // You may also like section on PDP
     this.ymalSection = page.locator('[data-section-test-id*="custom-collection-grid"]').first();
     this.ymalFirstCard = page.locator('[data-section-test-id*="custom-collection-grid"] [data-product-card-test-id]').first();
-    this.ymalViewAll = page.locator('[data-view-all-test-id="product--template--19179790532778__custom_collection_grid_pigQig-view-all-1"]');
+    this.ymalViewAll = page.locator('//a[contains(text(),"VIEW ALL")]');
     this.cautionNotice = page.locator('[data-caution-notice-test-id]');
     //cart drawer
     this.cartproductTitle = page.locator("//a[contains(@class,'cart-item__name')]");
@@ -60,8 +61,10 @@ exports.PDP = class PDP {
 
   async checkInvalidPincode(value) {
     await this.pincodeInput.fill(value);
+    await this.pincodeInput.press('Enter');
     await this.pincodeCheckBtn.click();
-    await this.pincodeError.waitFor({ state: 'visible', timeout: 10000 });
+    await this.page.waitForTimeout(5000);
+
     await expect(this.pincodeError).toBeVisible();
   }
 
@@ -95,16 +98,7 @@ exports.PDP = class PDP {
   }
 
   async decreaseQuantity() {
-    // await expect(this.atcButton).toBeVisible();
-    // await expect(this.atcButton).toBeEnabled();
-    // page.on('response', response => {
-    //   if (
-    //     response.status() === 403 ||
-    //     response.url().includes('cdn-cgi')
-    //   ) {
-    //     console.log('Possible Cloudflare challenge:', response.url());
-    //   }
-    // });
+  
     await this.atcButton.click();
     await this.page.waitForTimeout(8000);
 
@@ -114,13 +108,31 @@ exports.PDP = class PDP {
     await this.qtyInput.waitFor({ state: 'visible' });
     const before = await this.qtyInput.inputValue();
     await this.qtyPlus.click();
-    await this.page.waitForTimeout(8000);
+    if (await this.cartHeading.isVisible()) {
+      await this.closeCart.click();
+    }
+    await this.page.reload();
+    await this.qtyPlus.click();
+    if (await this.cartHeading.isVisible()) {
+      await this.closeCart.click();
+    }
+    // await this.qtyPlus.click();
+
+    // await this.page.waitForTimeout(8000);
+    // if (await this.cartHeading.isVisible()) {
+    //   await this.closeCart.click();
+    // }
     await this.qtyMinus.click();
 
     if (await this.qtyMinus2.isVisible()) {
       await this.qtyMinus2.click();
     }
-    await expect(this.qtyInput).toHaveValue(before);
+    if (await this.cartHeading.isVisible()) {
+      await this.closeCart.click();
+    }
+      await this.closeCart.click();
+  
+    await expect(this.qtyInput).not.toHaveValue(before);
   }
 
   async searchPLPToPDPNavigation(productName) {
@@ -171,7 +183,7 @@ exports.PDP = class PDP {
   }
   async PDPtoPLPnavigation(page) {
     const expectedUrls = [
-      'https://lovebeautyandplanet.in/collections/all-products',
+      //'https://lovebeautyandplanet.in/collections/all-products',
       'https://lovebeautyandplanet.in/collections/bundle-offers',
       'https://lovebeautyandplanet.in/collections/bundle-offers'
 

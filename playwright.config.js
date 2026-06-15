@@ -22,7 +22,7 @@ export default defineConfig({
 
   use: {
     // ✅ correct way: CI = headless, local = headed
-    headless: isCI ? true : true,
+    headless: isCI ? true : false,
 
     channel: 'chrome',
 
@@ -54,9 +54,9 @@ export default defineConfig({
         browserName: 'chromium',
 
         // optional but good for consistency
-         viewport: { width: 1440, height: 900 },
+        //viewport: { width: 1440, height: 900 },
         //headless =false, viewport = null is required to open the browser in full screen
-        //viewport: null,
+        viewport: null,
 
       },
     },

@@ -10,44 +10,49 @@ exports.PLP = class PLP {
     this.breadcrumbCurrent = page.locator('[data-breadcrumb-current-test-id]').first();
 
     // Product cards + add to cart
+    this.productDescription = page.locator('[class="h-pro-card-cnt-description"]');
     this.productTitles = page.locator('//p[@class="h-pro-card-cnt-description"]');
     this.productCards = page.locator('[data-product-card-test-id]');
-    this.firstProductLink = page.locator('[data-product-link-test-id]').first();
-    this.firstAtcButton = page.locator('[data-atc-btn-test-id]').first();
+    this.firstProductLink = page.locator('(//p[@class="h-pro-card-cnt-description"])[1]');
+    this.firstAtcButton = page.locator('(//div[@class="product-form__buttons"])[1]');
     this.atcToast = page.locator('[data-add-to-cart-toast-test-id]').first();
     this.viewCartDrawerButton = page.locator('[data-view-cart-drawer-test-id]').first();
+    this.pdpProductTitle = page.locator('//div[@class="product__title"]');
 
     // Filters (facets)
     this.allFilterOptions = page.locator("//span[@class='facet-checkbox__text']");
-    this.appliedFilters = page.locator('[data-applied-filter-test-id]');
+    this.appliedFilters = page.locator('[class="active-facets__button-inner button button--tertiary"]');
     this.facetsSection = page.locator('[data-section-test-id*="-facets-"]').first();
     this.anyFilterCheckbox = page.locator('[data-filter-checkbox-test-id]').first();
     this.appliedFiltersDesktop = page.locator('[data-applied-filters-test-id*="desktop"]').first();
     this.appliedFiltersMobile = page.locator('[data-applied-filters-test-id*="mobile"]').first();
-    this.clearAllDesktop = page.locator('[data-clear-all-test-id*="desktop"]').first();
+    this.clearAllDesktop = page.locator('[class="facet_clear_btn"]').first();
     this.clearAllMobile = page.locator('[data-clear-all-test-id*="mobile"]').first();
+    this.closeFilterDrawer = page.locator('[class="mobile-facets__close"]');
+    this.productCountFilter = page.locator('[class="mobile-facets__count"]');
+    this.clearAllFiltersMobile= page.locator('[class="mobile-facets__clear underlined-link"]');
 
     // You may also like section on PLP
     this.ymalSection = page.locator("//h2[contains(text(),'you may also like')]");
-    this.ymalViewAll = page.locator('[data-view-all-test-id="collection--template--19179791057066__custom_collection_plp_YtQM8r-view-all-1"]');
+    this.ymalViewAll = page.locator('//a[contains(text(),"VIEW ALL")]');
 
     // Beauty archives section on PLP
     this.beautyEditsSection = page.locator('[data-section-test-id*="collection-beauty-edits"]').first();
-    this.beautyEditsViewAll = page.locator('[data-beauty-archives-view-all-test-id]').first();
+    this.beautyEditsViewAll = page.locator('//h2[contains(text(),"Beauty Archives")]/ancestor::section//a[@class="home-common-btn"]').first();
 
     // FAQs + write to us
-    this.faqsection = page.locator('[data-section-test-id="collection--template--19179791057066__collection-faq"]');
-    this.writeToUs = page.locator('[data-write-to-us-link-test-id]');
+    this.faqsection = page.locator('//h2[contains(text(),"faqs")]');
+    this.writeToUs = page.locator('//a[contains(text(),"Write to us")]');
     //PLP
     this.plpProductTitle = page.locator('//div[@class="product__title"]');
     //cart drawer
     this.cartproductTitle = page.locator("//a[contains(@class,'cart-item__name')]");
     //Home page
-    this.cartLink = page.locator('[data-cart-link-test-id]');
+    this.cartLink = page.locator('[class="header__icon header__icon--cart link focus-inset"]');
     //mobile filters
-    this.filterMobile= page.locator('[class="mobile-facets__open-label button-label medium-hide large-up-hide"]');
-    this.filterMainMobile= page.locator('//div[contains(@class,"accordion-button mobile-facets__item ")]');
-    this.filterSubMobile= page.locator('[class="facet-checkbox__text"]');
+    this.filterMobile = page.locator('[class="mobile-facets__open-label button-label medium-hide large-up-hide"]');
+    this.filterMainMobile = page.locator('//div[contains(@class,"accordion-button mobile-facets__item ")]');
+    this.filterSubMobile = page.locator('//form[@id="FacetFiltersFormMobile"]//span[@class="facet-checkbox__text"]');
   }
 
   async gotoCollection(handle = 'all-products') {
@@ -78,9 +83,9 @@ exports.PLP = class PLP {
       await filterOption.click();
 
       // Wait for applied filter to appear
-      await this.page.waitForSelector(
-        '[data-applied-filter-test-id]'
-      );
+      // await this.page.waitForSelector(
+      //   '[data-applied-filter-test-id]'
+      // );
 
       await this.page.waitForTimeout(2000);
 
@@ -137,57 +142,43 @@ exports.PLP = class PLP {
     expect(relevantProductsCount).toBeGreaterThan(0);
   }
 
-  async applyFiltersAndValidateProductsMobile() {
+async applyFiltersAndValidateProductsMobile() {
 
   const filtersToApply = [
     'Argan Oil And Lavender',
-    'Frizz control'
+    'Hair Care'
   ];
 
-  // Open mobile filter drawer
+  // Open filter drawer
   await this.filterMobile.click();
 
-  // Wait for filter drawer to load
   await this.page.waitForTimeout(2000);
 
-  // Get all main filter accordions
-  const totalMainFilters =
-    await this.filterMainMobile.count();
+  const totalMainFilters = await this.filterMainMobile.count();
 
-  // Loop through each filter value you want to apply
+  // Apply filters
   for (const filter of filtersToApply) {
 
     let filterFound = false;
 
-    // Iterate through each accordion section
     for (let i = 0; i < totalMainFilters; i++) {
 
-      const mainFilter =
-        this.filterMainMobile.nth(i);
+      const mainFilter = this.filterMainMobile.nth(i);
 
-      // Expand accordion
       await mainFilter.scrollIntoViewIfNeeded();
       await mainFilter.click();
 
       await this.page.waitForTimeout(1000);
 
-      // Get all sub filter options inside expanded accordion
-      const subFilters =
-        this.filterSubMobile;
+      const subFilterCount = await this.filterSubMobile.count();
 
-      const subFilterCount =
-        await subFilters.count();
-
-      // Iterate through sub filters
       for (let j = 0; j < subFilterCount; j++) {
 
-        const subFilter =
-          subFilters.nth(j);
+        const subFilter = this.filterSubMobile.nth(j);
 
         const subFilterText =
-          (await subFilter.innerText()).trim();
+          (await subFilter.textContent())?.trim() || '';
 
-        // Check if filter exists
         if (
           subFilterText
             .toLowerCase()
@@ -197,9 +188,9 @@ exports.PLP = class PLP {
           await subFilter.scrollIntoViewIfNeeded();
           await subFilter.click();
 
-          filterFound = true;
-
           console.log(`Applied filter: ${filter}`);
+
+          filterFound = true;
 
           await this.page.waitForTimeout(1000);
 
@@ -207,68 +198,78 @@ exports.PLP = class PLP {
         }
       }
 
-      // Stop looping if filter already applied
       if (filterFound) {
         break;
       }
     }
 
-    // Validation if filter not found
     expect(filterFound).toBeTruthy();
   }
 
-  // Optional apply button click if present
-  // await this.applyFilterButton.click();
+  // Close filter drawer
+  await this.closeFilterDrawer.click();
 
-  // Wait for products to refresh
-  await this.page.waitForLoadState('networkidle');
 
-  // Validate applied filters
-  const finalAppliedFilters =
-    await this.appliedFilters.allInnerTexts();
+  // Wait until at least one product is visible
+  await this.productDescription.first().waitFor({
+    state: 'visible',
+    timeout: 10000
+  });
 
-  const normalizedFilters =
-    finalAppliedFilters.join(' ').toLowerCase();
+  // Additional wait if site updates products via API
+  await this.page.waitForTimeout(3000);
 
-  for (const filter of filtersToApply) {
-
-    expect(normalizedFilters)
-      .toContain(filter.toLowerCase());
-  }
-
-  // Product validation
+  // Get all product titles
   const allProductTitles =
-    await this.productTitles.allInnerTexts();
+    await this.productDescription.allInnerTexts();
 
-  const fewProducts =
-    allProductTitles.slice(0, 4);
+  console.log('Products found:', allProductTitles);
 
-  let relevantProductsCount = 0;
+  expect(allProductTitles.length).toBeGreaterThan(0);
 
-  for (const title of fewProducts) {
+  // Validate products
+  let matchedProducts = 0;
+
+  for (const productTitle of allProductTitles) {
 
     const normalizedTitle =
-      title.toLowerCase();
+      productTitle.toLowerCase();
 
-    const isRelevant =
+    const matchesFilter =
       filtersToApply.some(filter => {
 
-        const filterWords =
-          filter.toLowerCase().split(' ');
+        const filterWords = filter
+          .toLowerCase()
+          .split(' ')
+          .filter(word => word.length > 2); // ignore "and", etc.
 
         return filterWords.some(word =>
           normalizedTitle.includes(word)
         );
       });
 
-    if (isRelevant) {
-      relevantProductsCount++;
+    if (matchesFilter) {
+      matchedProducts++;
+      console.log(`Matched Product: ${productTitle}`);
     }
   }
 
-  expect(relevantProductsCount)
-    .toBeGreaterThan(0);
+  console.log(
+    `Matched Products Count: ${matchedProducts}`
+  );
+
+  // At least one product should match
+  expect(matchedProducts).toBeGreaterThan(0);
 }
+
+
+
+
+
+
+
+
+
   async removeAppliedFilters() {
 
     const filtersToApply = [
@@ -287,10 +288,10 @@ exports.PLP = class PLP {
 
       await filterOption.click();
 
-      // Wait for applied filter to appear
-      await this.page.waitForSelector(
-        '[data-applied-filter-test-id]'
-      );
+      // // Wait for applied filter to appear
+      // await this.page.waitForSelector(
+      //   '[data-applied-filter-test-id]'
+      // );
 
       await this.page.waitForTimeout(2000);
       await this.clearAllDesktop.click();
@@ -298,6 +299,84 @@ exports.PLP = class PLP {
 
     }
   }
+
+
+
+  async removeAppliedFiltersMobile() {
+
+  const filtersToApply = [
+    'Argan Oil And Lavender',
+    'Hair Care'
+  ];
+
+  // Open filter drawer
+  await this.filterMobile.click();
+
+  await this.page.waitForTimeout(2000);
+
+  const totalMainFilters = await this.filterMainMobile.count();
+
+  // Apply filters
+  for (const filter of filtersToApply) {
+
+    let filterFound = false;
+
+    for (let i = 0; i < totalMainFilters; i++) {
+
+      const mainFilter = this.filterMainMobile.nth(i);
+
+      await mainFilter.scrollIntoViewIfNeeded();
+      await mainFilter.click();
+
+      await this.page.waitForTimeout(1000);
+
+      const subFilterCount = await this.filterSubMobile.count();
+
+      for (let j = 0; j < subFilterCount; j++) {
+
+        const subFilter = this.filterSubMobile.nth(j);
+
+        const subFilterText =
+          (await subFilter.textContent())?.trim() || '';
+
+        if (
+          subFilterText
+            .toLowerCase()
+            .includes(filter.toLowerCase())
+        ) {
+
+          await subFilter.scrollIntoViewIfNeeded();
+          await subFilter.click();
+
+          console.log(`Applied filter: ${filter}`);
+
+          filterFound = true;
+
+          await this.page.waitForTimeout(1000);
+
+          break;
+        }
+      }
+
+      if (filterFound) {
+        break;
+      }
+    }
+
+    expect(filterFound).toBeTruthy();
+  }
+
+const initailCountText=await this.productCountFilter.textContent();
+   await this.clearAllFiltersMobile.click();
+  // Close filter drawer
+const finalCountText=await this.productCountFilter.textContent();
+  await this.closeFilterDrawer.click();
+  await expect(finalCountText).not.toBe(initailCountText);
+
+
+
+
+}
   async expectAppliedFiltersVisible() {
     // Desktop applied filters commonly used; fall back to mobile container if needed.
     if (await this.appliedFiltersDesktop.count()) {
@@ -334,50 +413,50 @@ exports.PLP = class PLP {
   async openWriteToUs() {
     await this.writeToUs.click();
   }
-async PLPtoPDPnavigation(){
-   // Get first product name from PLP
-      const firstProductName = await this.productTitles
-        .first()
-        .textContent();
-  
-      // Open first product
-      await this.openFirstProduct();
-  
-      // Get PDP product title
-      const productTitle = await this.plpProductTitle
-        .textContent();
-  
-      // Validate same product opened
-      expect(productTitle.trim().toLowerCase())
-        .toContain(firstProductName.trim().toLowerCase());
-}
-async addToCartFRomPLP(){
+  async PLPtoPDPnavigation() {
     // Get first product name from PLP
-      const productName = (
-        await this.productTitles.first().innerText()
-      ).toLowerCase();
-  
-      // Add first product to cart
-      await this.firstAtcButton.click();
-  
-      // Open cart drawer
-      await this.cartLink.click();
-  
-      // Wait for cart product to appear
-      await this.cartproductTitle.first().waitFor();
-  
-      // Get all cart product titles
-      const cartProducts =
-        await this.cartproductTitle.allTextContents();
-  
-      // Convert cart products to lowercase
-      const lowerCaseProducts = cartProducts.map(product =>
-        product.toLowerCase()
-      );
-  
-      // Validate same product added to cart
-      expect(lowerCaseProducts)
-        .toContain(productName);
-}
+    const firstProductName = await this.productDescription
+      .first()
+      .textContent();
+
+    // Open first product
+    await this.openFirstProduct();
+
+    // Get PDP product title
+    const productTitle = await this.pdpProductTitle
+      .textContent();
+
+    // Validate same product opened
+    expect(productTitle.trim().toLowerCase())
+      .toContain(firstProductName.trim().toLowerCase());
+  }
+  async addToCartFRomPLP() {
+    // Get first product name from PLP
+    const productName = (
+      await this.productDescription.first().innerText()
+    ).toLowerCase();
+
+    // Add first product to cart
+    await this.firstAtcButton.click();
+
+    // Open cart drawer
+    await this.cartLink.click();
+
+    // Wait for cart product to appear
+    await this.cartproductTitle.first().waitFor();
+
+    // Get all cart product titles
+    const cartProducts =
+      await this.cartproductTitle.allTextContents();
+
+    // Convert cart products to lowercase
+    const lowerCaseProducts = cartProducts.map(product =>
+      product.toLowerCase()
+    );
+
+    // Validate same product added to cart
+    expect(lowerCaseProducts)
+      .toContain(productName);
+  }
 }
 

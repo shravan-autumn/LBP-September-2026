@@ -12,13 +12,13 @@ exports.HomePage = class HomePage {
     this.cookieAcceptPopup = page.locator("//button[@id='onetrust-accept-btn-handler']");
     //x change the logo selector I have hardcoded for now
     this.logo = page.locator('[class="header__heading-logo-wrapper"]');
-    this.logoMobile = page.locator('[data-logo-test-id="index--sections--19179789910186__header-logo-1"]');
+    this.logoMobile = page.locator('[class="container-fluid logo-strip"]');
     //mega menu locators need to be added 
-    this.megaMenuShop = page.locator('[data-megamenu-link-test-id="index-header-custom-menu-1-menu-link-1"]');
+    this.megaMenuShop = page.locator('(//a[contains(text(),"Shop")])[1]');
     this.megaMenuAllCollectionLinks = page.locator('//a[@class="menu-link mega-menu-link"]');
     this.megaMenuOffers = page.locator("(//a[contains(text(),'Offers')])[1]");
     this.megaMenuOffersDropdown = page.locator("//a[contains(text(),'Offers')]/following-sibling::ul//child::a[@class='menu-link mega-menu-link']");
-    this.accountLink = page.locator('[data-account-link-test-id]');
+    this.accountLink = page.locator('[class="header__icon header__icon--account link focus-inset"]');
 
     //hamburger menu
     this.hamburgerMenu = page.locator('[id="openMenu"]');
@@ -35,15 +35,15 @@ exports.HomePage = class HomePage {
     this.searchTexfield = page.locator("//div[@class='header__icons header__icons--localization header-localization']//input");
     this.searchSuggestionBox = page.locator("//div[@class='wizzy-autocomplete-suggestions']");
     this.SearchTextFieldMobile = page.locator("[id='mob-search-mob']");
-    this.cartLink = page.locator('[data-cart-link-test-id]');
-    this.announcementBarLink = page.locator('[data-announcement-bar-test-id]').first();
+    this.cartLink = page.locator('[class="header__icon header__icon--cart link focus-inset"]');
+    this.announcementBarLink = page.locator('[class="announcement"]');
 
     // Primary nav (top-level)
-    this.navAboutUs = page.locator('[data-nav-about-us-test-id]');
-    this.navIngredients = page.locator('[data-nav-ingredients-test-id]');
-    this.navBeautyArchives = page.locator('[data-nav-beauty-archives-test-id]');
+    this.navAboutUs = page.locator('//div[@class="nav d-none d-lg-block"]//a[contains(text(),"About Us")]');
+    this.navIngredients = page.locator('//div[@class="nav d-none d-lg-block"]//a[contains(text(),"Know Your Ingredients")]');
+    this.navBeautyArchives = page.locator('//div[@class="nav d-none d-lg-block"]//a[contains(text(),"Beauty Archives")]');
     //x Support link locator needs to be added i have hardcoced now
-    this.navSupport = page.locator('[data-nav-support-test-id]');
+    this.navSupport = page.locator('//div[@class="nav d-none d-lg-block"]//a[contains(text(),"Support")]');
     this.navContactUs = page.locator("[data-megamenu-link-test-id='index-header-custom-menu-1-menu-link-7']");
 
     //x Hero banner link locator needs to be added i have hardcoded for now
@@ -54,26 +54,27 @@ exports.HomePage = class HomePage {
     //x product card and ATC selectors need to be added I have hardcoded for now
     this.productTitle = page.locator("//section[@class='home-products']//p[@class='h-pro-card-cnt-description']");
     this.addToCartButton = page.locator("//div[@class='product-form__buttons']");
-    this.viewAllLink = page.locator("[data-view-all-test-id]");
-    this.collectionTabs = page.locator('[data-collection-tab-test-id]');
+    this.viewAllLink = page.locator('//section[@class="home-products"]//a[contains(text(),"View all")]');
+    this.collectionTabs = page.locator('//ul[@class="home-pro-tabs"]//li');
     this.productCards = page.locator('[data-product-card-test-id]');
-    this.firstProductLink = page.locator('[data-product-link-test-id]').first();
-    this.firstAtcButton = page.locator('[data-atc-btn-test-id]').first();
+    this.firstProductLink = page.locator('[class="h-pro-card-cnt-description"]').first();
+    this.firstAtcButton = page.locator('[class="product-form__buttons"]').first();
     this.atcToast = page.locator('[data-add-to-cart-toast-test-id]').first();
     this.viewCartDrawerButton = page.locator('[data-view-cart-drawer-test-id]').first();
 
-    // Shop by concern
-    this.shopByConcernLinks = page.locator('[data-shop-by-concern-link-test-id]');
-    //x shop by concern link locators need to be added I have hardcoded for now
     this.shopByConcernLinks = page.locator("//div[@class='col-4 col-xl-2']//p");
 
     // Story / discover
-    this.discoverOurStoryLink = page.locator('[data-discover-our-story-link-test-id]').first();
+    this.discoverOurStoryLink = page.locator('(//h3[contains(text(),"Discover our story")]/ancestor::div//a)[1]');
+    this.discoverOurStoryLinkMobile = page.locator('(//h3[contains(text(),"Discover our story")]/ancestor::section//div[@class="hos-cont"])[2]');
+    //h3[contains(text(),'Discover our story')]/ancestor::section//div[@class="hos-cont"])[2]
     //x Discover beauty bill link locator needs to be added I have hardcoded for now
     this.discoverBeautyBill = page.locator("(//h3[contains(text(),'Discover Beauty Bill')]//ancestor::section//a[@href='/pages/beauty-bill'])[1]");
     this.discoverBeautyBillMobile = page.locator('(//a[@data-discover-our-story-link-test-id="index--template--19179790860458__story-home2-discover-our-story-link-1"])[2]');
     // Ingredients banner
-    this.knowYourIngredientsLink = page.locator('[data-know-your-ingredients-link-test-id]').first();
+    this.knowYourIngredientsLink = page.locator('(//a[@href="/pages/ingredients"])[4]').first();
+    this.knowYourIngredientsLinkMobile = page.locator('(//a[@href="/pages/ingredients"])[5]').first();
+
 
     // In the spotlight section presence
     //X hardcoded the in the spotlight section locator and add to cart button locator and product title locator as they are not having any test id or unique attribute
@@ -85,28 +86,26 @@ exports.HomePage = class HomePage {
     this.inTheSpotLightNotifyPopup = page.locator("//div[@class='notify-modal-box']");
 
     // What sets us apart section presence
-    this.whatSetsUsApartSection = page.locator('[data-section-test-id="index--template--19179790860458__home-apart"]');
-    this.whatSetsUsApartCard = page.locator('[data-what-sets-us-apart-card-test-id]');
-    this.whatSetsUsApartContent = page.locator('[data-what-sets-us-apart-card-test-id]>span');
+    this.whatSetsUsApartSection = page.locator('//h2[contains(text(),"what sets us apart")]');
+    this.whatSetsUsApartCard = page.locator('//h2[contains(text(),"what sets us apart")]/parent::div//div[@class="h-apart-card-img"]');
+    this.whatSetsUsApartContent = page.locator('//h2[contains(text(),"what sets us apart")]/parent::div/descendant::div[@class="h-apart-card-img"]/following-sibling::span');
 
     //whats trending on social
     this.trendingOnSocialSection = page.locator("//div[contains(text(),'wha')]");
 
     // Reels / Customer Love presence (best-effort)
-    this.customerLoveSection = page.locator('[data-section-test-id*="home-review"]').first();
-    //Discover over story
-    this.discoverOurStoryLink = page.locator("[data-section-test-id='index--template--19179790860458__story-home']");
+    this.customerLoveSection = page.locator('//h2[contains(text(),"Customer Love")]').first();
+
     //x Discover our story banner locator needs to be added I have hardcoded for now
     this.discoverOurStoryBanner = page.locator("(//a[@data-discover-our-story-link-test-id='index--template--19179790860458__story-home-discover-our-story-link-1'])[1]");
     this.discoverOurStoryBannerMobile = page.locator('(//a[@data-discover-our-story-link-test-id="index--template--19179790860458__story-home-discover-our-story-link-1"])[2]');
     //Natural igresints banner
-    this.knowYourIngredientsLink = page.locator("[data-section-test-id='index--template--19179790860458__home-ingradient']");
 
     // Beauty archives (home)
     //x Beauty archives selectors need to be added I have hardcoded for now
     this.beautyArchivesViewAll = page.locator("//h2[contains(text(),'beauty archives')]/parent::div[@class='home-page--blogs-container h-beauty-desk']//a");
-    this.beautyArchivesViewAllMobile = page.locator('[data-beauty-archives-view-all-test-id="index--template--19179790860458__custom_home_page_blogs_HHR3h8-beauty-archives-view-all-2"]');
-    this.beautyArchivesFirstArticle = page.locator('(//a[@data-beauty-archives-article-title-test-id="index--template--19179790860458__custom_home_page_blogs_HHR3h8-beauty-archives-article-title-1"])[1]');
+    this.beautyArchivesViewAllMobile = page.locator('//h2[contains(text(),"beauty archives")]/ancestor::section//a[@class="home-common-btn d-md-none"]');
+    this.beautyArchivesFirstArticle = page.locator('(//a[@href="/blogs/hair/post-festive-season-hair-care-tips"])[1]');
 
     // Newsletter
     this.newsletterEmail = page.locator('[data-newsletter-email-input-test-id]');
@@ -129,7 +128,7 @@ exports.HomePage = class HomePage {
     this.instagramLink = page.locator("//div[@class='footer__blocks-wrapper desktop_only ft-blwr-desk row']//a[@href='https://www.instagram.com/lovebeautyandplanet_in/']");
     this.youtubeLinkMobile = page.locator("(//a[@data-social-link-test-id='index-social-icons-1-youtube-1'])[1]");
     this.youtubeLink = page.locator("//div[@class='footer__blocks-wrapper desktop_only ft-blwr-desk row']//a[@href='https://www.youtube.com/channel/UCUFcrEf1Wb1164G6O2_LoyA']");
-    this.cautionNotice = page.locator('[data-caution-notice-test-id]');
+    this.cautionNotice = page.locator('[class="wide-container half-gutter section-spacing border-top-checkout cstcontainer"]');
     //cart drawer
     this.cartproductTitle = page.locator('//a[contains(@class,"cart-item__name h4 break")]');
     this.cookieBanner = page.locator('[id="onetrust-banner-sdk"]');
@@ -152,7 +151,7 @@ exports.HomePage = class HomePage {
     }
   }
   async goto() {
-    await this.page.goto('https://lovebeautyandplanet.in/?preview_theme_id=145663918250');
+    await this.page.goto('https://lovebeautyandplanet.in/');
   }
   async cookieAccept() {
     if (await this.cookieAcceptPopup.isVisible()) {
@@ -238,9 +237,9 @@ exports.HomePage = class HomePage {
     }
   }
 
-  async openContactUs() {
-    if (await this.navContactUs.isVisible()) {
-      await this.navContactUs.click();
+  async openSupport() {
+    if (await this.navSupport.isVisible()) {
+      await this.navSupport.click();
 
     }
     if (await this.hamburgerMenu.isVisible()) {
@@ -277,11 +276,12 @@ exports.HomePage = class HomePage {
     await this.shopByConcernLinks.first().click();
   }
   async openDiscoverOurStory() {
+    await this.discoverOurStoryLink.scrollIntoViewIfNeeded();
     if (await this.discoverOurStoryLink.isVisible()) {
       await this.discoverOurStoryLink.click();
     }
-    if (await this.discoverOurStoryLink.isVisible()) {
-      await this.discoverOurStoryLink.click();
+    if (await this.discoverOurStoryLinkMobile.isVisible()) {
+      await this.discoverOurStoryLinkMobile.click();
     }
   }
   async clickDiscoverBeautyBill() {
@@ -295,7 +295,12 @@ exports.HomePage = class HomePage {
   }
 
   async openKnowYourIngredientsBanner() {
-    await this.knowYourIngredientsLink.click();
+    if (await this.knowYourIngredientsLink.isVisible()) {
+      await this.knowYourIngredientsLink.click();
+    }
+    if (await this.knowYourIngredientsLinkMobile.isVisible()) {
+      await this.knowYourIngredientsLinkMobile.click();
+    }
   }
 
   async openBeautyArchivesViewAll() {
@@ -520,14 +525,7 @@ exports.HomePage = class HomePage {
 
       // Open cart drawer
       await this.cartLink.click();
-      // page.on('response', response => {
-      //   if (
-      //     response.status() === 403 ||
-      //     response.url().includes('cdn-cgi')
-      //   ) {
-      //     console.log('Possible Cloudflare challenge:', response.url());
-      //   }
-      // });
+
 
       // Wait for cart product to appear
       await this.cartproductTitle.first().waitFor();

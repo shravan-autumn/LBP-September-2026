@@ -18,92 +18,149 @@ test.beforeEach(async ({ page }) => {
   pdp = new PDP(page);
   await hp.goto();
   await hp.cookieAccept;
-    await hp.removeCookiePopup(page);
+  await hp.removeCookiePopup(page);
 
 });
 test.describe('PLP', () => {
-  test('@desktop PLP1 Verify user naviagtes to PLP applies filters and verify relevant products are disaplyed', async ({ page }) => {
+  test('@desktop PLP1 Verify user naviagtes to PLP and verify product details,banner and breadcrumb are disaplyed', async ({ page }) => {
+    await hp.PLPRedirectionFromMegaMenu('New Launches');
+    await expect(page).toHaveURL('https://lovebeautyandplanet.in/collections/new-launches');
+    await plp.productDetailsVisibility();
+  });
+  test('@mobile PLP1 Verify user naviagtes to PLP and verify product details,banner and breadcrumb are disaplyed', async ({ page }) => {
+    await hp.PLPRedirectionHambergerMenu('New Launches');
+    await expect(page).toHaveURL('https://lovebeautyandplanet.in/collections/new-launches');
+    await plp.productDetailsVisibility();
+  });
+  test('@desktop PLP2 Verify user naviagtes to PLP applies filters and verify relevant products are disaplyed', async ({ page }) => {
     await hp.PLPRedirectionFromMegaMenu('New Launches');
     await expect(page).toHaveURL('https://lovebeautyandplanet.in/collections/new-launches');
     await plp.applyFiltersAndValidateProducts();
   });
-  //cant handle because of shopify prview bar
-  //  test('@mobile PLP1 Verify user naviagtes to PLP applies filters and verify relevant products are disaplyed', async ({ page }) => {
-  //   await hp.PLPRedirectionHambergerMenu('New Launches');
-  //   await expect(page).toHaveURL('https://lovebeautyandplanet.in/collections/new-launches');
-  //  await plp.applyFiltersAndValidateProductsMobile();
-  // });
-
-  test('@desktop PLP2 Verify Remove All Filters functionality', async ({ page }) => {
+  test('@mobile PLP2 Verify user naviagtes to PLP applies filters and verify relevant products are disaplyed', async ({ page }) => {
+    await hp.PLPRedirectionHambergerMenu('New Launches');
+    await expect(page).toHaveURL('https://lovebeautyandplanet.in/collections/new-launches');
+    await plp.applyFiltersAndValidateProductsMobile();
+  });
+  test('@desktop PLP3 Verify Remove All Filters functionality', async ({ page }) => {
     await hp.PLPRedirectionFromMegaMenu('New Launches');
     await plp.removeAppliedFilters();
   });
-
-  test('@desktop PLP3 Verify product page navigation from collection page', async ({ page }) => {
+  test('@mobile PLP3 Verify Remove All Filters functionality', async ({ page }) => {
+    await hp.PLPRedirectionHambergerMenu('New Launches');
+    await plp.removeAppliedFiltersMobile();
+  });
+  test('@desktop PLP4 Verify product page navigation from collection page', async ({ page }) => {
     await hp.PLPRedirectionFromMegaMenu('New Launches');
     await plp.PLPtoPDPnavigation();
   });
-   test('@mobile PLP3 Verify product page navigation from collection page', async ({ page }) => {
+  test('@mobile PLP4 Verify product page navigation from collection page', async ({ page }) => {
     await hp.PLPRedirectionHambergerMenu('New Launches');
     await plp.PLPtoPDPnavigation();
   });
-
-  test('@desktop PLP4 Verify add to cart functionality from collection page', async ({ page }) => {
+  test('@desktop PLP5 Verify add to cart functionality from collection page', async ({ page }) => {
     await hp.PLPRedirectionFromMegaMenu('New Launches');
     await plp.addToCartFRomPLP();
-
   });
-  test('@mobile PLP4 Verify add to cart functionality from collection page', async ({ page }) => {
+  test('@mobile PLP5 Verify add to cart functionality from collection page', async ({ page }) => {
     await hp.PLPRedirectionHambergerMenu('New Launches');
     await plp.addToCartFRomPLP();
-
   });
-
-  test('@desktop PLP5 Verify You may also like section presence and navigation', async ({ page }) => {
+  test('@desktop PLP6 Verify You may also like section presence and navigation', async ({ page }) => {
     await hp.PLPRedirectionFromMegaMenu('Bestsellers');
     await expect(plp.ymalSection).toBeVisible();
     await plp.openYmalViewAll();
     await expect(page).toHaveURL("https://lovebeautyandplanet.in/collections/all-products");
-  }
-  );
-   test('@mobile PLP5 Verify You may also like section presence and navigation', async ({ page }) => {
+  });
+  test('@mobile PLP6 Verify You may also like section presence and navigation', async ({ page }) => {
     await hp.PLPRedirectionHambergerMenu('Bestsellers');
     await expect(plp.ymalSection).toBeVisible();
     await plp.openYmalViewAll();
     await expect(page).toHaveURL("https://lovebeautyandplanet.in/collections/all-products");
-  }
-  );
-
-  test('@desktop PLP6 Verify Beauty Archives View All redirection', async ({ page }) => {
+  });
+  test('@desktop PLP7 Verify Beauty Archives View All redirection', async ({ page }) => {
     await hp.PLPRedirectionFromMegaMenu('Value Combos');
     await plp.openBeautyEditsViewAll();
     await expect(page).toHaveURL("https://lovebeautyandplanet.in/blogs/hair");
   });
-   test('@mobile PLP6 Verify Beauty Archives View All redirection', async ({ page }) => {
+  test('@mobile PLP7 Verify Beauty Archives View All redirection', async ({ page }) => {
     await hp.PLPRedirectionHambergerMenu('Value Combos');
     await plp.openBeautyEditsViewAll();
     await expect(page).toHaveURL("https://lovebeautyandplanet.in/blogs/hair");
   });
-
-
-  test('@desktop PLP7 Verify FAQs section', async ({ page }) => {
+  test('@desktop PDP8 Verify beauty archives functionality', async ({ page }) => {
+    await hp.PLPRedirectionFromMegaMenu('View All Products');
+    await plp.beautyArchivesFunctionality();
+  })
+  test('@mobile PDP8 Verify beauty archives functionality', async ({ page }) => {
+    await hp.PLPRedirectionHambergerMenu('View All Products');
+    await plp.beautyArchivesFunctionality();
+  })
+  test('@desktop PDP9 Verify combo products', async ({ page }) => {
     await hp.PLPRedirectionFromMegaMenu('Value Combos');
-    await expect(plp.faqsection).toBeVisible();
-  });
-  test('@mobile PLP7 Verify FAQs section', async ({ page }) => {
+    await plp.comboProductFunctionality();
+  })
+  test('@mobile PDP9 Verify  combo products', async ({ page }) => {
     await hp.PLPRedirectionHambergerMenu('Value Combos');
-    await expect(plp.faqsection).toBeVisible();
+    await plp.comboProductFunctionality();
+  })
+  test('@desktop PLP10 Verify FAQs section', async ({ page }) => {
+    await hp.PLPRedirectionFromMegaMenu('Value Combos');
+    await plp.faqFunctionality();
   });
-
-  test('@desktop PLP8 Verify Write to Us redirection', async ({ page }) => {
+  test('@mobile PLP10 Verify FAQs section', async ({ page }) => {
+    await hp.PLPRedirectionHambergerMenu('Value Combos');
+    await plp.faqFunctionality();
+  });
+  test('@desktop PLP11 Verify Write to Us redirection', async ({ page }) => {
     await hp.PLPRedirectionFromMegaMenu('View All Products');
     await plp.openWriteToUs();
     await expect(page).toHaveURL("https://lovebeautyandplanet.in/pages/contact-us");
   });
-   test('@mobile PLP8 Verify Write to Us redirection', async ({ page }) => {
+  test('@mobile PLP11 Verify Write to Us redirection', async ({ page }) => {
     await hp.PLPRedirectionHambergerMenu('View All Products');
     await plp.openWriteToUs();
     await expect(page).toHaveURL("https://lovebeautyandplanet.in/pages/contact-us");
   });
+  test('@desktop PLP12 Verify move to top button functionality', async ({ page }) => {
+    await hp.PLPRedirectionFromMegaMenu('View All Products');
+    await plp.movetoTopFunctionality();
+  });
+  test('@mobile PLP12 Verify move to top button functionality', async ({ page }) => {
+    await hp.PLPRedirectionHambergerMenu('View All Products');
+    await plp.movetoTopFunctionality();
+  });
+  test('@desktop PLP13 Verify search functionality with valid data', async ({ page }) => {
+    await plp.searchPLPToPDPNavigation("hair");
+  });
+  test('@desktop PLP14 Verify search functionality with invalid data', async ({ page }) => {
+    await plp.searchPLPToPDPNavigation("invalidproduct");
+  });
+
+  test('@desktop PDP15 Verify you may also like to PDP redirection', async ({ page }) => {
+    await hp.PLPRedirectionFromMegaMenu('View All Products');
+    await plp.youmayalsoLikePDPRedirection(page);
+  })
+  test('@mobile PDP16 Verify you may also like to PDP redirection', async ({ page }) => {
+    await hp.PLPRedirectionHambergerMenu('View All Products');
+    await plp.youmayalsoLikePDPRedirection(page);
+  })
+  test('@desktop PDP17 Verify you may also like ATC functionality', async ({ page }) => {
+    await hp.PLPRedirectionFromMegaMenu('View All Products');
+    await plp.youmayalsoLikeATC(page);
+  })
+  test('@mobile PDP17 Verify you may also like ATC functionality', async ({ page }) => {
+    await hp.PLPRedirectionHambergerMenu('View All Products');
+    await plp.youmayalsoLikeATC(page);
+  })
+  test('@desktop PDP18 Verify sold out product functionality', async ({ page }) => {
+    await hp.PLPRedirectionFromMegaMenu('View All Products');
+    await plp.soldoutFunctionality(page);
+  })
+  test('@mobile PDP18 Verify sold out product functionality', async ({ page }) => {
+    await hp.PLPRedirectionHambergerMenu('View All Products');
+    await plp.soldoutFunctionality(page);
+  })
+
 });
 

@@ -6,29 +6,46 @@ exports.Login = class Login {
 
     constructor(page) {
         this.page = page;
-        this.accountLink = page.locator('[data-account-link-test-id]');
-        this.createAccountLink = page.locator('[data-create-account-link-test-id]');
-        this.emailTextField = page.locator('[data-login-email-input-test-id]');
-        this.passwordTextFiled = page.locator('[data-login-password-input-test-id]');
-        this.loginButton = page.locator('[data-login-submit-btn-test-id]');
-        this.firstName = page.locator('[data-register-first-name-input-test-id]');
-        this.lastName = page.locator('[data-register-last-name-input-test-id]');
-        this.email = page.locator('[data-register-email-input-test-id]');
-        this.phone = page.locator('[data-register-phone-input-test-id]');
-        this.password = page.locator('[data-register-password-input-test-id]');
-        this.confirmPassword = page.locator('[data-register-confirm-password-input-test-id]');
-        this.registerButton = page.locator('[data-register-submit-btn-test-id]');
-        this.consentCheckbox = page.locator('[class="input-full social_btn_enable_mandatory"]');
+        this.accountLink = page.locator('[class="header__icon header__icon--account link focus-inset"]');
+        this.accountLinkMobile = page.locator('(//a[contains(text(),"Login")])[2]');
+        this.createAccountLink = page.locator('[href="/account/register"]');
+        this.emailTextField = page.locator('[id="CustomerEmail"]');
+        this.passwordTextFiled = page.locator('[id="CustomerPassword"]');
+        this.loginButton = page.locator('[class="login-btn"]');
+        this.firstName = page.locator('[id="RegisterForm-FirstName"]');
+        this.lastName = page.locator('[id="RegisterForm-LastName"]');
+        this.email = page.locator('[id="RegisterForm-email"]');
+        this.phone = page.locator('[id="RegisterForm-Phone"]');
+        this.password = page.locator('[id="RegisterForm-password"]');
+        this.confirmPassword = page.locator('[id="confirm_password"]');
+        this.registerButton = page.locator('[id="customer-register-submit"]');
+        this.consentCheckbox = page.locator('[id="myCheckbox_reg"]');
         this.accountHeading = page.locator('[class="customer__title"]');
         this.logoutButton = page.locator('//a[@href="/account/logout"]');
-
+        this.hamburgerMenu = page.locator('[id="openMenu"]');
+        this.forgotPassword = page.locator('[class="recovery"]');
+        this.recoveryEmail = page.locator('[id="RecoverEmail"]');
+        this.submitButton = page.locator('//button[contains(text(),"SUBMIT")]');
+        this.resetPasswordMessage = page.locator('[class="form__message"]');
         // store user data
         this.user = null;
+        this.loginError = page.locator('[class="errors"]');
+        this.firstnameerrorMessage = page.locator('[id="RegisterForm-first_name-error"]');
+        this.emailErrorMessage = page.locator('[id="RegisterForm-email-error"]');
+        this.phoneNumberError = page.locator('[id="RegisterForm-Phone-error"]');
+        this.passwordErrorMessage = page.locator('[id="RegisterForm-password-error"]');
+        this.recoveryEmailErrorMessage = page.locator('[id="RecoverEmail-email-error"]');
     }
 
     async registerUser() {
-        await this.accountLink.click();
-        await this.createAccountLink.click();
+        if (await this.accountLink.isVisible()) {
+            await this.accountLink.click();
+        }
+        if (await this.hamburgerMenu.isVisible()) {
+            await this.hamburgerMenu.click();
+            await this.accountLinkMobile.scrollIntoViewIfNeeded();
+            await this.accountLinkMobile.click();
+        } await this.createAccountLink.click();
         await this.firstName.waitFor();
         this.user = generateUser();
         await this.firstName.fill(this.user.firstName);
@@ -40,6 +57,7 @@ exports.Login = class Login {
         await this.consentCheckbox.click();
         await this.registerButton.click();
         await this.accountLink.click();
+
     }
     async logout() {
         await this.logoutButton.click();
@@ -54,7 +72,38 @@ exports.Login = class Login {
         await this.accountLink.click();
     }
     async loginNavigation() {
-        await this.accountLink.click();
+        if (await this.accountLink.isVisible()) {
+            await this.accountLink.click();
+        }
+        if (await this.hamburgerMenu.isVisible()) {
+            await this.hamburgerMenu.click();
+            await this.accountLinkMobile.scrollIntoViewIfNeeded();
+            await this.accountLinkMobile.click();
+        }
+    }
+    async forgotPasswordFunctionality() {
+        await this.forgotPassword.click();
+        await this.recoveryEmail.fill("shravan@weareautumn.com");
+        await this.submitButton.click();
+        await expect(this.resetPasswordMessage).toBeVisible();
     }
 
+    async loginErrorValidation() {
+        await this.loginButton.click();
+        await expect(this.loginError).toBeVisible();
+    }
+    async registerErrorValidation() {
+        await this.createAccountLink.click();
+        await this.registerButton.click();
+        await expect(this.firstnameerrorMessage).toBeVisible();
+        await expect(this.emailErrorMessage).toBeVisible();
+        await expect(this.phoneNumberError).toBeVisible();
+        await expect(this.passwordErrorMessage).toBeVisible();
+
+    }
+    async recoveryEmailErrorValidation() {
+         await this.forgotPassword.click();
+        await this.submitButton.click();
+        await expect(this.recoveryEmailErrorMessage).toBeVisible();
+    }
 }

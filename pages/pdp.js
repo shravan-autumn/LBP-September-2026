@@ -634,7 +634,7 @@ async deliveryChargeFunctionality(page) {
 
 
 
-  async productDetails(page) {
+  async productDetailsPDP(page) {
     const hpproductTitle = await this.hpProductTitle.nth(0).textContent();
     const hpsellingPrice = await this.hpSellingPrice.nth(0).textContent();
     const hpmrpPrice = await this.hpMRPPrice.nth(0).textContent();

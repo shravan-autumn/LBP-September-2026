@@ -350,25 +350,30 @@ async addToCartAndVerifySavedandShippingMessage() {
     expect(parseInt(finalQuantity)).toBeLessThan(parseInt(afterQuantity));
   }
 
-  async increaseQuantityandVerifyTheQuantity() {
-    // if (await this.atcButton.isVisible()) {
-    //   await expect(this.atcButton).toBeVisible();
-    //   await expect(this.atcButton).toBeEnabled();
-    //   await this.atcButton.click();
-    // }
-    await this.atcButton.click();
-    await this.page.waitForTimeout(8000);
-    if (await this.cartHeading.isVisible()) {
-      await this.closeCart.click();
-    }
+async increaseQuantityandVerifyTheQuantity() {
+  await this.atcButton.click();
+  await this.page.waitForTimeout(4000);
 
-    await this.qtyPlus.click();
-    await this.qtyPlus.click();
-    const totalQuantity = await this.qtyInput.inputValue();
-    const cartQuantity = await this.cartQuantity.inputValue();
-    await expect(totalQuantity).toEqual(cartQuantity);
-
+  if (await this.cartHeading.isVisible()) {
+    await this.closeCart.click();
   }
+
+  await this.qtyPlus.click();
+  await this.qtyPlus.click();
+  await this.page.waitForTimeout(4000);
+
+  const totalQuantity = parseInt(
+    await this.qtyInput.getAttribute('data-cart-quantity'),
+    10
+  );
+
+  const cartQuantity = parseInt(
+    await this.cartQuantity.inputValue(),
+    10
+  );
+
+  await expect(totalQuantity).toEqual(cartQuantity);
+}
 
 
   async quantitySelectorDisableFunctionality() {

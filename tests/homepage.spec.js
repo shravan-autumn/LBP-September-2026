@@ -64,7 +64,7 @@ test.describe('Homepage', () => {
     await hp.megamenuShopBodycareCollection(page);
   })
   test('@desktop HP10 Verify megamenu shop-exlpore the ingredients collection navigation and relevant product visibility', async ({ page }) => {
-    await hp.megamenuShopExloreTheIngredientscareCollection(page);
+    await hp.megamenuShopExloreTheIngredientsCollection(page);
   })
   test('@mobile HP11 Verify hamburger menucollection navigation', async ({ page }) => {
     await hp.hamburgerMenuCollectionNavigation(page);
@@ -86,7 +86,7 @@ test.describe('Homepage', () => {
   });
 
   test('@all HP15 Verify Contact Us navigation', async ({ page }) => {
-    await hp.openContactUs();
+    await hp.openSupport();
     await expect(page).toHaveURL("https://lovebeautyandplanet.in/pages/contact-us");
   });
   test("@all HP16 Verify search icon form header", async ({ page }) => {

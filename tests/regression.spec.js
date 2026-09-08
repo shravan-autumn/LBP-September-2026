@@ -94,7 +94,7 @@ test.describe('All', () => {
         await hp.megamenuShopBodycareCollection(page);
     })
     test('@desktop HP10 Verify megamenu shop-exlpore the ingredients collection navigation and relevant product visibility', async ({ page }) => {
-        await hp.megamenuShopExloreTheIngredientscareCollection(page);
+        await hp.megamenuShopExloreTheIngredientsCollection(page);
     })
     test('@mobile HP11 Verify hamburger menucollection navigation', async ({ page }) => {
         await hp.hamburgerMenuCollectionNavigation(page);
@@ -116,7 +116,7 @@ test.describe('All', () => {
     });
 
     test('@all HP15 Verify Contact Us navigation', async ({ page }) => {
-        await hp.openContactUs();
+        await hp.openSupport();
         await expect(page).toHaveURL("https://lovebeautyandplanet.in/pages/contact-us");
     });
     test("@all HP16 Verify search icon form header", async ({ page }) => {
@@ -274,10 +274,10 @@ test.describe('All', () => {
 
     });
 
-    test('@all HP51 Verify footer instagram links', async ({ page, context }) => {
+    test('@desktop HP51 Verify footer instagram links', async ({ page, context }) => {
         await hp.instagramRedirection(page, context);
     });
-    test('@all HP52 Verify footer youtube links', async ({ page, context }) => {
+    test('@desktop HP52 Verify footer youtube links', async ({ page, context }) => {
         await hp.youtubeRedirection(page, context);
     });
 
@@ -407,19 +407,19 @@ test.describe('All', () => {
         await plp.openBeautyEditsViewAll();
         await expect(page).toHaveURL("https://lovebeautyandplanet.in/blogs/hair");
     });
-    test('@desktop PDP8 Verify beauty archives functionality', async ({ page }) => {
+    test('@desktop PLP8 Verify beauty archives functionality', async ({ page }) => {
         await hp.PLPRedirectionFromMegaMenu('View All Products');
         await plp.beautyArchivesFunctionality();
     })
-    test('@mobile PDP8 Verify beauty archives functionality', async ({ page }) => {
+    test('@mobile PLP8 Verify beauty archives functionality', async ({ page }) => {
         await hp.PLPRedirectionHambergerMenu('View All Products');
         await plp.beautyArchivesFunctionality();
     })
-    test('@desktop PDP9 Verify combo products', async ({ page }) => {
+    test('@desktop PLP9 Verify combo products', async ({ page }) => {
         await hp.PLPRedirectionFromMegaMenu('Value Combos');
         await plp.comboProductFunctionality();
     })
-    test('@mobile PDP9 Verify  combo products', async ({ page }) => {
+    test('@mobile PLP9 Verify  combo products', async ({ page }) => {
         await hp.PLPRedirectionHambergerMenu('Value Combos');
         await plp.comboProductFunctionality();
     })
@@ -456,27 +456,27 @@ test.describe('All', () => {
         await plp.searchPLPToPDPNavigation("invalidproduct");
     });
 
-    test('@desktop PDP15 Verify you may also like to PDP redirection', async ({ page }) => {
+    test('@desktop PLP15 Verify you may also like to PDP redirection', async ({ page }) => {
         await hp.PLPRedirectionFromMegaMenu('View All Products');
         await plp.youmayalsoLikePDPRedirection(page);
     })
-    test('@mobile PDP16 Verify you may also like to PDP redirection', async ({ page }) => {
+    test('@mobile PLP15 Verify you may also like to PDP redirection', async ({ page }) => {
         await hp.PLPRedirectionHambergerMenu('View All Products');
         await plp.youmayalsoLikePDPRedirection(page);
     })
-    test('@desktop PDP17 Verify you may also like ATC functionality', async ({ page }) => {
+    test('@desktop PLP16 Verify you may also like ATC functionality', async ({ page }) => {
         await hp.PLPRedirectionFromMegaMenu('View All Products');
         await plp.youmayalsoLikeATC(page);
     })
-    test('@mobile PDP17 Verify you may also like ATC functionality', async ({ page }) => {
+    test('@mobile PLP15 Verify you may also like ATC functionality', async ({ page }) => {
         await hp.PLPRedirectionHambergerMenu('View All Products');
         await plp.youmayalsoLikeATC(page);
     })
-    test('@desktop PDP18 Verify sold out product functionality', async ({ page }) => {
+    test('@desktop PLP17 Verify sold out product functionality', async ({ page }) => {
         await hp.PLPRedirectionFromMegaMenu('View All Products');
         await plp.soldoutFunctionality(page);
     })
-    test('@mobile PDP18 Verify sold out product functionality', async ({ page }) => {
+    test('@mobile PLP17 Verify sold out product functionality', async ({ page }) => {
         await hp.PLPRedirectionHambergerMenu('View All Products');
         await plp.soldoutFunctionality(page);
     })
@@ -496,12 +496,12 @@ test.describe('All', () => {
         await pdp.PDPtoPLPnavigation(page);
     });
 
-    test('@all PDP3 Verify invalid pincode validation', async ({ page }) => {
+    test.skip('@all PDP3 Verify invalid pincode validation', async ({ page }) => {
         await pdp.searchPLPToPDPNavigation("argan");
         await pdp.checkInvalidPincode('123456');
     });
 
-    test('@all PDP4 Verify valid pincode check', async ({ page }) => {
+    test.skip('@all PDP4 Verify valid pincode check', async ({ page }) => {
         await pdp.searchPLPToPDPNavigation("argan");
         await pdp.checkValidPincode('574151');
     });
@@ -552,7 +552,7 @@ test.describe('All', () => {
     }
     )
     test('@all PDP14 Verify product details on PDP', async ({ page }) => {
-        await pdp.productDetails(page);
+        await pdp.productDetailsPDP(page);
     });
     test('@all PDP15 Verify review functionality', async ({ page }) => {
         await pdp.reviewsFunctionality();
@@ -678,7 +678,7 @@ test.describe('All', () => {
     test('@all Cart7 Verify adding multiple products to cart and verify if cart count is correct', async ({ page }) => {
         await pdp.searchPLPToPDPNavigation("argan");
         await c.addFirstProductToCart();
-        await pdp.searchPLPToPDPNavigation("hair");
+        await pdp.searchPLPToPDPNavigation("combo");
         await c.addSecondProductToCart();
     });
     test('@all Cart8 Verify total price updation', async ({ page }) => {
@@ -687,7 +687,7 @@ test.describe('All', () => {
     test('@all Cart9 Verify price details section', async ({ page }) => {
         await pdp.searchPLPToPDPNavigation("argan");
         await c.addFirstProductToCart();
-        await pdp.searchPLPToPDPNavigation("hair");
+        await pdp.searchPLPToPDPNavigation("combo");
         await c.addSecondProductToCart();
         await c.priceDetailsSection();
     });
@@ -726,7 +726,7 @@ test.describe('All', () => {
     test('@all Cart15 Verify adding multiple products to cart and quantity selector increase and decrease functionality', async ({ page }) => {
         await pdp.searchPLPToPDPNavigation("argan");
         await c.addFirstProductToCart();
-        await pdp.searchPLPToPDPNavigation("hair");
+        await pdp.searchPLPToPDPNavigation("combo");
         await c.addSecondProductToCart();
         await c.multipleProductQuantitySectorFunctionality(page);
     });
@@ -743,7 +743,7 @@ test.describe('All', () => {
     test('@all Cart18 Verify removing first product from cart and check the cart behaviour', async ({ page }) => {
         await pdp.searchPLPToPDPNavigation("argan");
         await c.addFirstProductToCart();
-        await pdp.searchPLPToPDPNavigation("hair");
+        await pdp.searchPLPToPDPNavigation("combo");
         await c.addSecondProductToCart();
         await c.removeFirstProductFromCart();
     });

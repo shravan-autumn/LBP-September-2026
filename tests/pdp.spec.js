@@ -92,7 +92,7 @@ test.describe('PDP', () => {
   }
   )
   test('@all PDP14 Verify product details on PDP', async ({ page }) => {
-    await pdp.productDetails(page);
+    await pdp.productDetailsPDP(page);
   });
   test('@all PDP15 Verify review functionality', async ({ page }) => {
     await pdp.reviewsFunctionality();

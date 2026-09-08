@@ -122,7 +122,7 @@ test.describe('Cart', () => {
     test('@all Cart19 Verify BUY3@1399 and BUY4@1799', async ({ page }) => {
         await c.buy3At1399andBuy4OfferAt1799();
     })
-    test.only('@all Cart20 Verify combination of BUY3@1399 and BUY4@1799 and combo', async ({ page }) => {
+    test('@all Cart20 Verify combination of BUY3@1399 and BUY4@1799 and combo', async ({ page }) => {
         const offer = await c.combinationOfBuy3At1399andBuy4OfferAt1799andCombo();
         await pdp.searchPLPToPDPNavigation("combo");
         await c.combinePrice(offer);

@@ -52,7 +52,7 @@ exports.HomePage = class HomePage {
 
     // Home collection tabs + product cards
     //x product card and ATC selectors need to be added I have hardcoded for now
-    this.productTitle = page.locator("//section[@class='home-products']//p[@class='h-pro-card-cnt-description']");
+    this.productTitle = page.locator("//section[@class='home-products']//p[@class='h-pro-card-cnt-description']//a");
     this.addToCartButton = page.locator("//div[@class='product-form__buttons']");
     this.viewAllLink = page.locator('//section[@class="home-products"]//a[contains(text(),"View all")]');
     this.collectionTabs = page.locator('//ul[@class="home-pro-tabs"]//li');
@@ -153,7 +153,7 @@ exports.HomePage = class HomePage {
     this.exploreByIngredientsSubLinks = page.locator('//ul[@class="mega-menu mega-menu--multiLevel "]//a[contains(text(),"Explore")]/following-sibling::ul//a');
     this.trendingSearches = page.locator('//h2[contains(text(),"Trending Searches")]/parent::div/child::div//span[@class="wizzy-autocomplete-label"]');
     this.topCategoriesSearches = page.locator('//h2[contains(text(),"Top")]/parent::div/child::div//span[@class="wizzy-autocomplete-label"]')
-    this.productTitle = page.locator('//div[@class="h-pro-card-cnt"]//p');
+    //this.productTitle = page.locator('//div[@class="h-pro-card-cnt"]//p');
     this.heroBanner = page.locator('//section[@class="home-banner"]//div[contains(@id,"home-banner-slide-")]');
     this.heroBannerSlider = page.locator('//section[@class="home-banner"]//button[contains(@class,"owl-dot")]');
     this.reelProductTitle = page.locator('[class="reelUp_slider_title"]');
@@ -167,6 +167,7 @@ exports.HomePage = class HomePage {
     this.reelPopupCloseButton = page.locator('(//button[@class="reelUp_video_preview_action"])[1]');
     this.reelPopupTitle = page.locator('[class="reelUp_modal_product_title"]');
     this.whatsappIcon = page.locator('[class="WhatsAppButton__root"]');
+    this.whatappPopup= page.locator('[id="wa-consent-popup"]');
     this.whatsappAgree = page.locator('[id="wa-agree-btn"]');
     this.notifyMeButton = page.locator('[id="notify-me-btn"]').first();
     this.notifyMeName = page.locator('[id="notify-name"]');
@@ -261,7 +262,7 @@ exports.HomePage = class HomePage {
     this.defaultAddress = page.locator('//h2[contains(text(),"Default")]');
     this.deleteButton = page.locator('[data-confirm-message="Are you sure you wish to delete this address?"]');
     this.returnToAccount = page.locator('//a[contains(text(),"return to account details")]');
-    
+    this.whatsappagree=page.locator('[id="wa-agree-btn"]');
   }
 
   async quantitySelectorunctionality() {
@@ -742,6 +743,7 @@ exports.HomePage = class HomePage {
       context.waitForEvent('page'),
       this.whatsappIcon.click(),
     ]);
+    //first tranfer control to this popup  - whatappPopup loctor
     if (await this.whatsappAgree.isVisible()) {
       await this.whatsappAgree.click();
     }

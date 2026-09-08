@@ -263,6 +263,7 @@ exports.HomePage = class HomePage {
     this.deleteButton = page.locator('[data-confirm-message="Are you sure you wish to delete this address?"]');
     this.returnToAccount = page.locator('//a[contains(text(),"return to account details")]');
     this.whatsappagree=page.locator('[id="wa-agree-btn"]');
+    this.plpProductTitle = page.locator('//div[@class=" facets-vertical container"]//p[@class="h-pro-card-cnt-description"]//a');
   }
 
   async quantitySelectorunctionality() {
@@ -1009,7 +1010,7 @@ exports.HomePage = class HomePage {
 
       await expect(page).toHaveURL(expectedUrls[i]);
 
-      const productTitles = await this.productTitle.allTextContents();
+      const productTitles = await this.plpProductTitle.allTextContents();
 
       const collectionWords = collectionName
         .trim()

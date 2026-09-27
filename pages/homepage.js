@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { generateUser } from '../pages/utils.js';
 
 exports.HomePage = class HomePage {
 
@@ -31,6 +32,7 @@ exports.HomePage = class HomePage {
     this.supportMobile = page.locator("(//a[contains(text(),'Support')])[2]");
     this.loginMobile = page.locator("(//a[contains(text(),'Login')])[2]");
 
+
     //x Seacrh link locator needs to be added i have hardcoced now
     this.searchTexfield = page.locator("//div[@class='header__icons header__icons--localization header-localization']//input");
     this.searchSuggestionBox = page.locator("//div[@class='wizzy-autocomplete-suggestions']");
@@ -49,10 +51,13 @@ exports.HomePage = class HomePage {
     //x Hero banner link locator needs to be added i have hardcoded for now
     this.heroBannerLink = page.locator('[data-hero-banner-link-test-id]').first();
     this.heroBanner = page.locator("//section[@class='home-banner']");
+    this.heroBannerRight = page.locator('//section[@class="home-banner"]//button[@class="owl-next"]').first();
+    this.heroBannerLeft = page.locator('//section[@class="home-banner"]//button[@class="owl-prev"]').first();
 
     // Home collection tabs + product cards
     //x product card and ATC selectors need to be added I have hardcoded for now
     this.productTitle = page.locator("//section[@class='home-products']//p[@class='h-pro-card-cnt-description']//a");
+    this.combosProductTitle = page.locator('//section[@class="home-products"]//p[@class="h-pro-card-cnt-description"]');
     this.addToCartButton = page.locator("//div[@class='product-form__buttons']");
     this.viewAllLink = page.locator('//section[@class="home-products"]//a[contains(text(),"View all")]');
     this.collectionTabs = page.locator('//ul[@class="home-pro-tabs"]//li');
@@ -154,20 +159,23 @@ exports.HomePage = class HomePage {
     this.trendingSearches = page.locator('//h2[contains(text(),"Trending Searches")]/parent::div/child::div//span[@class="wizzy-autocomplete-label"]');
     this.topCategoriesSearches = page.locator('//h2[contains(text(),"Top")]/parent::div/child::div//span[@class="wizzy-autocomplete-label"]')
     //this.productTitle = page.locator('//div[@class="h-pro-card-cnt"]//p');
-    this.heroBanner = page.locator('//section[@class="home-banner"]//div[contains(@id,"home-banner-slide-")]');
+    this.heroBanner = page.locator('//section[@class="home-banner"]//div[contains(@id,"home-banner-slide-")]//a');
     this.heroBannerSlider = page.locator('//section[@class="home-banner"]//button[contains(@class,"owl-dot")]');
     this.reelProductTitle = page.locator('[class="reelUp_slider_title"]');
+    this.reelPrice = page.locator('[class="money"]');
     this.reelAddToCart = page.locator('[class="reelUp_playlist_button_text"]');
     this.reelMoreInfo = page.locator('[class="reelUp_custom_action reelUp_modal_product_info_btn"]');
     this.reelPopupATC = page.locator('(//p[@class="reelUp_custom_btn_text"])[2]');
     this.reelPopupCart = page.locator('[class="reelUp_custom_action reelUp_modal_cart_btn"]');
+    this.reelPopupCartCount = page.locator('[class="reelUp_cart_count"]');
     this.viewcartButton = page.locator('(//button[@id="view-cart-drawer"])[1]');
     this.pdpProductTitle = page.locator('//div[@class="product__title"]//h1');
     this.reelYoumayaslolike = page.locator('[class="reelUp_grid_product_title"]');
     this.reelPopupCloseButton = page.locator('(//button[@class="reelUp_video_preview_action"])[1]');
     this.reelPopupTitle = page.locator('[class="reelUp_modal_product_title"]');
+    this.reelPopupPrice = page.locator('[class="reelUp_sale_price"]');
     this.whatsappIcon = page.locator('[class="WhatsAppButton__root"]');
-    this.whatappPopup= page.locator('[id="wa-consent-popup"]');
+    this.whatappPopup = page.locator('[id="wa-consent-popup"]');
     this.whatsappAgree = page.locator('[id="wa-agree-btn"]');
     this.notifyMeButton = page.locator('[id="notify-me-btn"]').first();
     this.notifyMeName = page.locator('[id="notify-name"]');
@@ -179,8 +187,9 @@ exports.HomePage = class HomePage {
     this.productCradCategory = page.locator('//div[@class="h-pro-card-cnt"]//p').first();
     this.productCardTitle = page.locator('[class="h-pro-card-cnt-description"]').first();
     this.productCardVariant = page.locator('[class="h-pro-quant hm-pro-variant"]').first();
-    this.productCardPrice = page.locator('[class="h-pro-price"]').first();
-    this.productCardATC = page.locator('[class="product-form__buttons"]').first();
+    this.productCardPrice = page.locator('//div[@class="h-pro-price"]//span[@class="pro-variant-price active"]').first();
+    this.compareAtPrice = page.locator('//div[@class="h-pro-price"]//span[@class="text-decoration-line-through active"]').first();
+    this.discountPercentage = page.locator('//div[@class="h-pro-card-sale active"]').first(); this.productCardATC = page.locator('[class="product-form__buttons"]').first();
     this.quantityPlus = page.locator('//quantity-input[@class="quantity cart-quantity  "]//button[@name="plus"]').first();
     this.quantityMinus = page.locator('//quantity-input[@class="quantity cart-quantity  "]//button[@name="minus"]').first();
     this.beautyCardImage = page.locator('[class="h-beauty-card-img"]').first();
@@ -191,7 +200,9 @@ exports.HomePage = class HomePage {
     this.blogSliderDot = page.locator('//section[@class="home-page--custom-blogs home-beautyedits"]//button[@class="owl-dot"]').first();
     this.contactUs = page.locator('(//a[contains(text(),"Contact Us")])[2]');
     this.customerService = page.locator('[class="detail-desk"]');
+    this.customerServiceDetails = page.locator('//div[@class="detail-desk"]//span');
     this.customerServiceMobile = page.locator('[class="mob-contact-detail"]');
+    this.customerServiceMobileDetails = page.locator('//section[@class="mob-contact-detail"]//div[@class="detail"]');
     this.contactUsName = page.locator('[autocomplete="First Name"]');
     this.contactUsLastName = page.locator('[id="lastname"]');
     this.contactUsEmail = page.locator('[id="ContactForm-email"]');
@@ -232,8 +243,9 @@ exports.HomePage = class HomePage {
     this.blogDropdownOptions = page.locator('[class="header__submenu list-menu list-menu--disclosure color- gradient caption-large motion-reduce global-settings-popup"]');
     this.blogHair = page.locator('[id="HeaderMenu-hair-all-hair"]');
     this.readByCategory = page.locator('//div[@class="category-btn"]//button');
+    this.blogListingTitle = page.locator('[class="title"]');
     this.viewAllBlog = page.locator('[class="main-btn blogs-show-more mt-4 mt-sm-0"]');
-    this.sortOption = page.locator('[class="blog-selected-value"]').first();
+    this.sortOption = page.locator('[class="blog-selected-value"]');
     this.sortByOldest = page.locator('//ul[@class="active"]//li[@data-value="oldest"]');
     this.blogDate = page.locator('//div[@class="date-time"]//span');
     this.customerlovePrev = page.locator('//h2[contains(text(),"Customer Love")]/parent::div//button[@class="owl-prev"]');
@@ -244,12 +256,12 @@ exports.HomePage = class HomePage {
     this.knowYourIngredinetsLink = page.locator('(//a[contains(text(),"Know Your Ingredients")])[1]');
     this.knowYourIngredinetsLinkMobile = page.locator('(//a[contains(text(),"Know Your Ingredients")])[2]');
 
-    this.findngredients = page.locator('//a[@class="detail"]//h3');
+    this.findIngredients = page.locator('//a[@class="detail"]//h3');
     this.accountLink = page.locator('[class="header__icon header__icon--account link focus-inset"]');
     this.emailTextField = page.locator('[id="CustomerEmail"]');
     this.passwordTextFiled = page.locator('[id="CustomerPassword"]');
     this.loginButton = page.locator('[class="login-btn"]');
-    this.viewaddress = page.locator('//a[contains(text(),"View addresses")]');
+    this.viewaddress = page.locator('//a[@href="/account/addresses"]');
     this.addAddress = page.locator('[class="add-address-btn"]');
     this.firstName = page.locator('[id="AddressFirstNameNew"]');
     this.companyName = page.locator('[id="AddressCompanyNew"]');
@@ -260,34 +272,175 @@ exports.HomePage = class HomePage {
     this.defaultAddressCheckbox = page.locator('[id="address_default_address_new"]');
     this.addButton = page.locator('//button[contains(text(),"Add address")]');
     this.defaultAddress = page.locator('//h2[contains(text(),"Default")]');
-    this.deleteButton = page.locator('[data-confirm-message="Are you sure you wish to delete this address?"]');
+    this.deleteButton = page.locator('//button[contains(text(),"Delete")]');
     this.returnToAccount = page.locator('//a[contains(text(),"return to account details")]');
-    this.whatsappagree=page.locator('[id="wa-agree-btn"]');
+    this.whatsappagree = page.locator('[id="wa-agree-btn"]');
     this.plpProductTitle = page.locator('//div[@class=" facets-vertical container"]//p[@class="h-pro-card-cnt-description"]//a');
-  }
-
-  async quantitySelectorunctionality() {
-        await this.addToCartButton.first().click();
-        await expect(this.cartCount).toHaveText('1');
-        await this.quantityPlus.click();
-        await expect(this.cartCount).toHaveText('2');
-        await this.quantityMinus.click();
-        await expect(this.cartCount).toHaveText('1');
+    this.newsletterTextField = page.locator('[class="field__input email-input"]');
+    this.submitNewsletterButton = page.locator('[class="newsletter-form__button field__button submit-btn"]');
+    this.concentCheckBox = page.locator('[id="consent"]');
+    this.SuccessMessage = page.locator('[class="test newsletter-form__message newsletter-form__message--success form__message"]');
+    this.validEmailError = page.locator('//p[contains(text(),"Please enter valid email address")]');
+    this.concentError = page.locator('//p[contains(text(),"Please accept the consent.")]');
+    this.newsletterConsentvisibility = page.locator('[class="newsletter-consent consent-statement"]');
+    this.unileverBrands = page.locator('(//a[contains(text(),"Unilever Brands")])[2]');
+    this.privacyNotice = page.locator('(//a[contains(text(),"Privacy Notice")])[2]');
+    this.reelNext = page.locator('[class="reelUp_navigator_btn_next"]');
+    this.reelPrev = page.locator('[class="reelUp_navigator_btn_prev"]');
+    this.reelToolTip = page.locator('[class="reelUp_video_action_tooltip_wrapper reelUp_tooltip_hidden"]');
+    this.reelVolume = page.locator('[class="reelUp_flex reelUp_top_action_stack"]');
+    this.reelLike = page.locator('[class="reelUp_video_preview_action_wrapper reelUp_video_icon--retro reelUp_popup_video_like "]');
+    this.reelLiked = page.locator('[class="reelUp_video_preview_action_wrapper reelUp_video_icon--retro reelUp_popup_video_like reelUp_video_liked"]');
+    this.reelShare = page.locator('[class="reelUp_video_preview_action_wrapper reelUp_video_icon--retro reelUp_popup_video_share"]');
+    this.reelDiscription = page.locator('[class="reelUp_product_description_wrapper"]');
+    this.reelVideo = page.locator('[class="reelUp_modal_video_content"]');
+    this.reelPlay = page.locator('[class="reelUp_modal_play_icon"]');
+    this.reelImage = page.locator('[class="reelUp_product_image_slider"]');
+    this.reelSlider = page.locator('[class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal"]');
+    this.reelVideoAuto = page.locator('[class="reelUp_video_elem"]');
+    this.orderHistory = page.locator('//h2[contains(text(),"Order history")]');
+    this.orderNumber = page.locator('//td[@id="RowOrder"]//a');
+    this.orderdate = page.locator('//td[@headers="RowOrder ColumnDate"]//time');
+    this.fullFilmentStatus = page.locator('[headers="RowOrder ColumnFulfillment"]');
+    this.paymentStatus = page.locator('[data-label="Payment status"]');
+    this.orderPrice = page.locator('[headers="RowOrder ColumnTotal"]');
+    this.orderDetailsHeading = page.locator('//div[@class="customer order section-template--19317909684394__main-padding"]//h2').first();
+    this.billingAddress = page.locator('//h2[contains(text(),"Billing Address")]/parent::div');
+    this.shippingAddress = page.locator('//h2[contains(text(),"Shipping Address")]/parent::div');
+    this.paymentStatus2 = page.locator('(//h2[contains(text(),"Billing Address")]/parent::div//p)[1]');
+    this.fullFilmentStatus2 = page.locator('(//h2[contains(text(),"Shipping Address")]/parent::div//p)[1]');
+    this.orderPrice2 = page.locator('(//td[@data-label="Total"])[2]');
+    this.orderDate = page.locator('(//div[@class="customer order section-template--19317909684394__main-padding"]//time)[1]');
+    this.footerTrackOrder = page.locator('(//a[contains(text(),"Track Order")])[2]');
+    this.footerTrackOrderMobile = page.locator('(//a[contains(text(),"Track Order")])[1]');
+    this.quickLinksMobile = page.locator('//button[contains(text(),"Quick links")]');
+    this.trackInput = page.locator('[class="Form__Input"]');
+    this.trackOrderSubmit = page.locator('[class="Button Button--primary Button--full click-btn track_order_btn"]');
+    this.orderCancelledMessage = page.locator('//div[contains(text(),"This order has been cancelled.")]');
+    this.trackOrderID = page.locator('[class="h4 order-id-display"]');
+    this.orderDelivered = page.locator('//span[contains(text(),"Order delivered")]');
+    this.rtoStatus = page.locator('[class="delivery_status__status rto"]');
+    this.status = page.locator('//h2[@class="to-delivery-status"]');
+    this.trackUrl = page.locator('[class="tracking_url_container"]');
+    this.shipRocketRTOStatus = page.locator('//span[contains(text(),"RTO Delivered")]');
+    this.orderPlacedOn = page.locator('[class="h4 pickup-date-display"]');
+    this.orderPlacedOnShipRocket = page.locator('(//span[@class="pull-right fs-12px right_info"])[2]');
+    this.bannerVideo = page.locator('//div[@id="home-banner-slide-1"]//video');
+    this.reelVideo = page.locator('[class="reelUp_video_elem"]');
+    this.reelThumbnail = page.locator('[class="reelUp_ratio_img_wrapper"]');
+    this.newsletterLegal = page.locator('//label[@class="newsletter-consent consent-statement"]//p');
+    this.callUs = page.locator('[title="tel:1800-203-5544"]').nth(1);
+    this.callUsMobile = page.locator('[title="tel:1800-203-5544"]').nth(0);
+    this.emailUs = page.locator('//a[contains(text(),"support@lovebeautyandplanet.in")]').nth(1);
+    this.emailUsMobile = page.locator('//a[contains(text(),"support@lovebeautyandplanet.in")]').nth(0);
+    this.footerLogo = page.locator('//div[@class="footer-block__details-content footer-block-image "]//div[@class="footer-block__image-wrapper"]');
+    this.footerLogoMobile = page.locator('[class="footer-block__details-content footer-block-image footer-logo "]');
+    this.footerBeBeautiful = page.locator('//div[@class="footer-block__details-content footer-block-image "]//div[@class="be_beautiful__container"]');
+    this.footerBeBeautifulMobile = page.locator('[class="be_beautiful__container"]').first();
+    this.haveAQuerries = page.locator('//button[contains(text(),"Have any queries?")]');
+    this.mobileSocialLinks = page.locator('//li[@class="list-social__item"]');
+    this.chakshuPortalLink = page.locator('//p[@class="bold-para"]//a');
+    this.contactUsHeading = page.locator('//h1[contains(text(),"contact us")]');
+    this.contactUsPageConcent = page.locator('[class="contact-us-consent consent-statement"]');
+    this.contactUsCautionNotice = page.locator('[class="rich-text__blocks left"]');
+    this.contactUsStaticPageLinks = page.locator('//label[@class="contact-us-consent consent-statement"]//a');
+    this.contactUsPgaeChakshuLink = page.locator('(//div[@class="rich-text__blocks left"]//strong)[3]');
+    this.blogimage = page.locator('[class="new-article-image article-image"]');
+    this.blogContent = page.locator('[class="rte article-content ss-blog rte--allow-full-width-images wide-image"]');
+    this.blogProductCatagory = page.locator('//div[@class="h-pro-card-cnt buy-detail"]//h4').first();
+    this.blogProductTitle = page.locator('//div[@class="h-pro-card-cnt buy-detail"]//p').first();
+    this.blogProductVariant = page.locator('//div[@class="h-pro-card-cnt buy-detail"]//label').first();
+    this.blogProductPrice = page.locator('//div[@class="h-pro-card-cnt buy-detail"]//span').first();
+    this.blogProductImage = page.locator('[class="product-image"]').first();
+    this.blogPageNotify = page.locator('[id="notify-me-btn"]');
+    this.blogDeatailsAuthorname = page.locator('//h3[@class="title card__heading h2"]//p');
+    this.blogDeatailsDate = page.locator('//h3[@class="title card__heading h2"]//div//span');
+    this.blogDetailsPageReadStoriesImage = page.locator('[class="article-card__image-wrapper card__media"]');
+    this.blogListingBanner = page.locator('[class="hero blog-banner"]');
+    this.brandingStripe = page.locator('[class="custom navbar"]');
+    this.blogListingAuthor = page.locator('[class="author"]').first();
+    this.blogListingDate = page.locator('//p[@class="author"]//following-sibling::span').first();
+    this.blogListingTags = page.locator('[class="tag"]').first();
+    this.latestSort = page.locator('//value[contains(text(),"Latest")]').first();
+    this.blogListingFilter = page.locator('[class="blog-selected-value"]').first();
+    this.blogListingFilterValues = page.locator('//ul[@class="active"]//li');
+    this.reviewNext = page.locator('//section[@class="home-reviews"]//button[@class="owl-next"]');
+    this.reviewPrev = page.locator('//section[@class="home-reviews"]//button[@class="owl-prev"]');
+    this.intheSpotLightImage = page.locator('[class="owl-carousel in-the-spotlight owl-loaded owl-drag"]');
+    this.intheSpotLightNext = page.locator('//div[@class="owl-carousel in-the-spotlight owl-loaded owl-drag"]//button[@class="owl-next"]');
+    this.intheSpotLightPrev = page.locator('//div[@class="owl-carousel in-the-spotlight owl-loaded owl-drag"]//button[@class="owl-prev"]');
+    this.inTheSpotLightSliderDot = page.locator('//div[@class="owl-carousel in-the-spotlight owl-loaded owl-drag"]//button[@class="owl-dot"]');
+    this.inTheSpotLightCatogoty = page.locator('//div[@class="owl-carousel in-the-spotlight owl-loaded owl-drag"]//h3').first();
+    this.inTheSpotLightProducttitle = page.locator('//div[@class="owl-carousel in-the-spotlight owl-loaded owl-drag"]//p').first();
+    this.inTheSpotLightVariant = page.locator('//div[@class="owl-carousel in-the-spotlight owl-loaded owl-drag"]//label').first();
+    this.inTheSpotLightPrice = page.locator('//div[@class="owl-carousel in-the-spotlight owl-loaded owl-drag"]//span[@class="pro-variant-price"]').first();
+    this.inTheSpotLightCompareAtPrice = page.locator('//div[@class="owl-carousel in-the-spotlight owl-loaded owl-drag"]//span[@class="text-decoration-line-through"]').first();
+    this.inTheSpotLightDiscount = page.locator('//div[@class="owl-carousel in-the-spotlight owl-loaded owl-drag"]//div[@class="h-pro-card-sale"]').first();
+    this.intheSpotLightRatings = page.locator('//div[@class="owl-carousel in-the-spotlight owl-loaded owl-drag"]//div[@class="custom-review--rating-value"]').first();
+    this.findIngredientsHeading = page.locator('[class="sub-heading"]');
+    this.findIngredientsDescription = page.locator('//span[@data-mce-fragment="1"]').first();
+    this.findIngredientsReadmore = page.locator('[class="border_btn"]').first();
+    this.findIngredientsImage = page.locator('[class="ingredient-img"]').first();
+    this.addressPageTitle = page.locator('//h1[contains(text(),"addresses")]');
+    this.defaultAddress = page.locator('//li[@data-address]//h2').first();
+    this.defaultAddressCountry = page.locator('//li[@data-address]//p').first();
+    this.defaulteditAddress = page.locator('[class="edit-address"]');
+    this.defaultFirstName = page.locator('//label[contains(text(),"First name")]').nth(1);
+    this.defaultLastName = page.locator('//label[contains(text(),"Last name")]').nth(1);
+    this.lastName = page.locator('//label[contains(text(),"Last name")]').nth(0);
+    this.defaultCompany = page.locator('//label[contains(text(),"Company")]').nth(1);
+    this.defaultAddress1 = page.locator('//label[contains(text(),"Address 1")]').nth(1);
+    this.address1 = page.locator('//label[contains(text(),"Address 1")]').nth(0);
+    this.defaultAddress2 = page.locator('//label[contains(text(),"Address 2")]').nth(1);
+    this.address2 = page.locator('//label[contains(text(),"Address 2")]').nth(0);
+    this.defaultCity = page.locator('//label[contains(text(),"City")]').nth(1);
+    this.defaultPostal = page.locator('//label[contains(text(),"Postal/ZIP code")]').nth(1);
+    this.defaultPhone = page.locator('//label[contains(text(),"Phone")]').nth(1);
+    this.defaultCountry = page.locator('[name="address[country]"]').nth(1);
+    this.defaultProvince = page.locator('[name="address[province]"]').nth(1);
+    this.defaultUpdateAddress = page.locator('//button[contains(text(),"Update address")]');
+    this.defaultCancel = page.locator('//button[contains(text(),"Cancel")]').nth(0);
+    this.productCardNextNavigation = page.locator('//section[@class="home-products"]//button[@class="owl-next"]');
+    this.productCardPrevNavigation = page.locator('//section[@class="home-products"]//button[@class="owl-prev"]');
+    this.productCradSliderDot = page.locator('//section[@class="home-products"]//button[@class="owl-dot"]').first();
 
   }
   async addAddressFunctionality(page) {
     await this.viewaddress.click();
+    await expect(this.addressPageTitle).toBeVisible();
+    await expect(this.defaultAddress).toBeVisible();
+    await expect(this.defaultAddressCountry).toBeVisible();
+    await this.defaulteditAddress.click();
+    await expect(this.defaultFirstName).toBeVisible();
+    await expect(this.defaultLastName).toBeVisible();
+    await expect(this.defaultCompany).toBeVisible();
+    await expect(this.defaultAddress1).toBeVisible();
+    await expect(this.defaultAddress2).toBeVisible();
+    await expect(this.defaultCity).toBeVisible();
+    await expect(this.defaultPostal).toBeVisible();
+    await expect(this.defaultPhone).toBeVisible();
+    await expect(this.defaultCountry).toBeVisible();
+    await expect(this.defaultProvince).toBeVisible();
+    await expect(this.defaultUpdateAddress).toBeVisible();
+    await this.page.reload();
+
     await this.addAddress.click();
-    await this.firstName.fill('shravan');
+    this.user = generateUser();
+    await this.firstName.fill(this.user.firstName);
+    await this.lastName.fill(this.user.lastName);
     await this.companyName.fill('autumn');
+    await this.address1.fill('No. 1, 2nd Cross Road, 1st Main Road');
+    await this.address2.fill('Sector 1, HSR Layout');
     await this.cityName.fill('Bangalore');
     await this.province.selectOption({ label: 'Karnataka' });
     await this.pincode.fill('560037');
-    await this.phoneNumber.fill('9898987676');
+    await this.phoneNumber.fill(this.user.phone);
     await this.defaultAddressCheckbox.click();
     await this.addButton.click();
     await expect(this.page).toHaveURL('https://lovebeautyandplanet.in/account/addresses');
-    await this.deleteButton.nth(0).click();
+    await this.deleteButton.nth(1).click();
+    await page.waitForTimeout(4000);
+
     page.on('dialog', async dialog => {
       await dialog.accept();
       await expect(this.page).toHaveURL('https://lovebeautyandplanet.in/account/addresses');
@@ -299,13 +452,8 @@ exports.HomePage = class HomePage {
 
     });
   }
-  async loginFunctionality(page) {
-    await this.accountLink.click();
-    await this.emailTextField.fill("tester1998@gmail.com");
-    await this.passwordTextFiled.fill("Shravan@1");
-    await this.loginButton.click();
-    await this.accountLink.click();
-  }
+
+
 
   async knowYourIngredientsRedirections(page) {
     // Open Beauty Archives
@@ -317,13 +465,65 @@ exports.HomePage = class HomePage {
       await this.hamburgerMenu.click();
       await this.knowYourIngredinetsLinkMobile.click();
     }
-    const count = await this.findngredients.count();
+
+    await expect(this.findIngredientsHeading).toBeVisible();
+    await expect(this.findIngredientsDescription).toBeVisible();
+    await expect(this.findIngredientsReadmore).toBeVisible();
+    await expect(this.findIngredientsImage).toBeVisible();
+
+    //verify all ingresients from menu is present in ingredients page
+    const expectedIngredients = [
+      'Coconut Water',
+      'Mimosa Flowers',
+      'Rice Water',
+      'Angelica Seed Oil',
+      'Argan Oil',
+      'Lavender',
+      'Tea Tree Oil',
+      'Peppermint',
+      'Vetiver',
+      'Onion Oil',
+      'Blackseed Oil',
+      'Patchouli',
+      'Olive Oil',
+      'Peptide',
+      'Curry Leaves',
+      'Biotin',
+      'Mandarins',
+      // 'Hibiscus',
+      // 'Yuzu Lemon',
+      // 'Moringa',
+      // 'Rosmary',
+      // 'Murumuru Butter',
+      // 'Bulgarian Rose',
+      // 'Turmeric',
+      // 'Cherry Blossom',
+      // 'Cofee Bean',
+      // 'Warm Venila',
+      // 'Chamomile'
+    ];
+
+    const normalize = text => text.replace(/\s+/g, ' ').trim().toLowerCase();
+
+    const actualIngredients = (await this.findIngredients.allTextContents())
+      .map(normalize);
+
+    for (const ingredient of expectedIngredients) {
+      expect(
+        actualIngredients.some(card => card.includes(normalize(ingredient))),
+        `Missing ingredient card: ${ingredient}`
+      ).toBe(true);
+    }
+
+
+
+    const count = await this.findIngredients.count();
 
     for (let i = 0; i < count; i++) {
 
       // Store the text before clicking
       const ingredientText = (
-        await this.findngredients.nth(i).textContent()
+        await this.findIngredients.nth(i).textContent()
       ).trim();
 
       console.log(`Selected ingredient: ${ingredientText}`);
@@ -335,7 +535,7 @@ exports.HomePage = class HomePage {
         .replace(/s$/, '');
 
       // Click ingredient
-      await this.findngredients.nth(i).click();
+      await this.findIngredients.nth(i).click();
 
       // Get actual URL
       const currentUrl = page.url().toLowerCase();
@@ -352,6 +552,118 @@ exports.HomePage = class HomePage {
     }
   }
 
+
+  async inTheSpotLightSection(page) {
+    await expect(this.intheSpotLightImage).toBeVisible();
+    await expect(this.inTheSpotLightCatogoty).toBeVisible();
+    await expect(this.inTheSpotLightProducttitle).toBeVisible();
+    await expect(this.inTheSpotLightVariant).toBeVisible();
+    await expect(this.inTheSpotLightPrice).toBeVisible();
+    await expect(this.inTheSpotLightCompareAtPrice).toBeVisible();
+    await expect(this.inTheSpotLightDiscount).toBeVisible();
+    await expect(this.intheSpotLightRatings).toBeVisible();
+
+    // Capture spotlight product title
+    const productName = (
+      await this.inTheSpotLightProductTitle.first().innerText()
+    ).trim().toLowerCase();
+    //navigation arrows
+
+    if (await this.intheSpotLightNext.isVisible()) {
+      const productNamebefore = (
+        await this.inTheSpotLightProductTitle.first().innerText()
+      ).trim().toLowerCase();
+      await this.intheSpotLightNext.click();
+      const productNameafter = (
+        await this.inTheSpotLightProductTitle.nth(1).innerText()
+      ).trim().toLowerCase();
+      await this.intheSpotLightPrev.click();
+
+      await expect(productNamebefore).not.toBe(productNameafter);
+
+    }
+    //slider
+    if (await this.inTheSpotLightSliderDot.nth(0).isVisible()) {
+      const productNamebefore1 = (
+        await this.inTheSpotLightProductTitle.first().innerText()
+      ).trim().toLowerCase();
+      await this.inTheSpotLightSliderDot.nth(0).click();
+      const productNameafter1 = (
+        await this.inTheSpotLightProductTitle.nth(1).innerText()
+      ).trim().toLowerCase();
+      await this.inTheSpotLightSliderDot.nth(0).click();
+      await expect(productNamebefore1).not.toBe(productNameafter1);
+
+    }
+
+    // Check whether Notify Me button is visible
+    if (await this.inTheSpotLightNotifyMeButton.first().isVisible()) {
+
+      // Click Notify Me
+      await this.inTheSpotLightNotifyMeButton.first().click();
+
+      // Verify Notify popup is displayed
+      await expect(this.inTheSpotLightNotifyPopup).toBeVisible();
+      await this.notifyMeName.fill('Amit');
+      await this.notifyMePhone.fill('9876543210');
+      const dialogPromise = page.waitForEvent('dialog');
+      await this.notifyMeSubmit.click();
+      const dialog = await dialogPromise;
+      expect(dialog.message()).toBe(
+        "Thanks! We'll notify you when this item is back in stock."
+      );
+
+      await dialog.accept();
+
+    } else {
+
+      await this.cartVisiblity();
+
+      // Click Add to Cart
+      await this.inTheSpotLightAddToCartButton.first().click();
+      await expect(this.ATCSuccessMessage).toBeVisible();
+      await expect(this.cartCount).toHaveText('1');
+
+      // Open cart drawer
+      await this.cartLink.click();
+
+
+      // Wait for cart product to appear
+      await this.cartproductTitle.first().waitFor();
+
+      // Get all cart product titles
+      const cartProducts = await this.cartproductTitle.allTextContents();
+
+      // Convert cart products to lowercase
+      const lowerCaseProducts = cartProducts.map(product =>
+        product.trim().toLowerCase()
+      );
+
+      // Extract actual product name from spotlight title
+      const expectedProduct = productName
+        .split('\n')
+        .pop()
+        .trim();
+
+      console.log('Expected Product:', expectedProduct);
+      console.log('Cart Products:', lowerCaseProducts);
+
+      // Validate product exists in cart
+      expect(lowerCaseProducts.join(' ')).toContain(expectedProduct);
+    }
+  }
+
+
+
+
+  async customerLoveSectionVisibility(page) {
+    if (await this.reviewNext.isVisible()) {
+      await this.reviewNext.click();
+      await this.reviewPrev.click();
+    }
+
+    await expect(this.customerLoveSection).toBeVisible();
+  }
   async sortByDate(page) {
 
     // Open Beauty Archives
@@ -363,9 +675,9 @@ exports.HomePage = class HomePage {
       await this.hamburgerMenu.click();
       await this.beautyArchivesMobile.click();
     }
-
+    await expect(this.latestSort).toBeVisible();
     // Select Sort option
-    await this.sortOption.click();
+    await this.sortOption.nth(0).click();
 
     // Select Oldest
     await this.sortByOldest.click();
@@ -397,37 +709,126 @@ exports.HomePage = class HomePage {
         parsedDates[i + 1].getTime()
       );
     }
+    await this.viewAllBlog.nth(0).click();
+    // Select Sort option
+    await this.sortOption.nth(1).click();
+
+    // Select Oldest
+    await this.sortByOldest.click();
+
+    // Get only the first 24 blog dates
+    const datess = (await this.blogDate.allTextContents()).slice(0, 24);
+
+    console.log('First 24 blog dates:', datess);
+
+    // Convert DD/MM/YY dates to JavaScript Date objects
+    const parsedDatess = datess.map(date => {
+      const [day, month, year] = date.trim().split('/');
+
+      return new Date(`20${year}-${month}-${day}`);
+    });
+
+    console.log(
+      'Parsed dates:',
+      parsedDatess.map(date => date.toLocaleDateString())
+    );
+
+    // Verify dates are sorted from oldest to newest
+    for (let i = 0; i < parsedDatess.length - 1; i++) {
+
+      expect(
+        parsedDatess[i].getTime(),
+        `Date at position ${i + 1} should be older than or equal to date at position ${i + 2}`
+      ).toBeLessThanOrEqual(
+        parsedDatess[i + 1].getTime()
+      );
+    }
+    await this.blogListingFilter.click();
+
+    const expectedFilters = [
+      'All',
+      'Hair care',
+      'Curl care',
+      'Serum',
+      'Shampoo',
+      'Dandruff',
+      'Split ends',
+      'Damaged hair',
+      'Hair growth',
+      'Hair fall',
+    ];
+
+    const normalize = text => text.trim().replace(/\s+/g, ' ').toLowerCase();
+
+    const availableFilters = (await this.blogListingFilterValues.allTextContents())
+      .map(normalize);
+
+    for (const filter of expectedFilters) {
+      expect(
+        availableFilters,
+        `Missing blog filter: "${filter}"`
+      ).toContain(normalize(filter));
+    }
+
+    const serumFilter = this.blogListingFilterValues.filter({
+      hasText: /^serum$/i,
+    });
+
+    await serumFilter.click();
+    await this.newsletterLegal.scrollIntoViewIfNeeded();
+    await expect
+      .poll(async () => {
+        const titles = await this.blogListingTitle.allTextContents();
+        return titles.some(title => /\bserum\b/i.test(title));
+      }, { message: 'Expected at least one blog title to contain "Serum"' })
+      .toBe(true);
+
   }
+
+
+
+
   async readByCategoryFunctionality(page) {
     if (await this.beautyArchives.isVisible()) {
       await this.beautyArchives.click();
-    }
-    else if (await this.hamburgerMenu.isVisible()) {
+    } else if (await this.hamburgerMenu.isVisible()) {
       await this.hamburgerMenu.click();
       await this.beautyArchivesMobile.click();
     }
+    await expect(this.blogListingTitle.nth(0)).toBeVisible();
+    await expect(this.blogListingAuthor).toBeVisible();
+    await expect(this.blogListingDate).toBeVisible();
+    await expect(this.blogListingTags).toBeVisible();
     const expectedUrls = [
       'https://lovebeautyandplanet.in/blogs/hair',
       'https://lovebeautyandplanet.in/blogs/body',
-      'https://lovebeautyandplanet.in/blogs/ingredients'
-
+      'https://lovebeautyandplanet.in/blogs/ingredients',
     ];
 
-    // Get total dropdown options count
-    const count = expectedUrls.length;
-
-    for (let i = 0; i < count; i++) {
-      // Hover on Offers menu
+    for (let i = 0; i < expectedUrls.length; i++) {
+      const option = (await this.readByCategory.nth(i).textContent())
+        .trim()
+        .toLowerCase();
 
       await this.readByCategory.nth(i).click();
+
+      const titles = (await this.blogListingTitle.allTextContents())
+        .map(title => title.trim().toLowerCase());
+
+      expect(
+        titles.some(title => title.includes(option)),
+        `Expected at least one blog title to contain "${option}". Found: ${titles.join(', ')}`
+      ).toBe(true);
+
       await this.viewAllBlog.nth(i).click();
-      // Verify URL
       await expect(page).toHaveURL(expectedUrls[i]);
-      // Navigate back
+
       await page.goBack();
     }
-
   }
+
+
+
   async blogdropdownfunctionality() {
     if (await this.beautyArchives.isVisible()) {
       await this.beautyArchives.click();
@@ -436,6 +837,8 @@ exports.HomePage = class HomePage {
       await this.hamburgerMenu.click();
       await this.beautyArchivesMobile.click();
     }
+    await expect(this.blogListingBanner).toBeVisible();
+    await expect(this.brandingStripe).toBeVisible();
     for (let i = 0; i < await this.blogDropdown.count(); i++) {
       await this.blogDropdown.nth(i).click();
       await expect(this.blogDropdownOptions.nth(i)).toBeVisible();
@@ -444,6 +847,10 @@ exports.HomePage = class HomePage {
     await this.blogHair.click();
     await expect(this.page).toHaveURL('https://lovebeautyandplanet.in/blogs/hair');
   }
+
+
+
+
   async readStoriesFunctionality() {
     if (await this.beautyArchives.isVisible()) {
       await this.beautyArchives.click();
@@ -453,11 +860,76 @@ exports.HomePage = class HomePage {
       await this.beautyArchivesMobile.click();
     }
     await this.blogTitle.nth(1).click();
+
+    await expect(this.blogDetailsPageReadStoriesImage.nth(0)).toBeVisible();
+    await expect(this.blogDeatailsDate.nth(1)).toBeVisible();
+    await expect(this.blogDeatailsAuthorname.nth(1)).toBeVisible();
     const readStoriesTitle = await this.readStoriesTitle.textContent();
     await this.readStoriesTitle.click();
     const blogTitle = await this.blogDetailsPage.textContent();
     expect(blogTitle.toLowerCase()).toContain(readStoriesTitle.toLowerCase());
   }
+
+
+  async blogPageToPDP(page) {
+    if (await this.beautyArchives.isVisible()) {
+
+      // Desktop
+      await this.beautyArchives.click();
+
+    } else if (await this.hamburgerMenu.isVisible()) {
+
+      // Mobile
+      await this.hamburgerMenu.click();
+      await this.beautyArchivesMobile.click();
+
+    }
+
+    await this.blogTitle.nth(2).waitFor();
+    await this.blogTitle.nth(2).click();
+    const productTitle = (await this.blogProductTitle.nth(0).textContent())
+      .trim()
+      .toLowerCase();
+
+    await this.blogProductImage.nth(0).click();
+
+    const pdpProducts = (await this.pdpProductTitle.allTextContents())
+      .map(product => product.trim().toLowerCase());
+
+    expect(pdpProducts).toContain(productTitle);
+  }
+  async blogPageNotifyMe(page) {
+
+    if (await this.beautyArchives.isVisible()) {
+
+      // Desktop
+      await this.beautyArchives.click();
+
+    } else if (await this.hamburgerMenu.isVisible()) {
+
+      // Mobile
+      await this.hamburgerMenu.click();
+      await this.beautyArchivesMobile.click();
+
+    }
+
+    await this.blogTitle.nth(0).waitFor();
+    await this.blogTitle.nth(0).click();
+    await this.blogPageNotify.click();
+    await this.notifyMeName.fill('Amit');
+    await this.notifyMePhone.fill('9876543210');
+    const dialogPromise = page.waitForEvent('dialog');
+    await this.notifyMeSubmit.click();
+    const dialog = await dialogPromise;
+    expect(dialog.message()).toBe(
+      "Thanks! We'll notify you when this item is back in stock."
+    );
+
+    await dialog.accept();
+
+  }
+
+
   async blogPageATC() {
 
     if (await this.beautyArchives.isVisible()) {
@@ -473,14 +945,32 @@ exports.HomePage = class HomePage {
 
     }
 
-    await this.blogTitle.nth(1).waitFor();
-    await this.blogTitle.nth(1).click();
+    await this.blogTitle.nth(2).waitFor();
+    await this.blogTitle.nth(2).click();
+    const blogTitle = await this.blogDetailsPage.textContent();
+    const productTitle = await this.blogProductTitle.nth(0).textContent();
 
-    const productTitle =
-      await this.blogProductTitle.nth(0).textContent();
+    const blogWords = new Set(
+      blogTitle.toLowerCase().match(/[a-z0-9]+/g) ?? []
+    );
+    const productWords = productTitle.toLowerCase().match(/[a-z0-9]+/g) ?? [];
+
+    expect(
+      productWords.some(word => blogWords.has(word)),
+      `Expected at least one word from "${productTitle}" to appear in "${blogTitle}"`
+    ).toBe(true);
+
+    await expect(this.blogProductCatagory).toBeVisible();
+    await expect(this.blogProductTitle).toBeVisible();
+    await expect(this.blogProductVariant).toBeVisible();
+    await expect(this.blogProductPrice).toBeVisible();
+    await expect(this.blogProductImage).toBeVisible();
+
+
 
     await this.blogATCButton.first().click();
-
+    await expect(this.ATCSuccessMessage).toBeVisible();
+    await expect(this.cartCount).toHaveText('1');
     await this.viewcartButton.click();
     await this.page.waitForTimeout(5000);
 
@@ -489,7 +979,524 @@ exports.HomePage = class HomePage {
 
     expect(cartTitle.toLowerCase())
       .toContain(productTitle.toLowerCase());
+
+    await this.closeCart.click();
+    await this.quantityPlus.click();
+    await expect(this.cartCount).toHaveText('2');
+    await this.quantityMinus.click();
   }
+
+  async contactUsPageChackshuRedirection(page) {
+
+    if (await this.contactUs.isVisible()) {
+      await this.contactUs.click();
+    } else if (await this.quicklinks.isVisible()) {
+      await this.quicklinks.click();
+      await this.contactUsMobile.nth(3).click();
+    }
+
+
+    const newTabPromise = page.waitForEvent('popup');
+
+    await this.contactUsPgaeChakshuLink.click();
+
+    const newTab = await newTabPromise;
+
+    await newTab.waitForLoadState();
+
+    await expect(newTab).toHaveURL('https://sancharsaathi.gov.in/sfc/');
+  }
+  async conatctUsPageStaticLinksRedirection(page) {
+    if (await this.contactUs.isVisible()) {
+      await this.contactUs.click();
+    } else if (await this.quicklinks.isVisible()) {
+      await this.quicklinks.click();
+      await this.contactUsMobile.nth(3).click();
+    }
+
+    const expectedUrls = [
+      'https://lovebeautyandplanet.in/pages/terms-conditions-1',
+      'https://www.unilevernotices.com/privacy-notices/india-english.html',
+      'https://www.hul.co.in/brands/',
+      'https://www.unilevernotices.com/privacy-notices/india-english.html',
+    ];
+
+    for (let i = 0; i < expectedUrls.length; i++) {
+      // Start listening before the click so a fast-opening tab isn't missed.
+      const popupPromise = page.waitForEvent('popup', { timeout: 2000 })
+        .catch(() => null);
+
+      await this.contactUsStaticPageLinks.nth(i).click();
+
+      const popup = await popupPromise;
+
+      if (popup) {
+        await expect(popup).toHaveURL(expectedUrls[i]);
+        await popup.close();
+      } else {
+        await expect(page).toHaveURL(expectedUrls[i]);
+        await page.goBack();
+        await expect(this.contactUsStaticPageLinks.nth(i)).toBeVisible();
+      }
+    }
+  }
+  async cautionNoticeVisibility(page) {
+    await expect(this.cautionNotice).toBeVisible();
+
+    const newTabPromise = page.waitForEvent('popup');
+
+    await this.chakshuPortalLink.click();
+
+    const newTab = await newTabPromise;
+
+    await newTab.waitForLoadState();
+
+    await expect(newTab).toHaveURL('https://sancharsaathi.gov.in/sfc/');
+  }
+
+  async mobileSocialLinksRedirection(page) {
+    for (let i = 0; i < 3; i++) {
+      await expect(this.mobileSocialLinks.nth(i)).toBeVisible();
+    }
+  }
+  async footerContactAndLogo(page) {
+    if (await this.haveAQuerries.isVisible()) {
+      await this.haveAQuerries.click();
+      await expect(this.callUsMobile).toBeVisible();
+      await expect(this.emailUsMobile).toBeVisible();
+      await expect(this.footerLogoMobile).toBeVisible();
+      await expect(this.footerBeBeautifulMobile).toBeVisible();
+    }
+    else if (await this.callUs.isVisible()) {
+      await this.callUs.scrollIntoViewIfNeeded();
+      await expect(this.callUs).toBeVisible();
+      await expect(this.emailUs).toBeVisible();
+      await expect(this.footerLogo).toBeVisible();
+      await expect(this.footerBeBeautiful).toBeVisible();
+    }
+
+  }
+  async reelSectionVideoAndThumbnail(page) {
+    for (let i = 0; i < await this.reelVideo.count(); i++) {
+      await this.reelVideo.nth(i).scrollIntoViewIfNeeded();
+      await expect(this.reelVideo.nth(i)).toBeVisible();
+      await expect(this.reelThumbnail.nth(i)).toBeVisible();
+    }
+  }
+  async herobannerNavigationArrows(page) {
+    await this.heroBannerRight.click();
+    await this.heroBannerLeft.click();
+    await expect(this.bannerVideo.nth(0)).toBeVisible();
+
+  }
+  async bannerVideoVisibility(page) {
+    if (await this.bannerVideo.nth(0).isVisible()) {
+      await expect(this.bannerVideo.nth(0)).toBeVisible();
+    }
+    else if (await this.bannerVideo.nth(1).isVisible()) {
+      await expect(this.bannerVideo.nth(1)).toBeVisible();
+    }
+  }
+  async TrackOrderFunctionalityRTO(page) {
+
+    if (await this.footerTrackOrder.isVisible()) {
+
+      await this.footerTrackOrder.click();
+
+    } else if (await this.quickLinksMobile.isVisible()) {
+
+      await this.quickLinksMobile.click();
+      await this.footerTrackOrderMobile.click();
+
+    }
+
+    await expect(this.page).toHaveURL(
+      "https://lovebeautyandplanet.in/pages/track-order"
+    );
+
+    const orderId = "LB263618";
+
+    await this.trackInput.fill(orderId);
+
+    await this.trackOrderSubmit.click();
+
+    await expect(this.trackOrderID).toHaveText(orderId);
+
+    // Verify RTO status color
+    await expect(this.rtoStatus).toHaveCSS(
+      "color",
+      "rgb(76, 175, 80)"
+    );
+
+    // Verify RTO status
+    await expect(this.status).toHaveText("Return to origin");
+
+    // Get order placed date from LBP
+    const orderPlacedon = (
+      await this.orderPlacedOn.textContent()
+    ).trim();
+
+    // Open Shiprocket in new tab
+    const newPagePromise = this.page
+      .context()
+      .waitForEvent("page");
+
+    await this.trackUrl.click();
+
+    const newPage = await newPagePromise;
+
+    await newPage.waitForLoadState();
+
+    // Verify Shiprocket URL
+    await expect(newPage).toHaveURL(/shiprocket\.co/);
+
+    // IMPORTANT:
+    // This locator is created on the NEW TAB
+    const shipRocketRTOStatus = newPage.locator(
+      'xpath=(//span[@class="pull-right fs-12px right_info"])[2]'
+    );
+
+    await expect(shipRocketRTOStatus).toBeVisible();
+
+    // Get order placed date from Shiprocket
+    const orderPlacedOnShipRocket = (
+      await shipRocketRTOStatus.textContent()
+    ).trim();
+
+    // Compare dates
+    await expect(orderPlacedon).toContain(orderPlacedOnShipRocket);
+  }
+  async TrackOrderFunctionalityOrderDelivered(page) {
+    if (await this.footerTrackOrder.isVisible()) {
+      await this.footerTrackOrder.click();
+    } else if (await this.quickLinksMobile.isVisible()) {
+      await this.quickLinksMobile.click();
+      await this.footerTrackOrderMobile.click();
+    }
+    await expect(this.page).toHaveURL("https://lovebeautyandplanet.in/pages/track-order");
+    const orderId = "LB265680";
+    await this.trackInput.fill(orderId);
+    await this.trackOrderSubmit.click();
+    await expect(this.trackOrderID).toHaveText(orderId);
+    await expect(this.orderDelivered).toHaveCSS(
+      "color",
+      "rgb(76, 175, 80)"
+    );
+    await expect(this.status).toHaveText("Order delivered");
+    const newPagePromise = this.page.context().waitForEvent("page");
+    await this.trackUrl.click();
+    const newPage = await newPagePromise;
+    await newPage.waitForLoadState();
+    await expect(newPage).toHaveURL(/delhivery\.com/);
+
+  }
+
+  async TrackOrderFunctionalityCancelledOrder(page) {
+    if (await this.footerTrackOrder.isVisible()) {
+      await this.footerTrackOrder.click();
+    } else if (await this.quickLinksMobile.isVisible()) {
+      await this.quickLinksMobile.click();
+      await this.footerTrackOrderMobile.click();
+    }
+    await expect(this.page).toHaveURL("https://lovebeautyandplanet.in/pages/track-order");
+    await this.trackInput.fill('');
+
+    const dialogPromise = new Promise(resolve => {
+      this.page.once('dialog', async dialog => {
+        const message = dialog.message();
+        await page.waitForTimeout(2000);
+        await dialog.accept(); // Click OK
+        resolve(message);
+      });
+    });
+
+    await this.trackOrderSubmit.click();
+
+    const alertMessage = await dialogPromise;
+    expect(alertMessage).toBe(
+      'Please enter an Order ID or AWB tracking number'
+    );
+
+    await this.trackInput.fill("LB266430");
+    await this.trackOrderSubmit.click();
+    await expect(this.orderCancelledMessage).toBeVisible();
+  }
+
+
+
+  async orderPageFunctionality(page) {
+    // Login
+    if (await this.accountLink.isVisible()) {
+      await this.accountLink.click();
+    } else if (await this.hamburgerMenu.isVisible()) {
+      await this.hamburgerMenu.click();
+      await this.loginMobile.click();
+    }
+
+    await this.emailTextField.fill("mvtarapur@gmail.com");
+    await this.passwordTextFiled.fill("123456789");
+    await this.loginButton.click();
+
+    // Verify Order History
+    await expect(this.orderHistory).toBeVisible();
+
+    // Get order details from Order History
+    const orderNumber = (await this.orderNumber.textContent()).trim();
+    const orderDate = (await this.orderdate.textContent()).trim();
+    const fullFilmentStatus = (
+      await this.fullFilmentStatus.textContent()
+    ).trim();
+    const paymentStatus = (await this.paymentStatus.textContent()).trim();
+    const orderPrice = (await this.orderPrice.textContent()).trim();
+
+    // Open Order Details
+    await this.orderNumber.click();
+
+    await expect(this.orderDetailsHeading).toBeVisible();
+    await expect(this.billingAddress).toBeVisible();
+    await expect(this.shippingAddress).toBeVisible();
+
+    // Get details from Order Details page
+    const orderDetailsHeading = (
+      await this.orderDetailsHeading.textContent()
+    ).trim();
+
+    const paymentStatus2 = (
+      await this.paymentStatus2.textContent()
+    ).trim();
+
+    const fullFilmentStatus2 = (
+      await this.fullFilmentStatus2.textContent()
+    ).trim();
+
+    const orderPrice2 = (
+      await this.orderPrice2.textContent()
+    ).trim();
+
+    const orderDate2 = (
+      await this.orderDate.textContent()
+    ).trim();
+
+    // --------------------------------------------------
+    // Normalize Order Number
+    // --------------------------------------------------
+    const normalizedOrderNumber = orderNumber.replace(/\s+/g, " ").trim();
+
+    // --------------------------------------------------
+    // Normalize Date
+    // Example:
+    // Order History  : July 3, 2024
+    // Order Details  : July 3, 2024 at 1:17 pm
+    // --------------------------------------------------
+    const orderDateOnly = orderDate2
+      .split(/\s+at\s+/i)[0]
+      .trim();
+
+    // --------------------------------------------------
+    // Normalize Fulfillment Status
+    // Example:
+    // Order History  : Unfulfilled
+    // Order Details  : Fulfillment Status: Unfulfilled
+    // --------------------------------------------------
+    const fulfillmentStatusOnly = fullFilmentStatus2
+      .replace(/^Fulfillment Status:\s*/i, "")
+      .replace(/\s+/g, " ")
+      .trim();
+
+    // --------------------------------------------------
+    // Normalize Payment Status
+    // Example:
+    // Order History  : Paid
+    // Order Details  : Payment Status: Paid
+    // --------------------------------------------------
+    const paymentStatusOnly = paymentStatus2
+      .replace(/^Payment Status:\s*/i, "")
+      .replace(/\s+/g, " ")
+      .trim();
+
+    // --------------------------------------------------
+    // Normalize Price
+    // Removes spaces, commas and currency symbols
+    // Example:
+    // ₹1,299.00 -> 1299.00
+    // Rs. 1,299.00 -> 1299.00
+    // --------------------------------------------------
+    const normalizedOrderPrice = orderPrice
+      .replace(/[₹$€£,\s]/g, "")
+      .replace(/^Rs\.?/i, "")
+      .trim();
+
+    const normalizedOrderPrice2 = orderPrice2
+      .replace(/[₹$€£,\s]/g, "")
+      .replace(/^Rs\.?/i, "")
+      .trim();
+
+    // --------------------------------------------------
+    // Assertions
+    // --------------------------------------------------
+
+    // Order Number
+    await expect(orderDetailsHeading).toContain(normalizedOrderNumber);
+
+    // Order Date
+    await expect(orderDateOnly).toBe(orderDate);
+
+    // Fulfillment Status
+    await expect(fullFilmentStatus).toBe(fulfillmentStatusOnly);
+
+    // Payment Status
+    await expect(paymentStatus).toBe(paymentStatusOnly);
+
+    // Order Price
+    await expect(normalizedOrderPrice2).toBe(normalizedOrderPrice);
+  }
+
+
+
+
+  async reelPopupFunctionality(page) {
+
+    await this.trendingOnSocialSection.scrollIntoViewIfNeeded();
+    await this.reelVideoAuto.first().click();
+    await this.reelPopupCloseButton.click();
+
+    const reelPrice = (await this.reelPrice.first().textContent())
+      .trim()
+      .toLowerCase();
+
+    const productName = (await this.reelProductTitle.first().textContent())
+      .trim()
+      .toLowerCase();
+
+    // Open reel popup
+    await this.reelProductTitle.first().click();
+
+    // Wait for popup
+    await expect(this.reelPopupTitle.first()).toBeVisible();
+
+    // Get initial popup details
+    const reelPopupPrice = (await this.reelPopupPrice.allTextContents())
+      .map(product => product.trim().toLowerCase());
+
+    const reelPopupTitles = (await this.reelPopupTitle.allTextContents())
+      .map(product => product.trim().toLowerCase());
+
+    expect(reelPopupPrice).toContain(reelPrice);
+    expect(reelPopupTitles).toContain(productName);
+    await expect(this.reelDiscription).toBeVisible();
+    await expect(this.reelImage).toBeVisible();
+    await expect(this.reelSlider).toBeVisible();
+    //verify volume icon
+    await expect(this.reelToolTip).toBeVisible();
+    await this.reelVolume.click();
+    await expect(this.reelToolTip).not.toBeVisible();
+    await this.reelLike.click();
+    await expect(this.reelLiked).toBeVisible();
+
+    // Next reel
+    await this.reelNext.click();
+
+    // Previous reel
+    await this.reelPrev.click();
+
+    // Get title after Next → Previous
+    const reelPopupTitles2 = (await this.reelPopupTitle.allTextContents())
+      .map(product => product.trim().toLowerCase());
+
+    // Verify it returned to the original reel
+    expect(reelPopupTitles2).toEqual(reelPopupTitles);
+    // await this.reelShare.click();
+    //cant handle share as default windows popup willshow up 
+    await this.reelVideo.nth(0).click();
+    await expect(this.reelPlay).toBeVisible();
+    await this.reelVideo.nth(0).click();
+    await expect(this.reelPlay).not.toBeVisible();
+    await page.waitForTimeout(2000);
+    await this.reelPopupCloseButton.click();
+    await expect(this.reelPopupCloseButton).not.toBeVisible();
+  }
+
+  async newsletterRedirections() {
+    await expect(this.newsletterLegal).toBeVisible();
+    // Click Unilever Brands and capture the new tab
+    const [brandsPage] = await Promise.all([
+      this.page.context().waitForEvent('page'),
+      this.unileverBrands.click()
+    ]);
+
+    await brandsPage.waitForLoadState();
+
+    await expect(brandsPage).toHaveURL(
+      'https://www.hul.co.in/brands/'
+    );
+
+    // Close the new tab
+    await brandsPage.close();
+
+    // Click Privacy Notice and capture the new tab
+    const [privacyPage] = await Promise.all([
+      this.page.context().waitForEvent('page'),
+      this.privacyNotice.click()
+    ]);
+
+    await privacyPage.waitForLoadState();
+
+    await expect(privacyPage).toHaveURL(
+      'https://www.unilevernotices.com/privacy-notices/india-english.html'
+    );
+
+    // Close the new tab
+    await privacyPage.close();
+  }
+  async newsletterErrorValidation() {
+    await this.newsletterTextField.fill(' ');
+    await this.concentCheckBox.click();
+    await this.submitNewsletterButton.click();
+    await this.newsletterTextField.fill('shravan');
+    await this.concentCheckBox.click();
+    await this.submitNewsletterButton.click();
+    await expect(this.newsletterConsentvisibility).toBeVisible();
+    await expect(this.validEmailError).toBeVisible();
+    await expect(this.concentError).toBeVisible();
+    await this.concentCheckBox.click();
+    await this.submitNewsletterButton.click();
+    await expect(this.validEmailError).toBeVisible();
+
+  }
+  async newsletterSuccessValidation() {
+    const email = generateUser().email;
+    await this.newsletterTextField.fill(email);
+    await this.submitNewsletterButton.click();
+    await expect(this.concentError).toBeVisible();
+    await this.concentCheckBox.click();
+    await this.submitNewsletterButton.click();
+    await expect(this.SuccessMessage).toBeVisible();
+  }
+  async quantitySelectorunctionality() {
+    await this.addToCartButton.first().click();
+    await expect(this.cartCount).toHaveText('1');
+    await this.quantityPlus.click();
+    await expect(this.cartCount).toHaveText('2');
+    await this.quantityMinus.click();
+    await expect(this.cartCount).toHaveText('1');
+
+  }
+
+  async loginFunctionality(page) {
+    if (await this.accountLink.isVisible()) {
+      await this.accountLink.click();
+    } else if (await this.hamburgerMenu.isVisible()) {
+      await this.hamburgerMenu.click();
+      await this.loginMobile.click();
+    } await this.emailTextField.fill("tester1998@gmail.com");
+    await this.passwordTextFiled.fill("Shravan@1");
+    await this.loginButton.click();
+    // await this.accountLink.click();
+  }
+
+
+
+
   async blogFAQFunctionality(page) {
     if (await this.beautyArchives.isVisible()) {
       await this.beautyArchives.click();
@@ -592,6 +1599,8 @@ exports.HomePage = class HomePage {
     await this.blogTitle.nth(1).click();
     const blogTitle = await this.blogDetailsPage.textContent();
     expect(blogTitle.toLowerCase()).toContain(blog.toLowerCase());
+    await expect(this.blogimage).toBeVisible();
+    await expect(this.blogContent).toBeVisible();
     await expect(this.blogFaq).toBeVisible();
     await expect(this.blogAuthor).toBeVisible();
     await expect(this.featuredBlog).toBeVisible();
@@ -605,7 +1614,11 @@ exports.HomePage = class HomePage {
   async contactUsFunctionality(page) {
 
     await this.contactUs.click();
+    await expect(this.contactUsHeading).toBeVisible();
     await expect(this.customerService).toBeVisible();
+    for (let i = 0; i < await this.customerServiceDetails.count(); i++) {
+      await expect(this.customerServiceDetails.nth(i)).toBeVisible();
+    }
     await expect(this.contactUsCautionNotice).toBeVisible();
     await this.contactUsName.fill('test');
     await this.contactUsLastName.fill('user');
@@ -613,6 +1626,8 @@ exports.HomePage = class HomePage {
     await this.contactUsPhone.fill('9898767654');
     await this.contactUsMessage.fill('this is for testing purpose please ignore <%^&*5678t78ghj>');
     await this.contactUsOther.click();
+    await expect(this.contactUsPageConcent).toBeVisible();
+    await expect(this.contactUsCautionNotice).toBeVisible();
     await this.contactUsCheckbox.click();
     await this.contactUsSubmit.click();
     await expect(this.contactUsSuccess).toBeVisible();
@@ -622,8 +1637,12 @@ exports.HomePage = class HomePage {
   async contactUsErrorFunctionality(page) {
 
     await this.contactUs.click();
+    await this.contactUsSubmit.click();
+    await expect(this.firstNameError).toBeVisible();
+    await expect(this.emailError).toBeVisible();
+    await expect(this.concernError).toBeVisible();
     await this.contactUsEmail.fill('testerfromautumn');
-    await this.contactUsPhone.fill('9898767');
+    await this.contactUsPhone.fill('9898767^&^%^&');
     await this.contactUsSubmit.click();
     await expect(this.firstNameError).toBeVisible();
     await expect(this.emailError).toBeVisible();
@@ -632,8 +1651,12 @@ exports.HomePage = class HomePage {
   async contactUsErrorFunctionalityMobile(page) {
     await this.quicklinks.click();
     await this.contactUsMobile.nth(3).click();
+    await this.contactUsSubmit.click();
+    await expect(this.firstNameError).toBeVisible();
+    await expect(this.emailError).toBeVisible();
+    await expect(this.concernError).toBeVisible();
     await this.contactUsEmail.fill('testerfromautumn');
-    await this.contactUsPhone.fill('9898767');
+    await this.contactUsPhone.fill('9898767%^&');
     await this.contactUsSubmit.click();
     await expect(this.firstNameError).toBeVisible();
     await expect(this.emailError).toBeVisible();
@@ -645,12 +1668,17 @@ exports.HomePage = class HomePage {
     // await this.page.goto('https://lovebeautyandplanet.in/pages/contact-us');
     await expect(this.customerServiceMobile).toBeVisible();
     await expect(this.contactUsCautionNotice).toBeVisible();
+    for (let i = 0; i < await this.customerServiceMobileDetails.count(); i++) {
+      await expect(this.customerServiceMobileDetails.nth(i)).toBeVisible();
+    }
     await this.contactUsName.fill('test');
     await this.contactUsLastName.fill('user');
     await this.contactUsEmail.fill('testerfromautumn@example.com');
     await this.contactUsPhone.fill('9898767654');
     await this.contactUsMessage.fill('this is for testing purpose please ignore <%^&*5678t78ghj>');
     await this.contactUsOther.click();
+    await expect(this.contactUsPageConcent).toBeVisible();
+    await expect(this.contactUsCautionNotice).toBeVisible();
     await this.contactUsCheckbox.click();
     await this.contactUsSubmit.click();
     await expect(this.contactUsSuccess).toBeVisible();
@@ -688,7 +1716,11 @@ exports.HomePage = class HomePage {
     await expect(this.productCardTitle).toBeVisible();
     await expect(this.productCardVariant).toBeVisible();
     await expect(this.productCardPrice).toBeVisible();
+    await expect(this.compareAtPrice).toBeVisible();
+    await expect(this.discountPercentage).toBeVisible();
     await this.productCardATC.click();
+    await expect(this.ATCSuccessMessage).toBeVisible();
+    await expect(this.cartCount).toHaveText('1');
     await this.quantityPlus.click();
     await this.quantityMinus.click();
   }
@@ -800,6 +1832,7 @@ exports.HomePage = class HomePage {
     await page.waitForTimeout(2000);
     await this.reelPopupATC.click();
     await page.waitForTimeout(2000);
+    await expect(this.reelPopupCartCount).toHaveCount(1);
     await this.reelPopupCart.click();
 
     const cartProducts = (await this.cartproductTitle.allTextContents())
@@ -826,33 +1859,50 @@ exports.HomePage = class HomePage {
 
 
   async heroBannerRedirections(page) {
-    const expectedUrls = [
-      'https://lovebeautyandplanet.in/collections/bounce-back-reset-mist',
-      'https://lovebeautyandplanet.in/collections/bundle-offers',
-      'https://lovebeautyandplanet.in/pages/our-story',
-      'https://lovebeautyandplanet.in/collections/argan-oil-lavender',
-      'https://lovebeautyandplanet.in/collections/hibiscus',
-      'https://lovebeautyandplanet.in/collections/yuzu-lemon',
-      'https://lovebeautyandplanet.in/collections/curry-leaves-biotin-mandarin',
-      'https://lovebeautyandplanet.in/collections/bond-repair',
-      'https://lovebeautyandplanet.in/products/love-beauty-planet-curry-leaves-vegan-biotin-hair-growth-scalp-serum-50ml',
-      'https://lovebeautyandplanet.in/collections/rice-water-angelica',
-      'https://lovebeautyandplanet.in/products/argan-oil-heat-protect-conditioning-mist-100ml'
+    const bannerCount = await this.heroBanner.count();
 
-    ];
+    console.log(`Total Hero Banners: ${bannerCount}`);
+    console.log(`Total Slider Buttons: ${await this.heroBannerSlider.count()}`);
 
-    // Get total dropdown options count
-    const count = expectedUrls.length;
+    for (let i = 0; i < bannerCount; i++) {
 
-    for (let i = 0; i < count; i++) {
-      await this.heroBannerSlider.nth(i).click();
-      await this.heroBanner.nth(i).click();
+      // Re-fetch slider locator after every navigation
+      const slider = this.heroBannerSlider.nth(i);
+
+      await slider.scrollIntoViewIfNeeded();
+      await slider.waitFor({ state: 'visible' });
+      await slider.click();
+
+      // Get corresponding hero banner
+      const banner = this.heroBanner.nth(i);
+
+      // Fetch href dynamically
+      const href = await banner.getAttribute('href');
+
+      expect(href).toBeTruthy();
+
+      const expectedUrl = new URL(href, page.url()).toString();
+
+      console.log(`Banner ${i + 1}: ${expectedUrl}`);
+
+      // Click banner
+      await banner.click();
+
       // Verify URL
-      await expect(page).toHaveURL(expectedUrls[i]);
-      // Navigate back
+      await expect(page).toHaveURL(expectedUrl);
+
+      // Go back
       await page.goBack();
+
+      // Wait for homepage to load again
+      await page.waitForLoadState('domcontentloaded');
+
+      // Wait for hero slider to be available again
+      await this.heroBannerSlider.first().waitFor({ state: 'visible' });
     }
   }
+
+
   async trendingSearchesNavigation(page) {
 
     const expectedUrls = [
@@ -1366,6 +2416,14 @@ exports.HomePage = class HomePage {
 
   }
   async collectionTabsNavigation(page) {
+    if (await this.productCardNextNavigation.nth(0).isVisible()) {
+      await this.productCardNextNavigation.nth(0).click();
+      await this.productCardPrevNavigation.nth(0).click();
+    }
+    else if (await this.productCradSliderDot.isVisible()) {
+      await this.productCradSliderDot.click();
+    }
+
     const expectedUrls = [
       'https://lovebeautyandplanet.in/collections/bestseller',
       'https://lovebeautyandplanet.in/collections/combos',
@@ -1383,6 +2441,23 @@ exports.HomePage = class HomePage {
         timeout: 30000
       });
     }
+    await this.collectionTabs.nth(1).click();
+
+    const visibleTitles = await this.combosProductTitle
+      .filter({ visible: true })
+      .allTextContents();
+
+    expect(visibleTitles.length, 'Expected at least 4 visible combo products')
+      .toBeGreaterThanOrEqual(4);
+
+    for (const [index, title] of visibleTitles.slice(0, 4).entries()) {
+      expect(
+        title.toLowerCase(),
+        `Visible product ${index + 1} should contain "combo": ${title}`
+      ).toContain('combo');
+    }
+
+
   }
   async hpToPDPRedirection(page) {
     await this.productTitle.first().waitFor();
@@ -1436,73 +2511,36 @@ exports.HomePage = class HomePage {
     expect(lowerCaseProducts).toContain(productName);
   }   */
   async shopByConcernSectionRedirections(page) {
-    const expectedUrls = [
-      'https://lovebeautyandplanet.in/collections/argan-oil-lavender',
-      'https://lovebeautyandplanet.in/collections/onion-blackseed-patchouli',
-      'https://lovebeautyandplanet.in/collections/bond-repair',
-      'https://lovebeautyandplanet.in/collections/curry-leaves-biotin-mandarin',
-      'https://lovebeautyandplanet.in/collections/rice-water-angelica',
-      'https://lovebeautyandplanet.in/collections/tea-tree-and-vetiver'
+  const expectedUrls = [
+    'https://lovebeautyandplanet.in/collections/argan-oil-lavender',
+    'https://lovebeautyandplanet.in/collections/onion-blackseed-patchouli',
+    'https://lovebeautyandplanet.in/collections/bond-repair',
+    'https://lovebeautyandplanet.in/collections/curry-leaves-biotin-mandarin',
+    'https://lovebeautyandplanet.in/collections/rice-water-angelica',
+    'https://lovebeautyandplanet.in/collections/tea-tree-and-vetiver',
+  ];
 
-    ];
-    for (let i = 0; i < await this.shopByConcernLinks.count(); i++) {
-      await this.shopByConcernLinks.nth(i).click();
-      await expect(page).toHaveURL(expectedUrls[i]);
-      await page.goBack();
-      await this.shopByConcernLinks.nth(i).waitFor();
-    }
+  for (let i = 0; i < expectedUrls.length; i++) {
+    await this.shopByConcernLinks.nth(i).click();
+    await expect(page).toHaveURL(expectedUrls[i]);
+
+    const slug = new URL(expectedUrls[i]).pathname.split('/').pop();
+    const keywords = slug.split('-').filter(word => word !== 'and');
+
+    await expect(this.plpProductTitle.first()).toBeVisible();
+
+    const titles = (await this.plpProductTitle.allTextContents())
+      .map(title => title.toLowerCase());
+
+    expect(
+      titles.some(title => keywords.some(word => title.includes(word))),
+      `No product title contains a word from "${slug}". Titles: ${titles.join(' | ')}`
+    ).toBe(true);
+
+    await page.goBack();
+    await expect(this.shopByConcernLinks.nth(i)).toBeVisible();
   }
-  async inTheSpotLightSection() {
-
-    // Capture spotlight product title
-    const productName = (
-      await this.inTheSpotLightProductTitle.first().innerText()
-    ).trim().toLowerCase();
-
-    // Check whether Notify Me button is visible
-    if (await this.inTheSpotLightNotifyMeButton.first().isVisible()) {
-
-      // Click Notify Me
-      await this.inTheSpotLightNotifyMeButton.first().click();
-
-      // Verify Notify popup is displayed
-      await expect(this.inTheSpotLightNotifyPopup).toBeVisible();
-
-    } else {
-
-      await this.cartVisiblity();
-
-      // Click Add to Cart
-      await this.inTheSpotLightAddToCartButton.first().click();
-
-      // Open cart drawer
-      await this.cartLink.click();
-
-
-      // Wait for cart product to appear
-      await this.cartproductTitle.first().waitFor();
-
-      // Get all cart product titles
-      const cartProducts = await this.cartproductTitle.allTextContents();
-
-      // Convert cart products to lowercase
-      const lowerCaseProducts = cartProducts.map(product =>
-        product.trim().toLowerCase()
-      );
-
-      // Extract actual product name from spotlight title
-      const expectedProduct = productName
-        .split('\n')
-        .pop()
-        .trim();
-
-      console.log('Expected Product:', expectedProduct);
-      console.log('Cart Products:', lowerCaseProducts);
-
-      // Validate product exists in cart
-      expect(lowerCaseProducts.join(' ')).toContain(expectedProduct);
-    }
-  }
+}
   async whatSetsUsApartDropdown() {
     for (let i = 0; i < await this.whatSetsUsApartCard.count(); i++) {
       await this.whatSetsUsApartCard.nth(i).click();

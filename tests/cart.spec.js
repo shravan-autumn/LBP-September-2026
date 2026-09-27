@@ -115,7 +115,7 @@ test.describe('Cart', () => {
     test('@all Cart18 Verify removing first product from cart and check the cart behaviour', async ({ page }) => {
         await pdp.searchPLPToPDPNavigation("argan");
         await c.addFirstProductToCart();
-        await pdp.searchPLPToPDPNavigation("hair");
+        await pdp.searchPLPToPDPNavigation("waves");
         await c.addSecondProductToCart();
         await c.removeFirstProductFromCart();
     });
@@ -126,8 +126,32 @@ test.describe('Cart', () => {
         const offer = await c.combinationOfBuy3At1399andBuy4OfferAt1799andCombo();
         await pdp.searchPLPToPDPNavigation("combo");
         await c.combinePrice(offer);
-
-
     })
+     test('@all Cart21 Verify checkout gokwikk validation', async ({ page }) => {
+        await pdp.searchPLPToPDPNavigation("body");
+        var productTitle = await pdp.addToCart();
+        await c.checkoutGokwikkValidation();
+    });
+    
+     test.only('@all Cart22 Verify checkout gokwikk coupon validation', async ({ page }) => {
+        await pdp.searchPLPToPDPNavigation("waves");
+        var productTitle = await pdp.addToCart();
+        await c.checkoutGokwikCouponValidation();
+    });
+     test('@desktop Cart23 Verify checkout gokwik static page redirections', async ({ page }) => {
+        await pdp.searchPLPToPDPNavigation("waves");
+        var productTitle = await pdp.addToCart();
+        await c.checkoutGokwikStaticPageRedirection();
+    });
+       test('@mobile Cart23 Verify checkout gokwik static page redirections', async ({ page }) => {
+        await pdp.searchPLPToPDPNavigation("waves");
+        var productTitle = await pdp.addToCart();
+        await c.checkoutGokwikStaticPageRedirectionMobile();
+    });
+    test('@all Cart24 Verify checkout gokwik phone number validation', async ({ page }) => {
+        await pdp.searchPLPToPDPNavigation("waves");
+        var productTitle = await pdp.addToCart();
+        await c.phoneValidationGokwik();
+    });
 
 });

@@ -56,144 +56,473 @@ exports.Cart = class Cart {
     this.cartMRP = page.locator('//tr[@id="CartDrawer-Item-1"]//span[@class="text-decoration-line-through"]');
     this.cartPrice2 = page.locator('//tr[@id="CartDrawer-Item-2"]//span[@class="pro-variant-price"]');
     this.cartMRP2 = page.locator('//tr[@id="CartDrawer-Item-2"]//span[@class="text-decoration-line-through"]');
-    this.subTotal= page.locator('//div[@class="price-details"]//span[@class="subtotal"]');
-    this.netPayable= page.locator('[class="totals__total-value"]');
+    this.subTotal = page.locator('//div[@class="price-details"]//span[@class="subtotal"]');
+    this.netPayable = page.locator('[class="totals__total-value"]');
     this.ATCSuccessMessage = page.locator('[class="add-to-cart-pop active"]');
     this.discountPrice = page.locator('[class="discount-price"]');
-    this.youHaveSavedMessage= page.locator('//div[@class="cart-saving"]//span');
-    this.freeShippingMessage= page.locator('[class="free-shipping--success-message"]');
-    this.shippinhPrice= page.locator('//span[@class="cart-shipping-price"]//s');
-    this.beautyArchives= page.locator('(//a[contains(text(),"Beauty Archives")])[1]');
-    this.beautyArchivesMobile= page.locator('(//a[contains(text(),"Beauty Archives")])[2]');
-    this.blogTitle= page.locator('[class="title"]');
-    this.blogProductTitle= page.locator('//div[@class="h-pro-card-cnt buy-detail"]//p');
-    this.blogATCButton= page.locator('[class="product-form__submit button button--full-width button--primary"]');
+    this.youHaveSavedMessage = page.locator('//div[@class="cart-saving"]//span');
+    this.freeShippingMessage = page.locator('[class="free-shipping--success-message"]');
+    this.shippinhPrice = page.locator('//span[@class="cart-shipping-price"]//s');
+    this.beautyArchives = page.locator('(//a[contains(text(),"Beauty Archives")])[1]');
+    this.beautyArchivesMobile = page.locator('(//a[contains(text(),"Beauty Archives")])[2]');
+    this.blogTitle = page.locator('[class="title"]');
+    this.blogProductTitle = page.locator('//div[@class="h-pro-card-cnt buy-detail"]//p');
+    this.blogATCButton = page.locator('[class="product-form__submit button button--full-width button--primary"]');
     this.hamburgerMenu = page.locator('[id="openMenu"]');
-        this.announcementBarLink = page.locator('[class="announcement"]');
-    this.plpProductTitle= page.locator('//div[@class=" facets-vertical container"]//p[@class="h-pro-card-cnt-description"]//a');
-    this.plpATCButton= page.locator('//div[@class=" facets-vertical container"]//div[@class="product-form__buttons"]');
-    this.viewCart= page.locator('[id="view-cart-drawer"]').first(); 
-    this.plpPrice= page.locator('[class="pro-variant-price active"]');
-    this.buy3message= page.locator('[class="totalCartItem item_1399"]');
-    this.buy4message= page.locator('[class="free-msg1"]');
-    this.inputSearch= page.locator('(//input[@type="search"])[2]');
-        this.closeCart = page.locator('(//button[@class="drawer__close"])[1]');
+    this.announcementBarLink = page.locator('[class="announcement"]');
+    this.plpProductTitle = page.locator('//div[@class=" facets-vertical container"]//p[@class="h-pro-card-cnt-description"]//a');
+    this.plpATCButton = page.locator('//div[@class=" facets-vertical container"]//div[@class="product-form__buttons"]');
+    this.viewCart = page.locator('[id="view-cart-drawer"]').first();
+    this.plpPrice = page.locator('[class="pro-variant-price active"]');
+    this.buy3message = page.locator('[class="totalCartItem item_1399"]');
+    this.buy4message = page.locator('[class="free-msg1"]');
+    this.inputSearch = page.locator('(//input[@type="search"])[2]');
+    this.closeCart = page.locator('(//button[@class="drawer__close"])[1]');
+    this.gokwikFrame = page.frameLocator('#gokwik-iframe');
+    this.checkoutAllPrice = this.gokwikFrame.locator('[class="final-price svelte-1e1atp"]');
+    this.checkoutProduct = this.gokwikFrame.locator('[class="title svelte-1e1atp"]');
+    this.checkoutProductPrice = this.gokwikFrame.locator('[class="price svelte-1e1atp"]');
+    this.checkoutQuantity = this.gokwikFrame.locator('[class="item-quantity svelte-1e1atp"]');
+    this.checkoutShipping = this.gokwikFrame.locator('(//li[@class="shipping summary svelte-bavi47"]//span)[2]');
+    this.checkoutToPay = this.gokwikFrame.locator('[class="text-md font-semibold svelte-1e1atp"]');
+    this.checkoutLogo = this.gokwikFrame.locator('[class="merchant-logo svelte-1w9o5wp"]');
+    this.poweredLogo = this.gokwikFrame.locator('[class="powered-container"]');
+    this.checkoutItem = this.gokwikFrame.locator('[class="item-count svelte-1e1atp"]');
+    this.continueDisabled = this.gokwikFrame.locator('[class="btn-wrapper svelte-5gtp8c"]');
+    this.cartItem = page.locator('//h2[@class="drawer__heading cart-heading"]//span');
+    this.cartQuantity = page.locator('[class="quantity__input "]');
+    this.checkoutDiscount = this.gokwikFrame.locator('[id="discount"]');
+    this.checkoutApply = this.gokwikFrame.locator('[class="apply text-sm font-semibold"]');
+    this.checkoutApplied = this.gokwikFrame.locator('[class="flex flex-col gap-y-1 w-full"]');
+    this.couponRemove = this.gokwikFrame.locator('[class="text-sm font-semibold"]');
+    this.couponError = this.gokwikFrame.locator('#discount');
+    this.backbutton= this.gokwikFrame.locator('[src="./assets/icons/arrow-left.svg"]');
+    this.skipandExit= this.gokwikFrame.locator('//button[contains(text(),"Skip and exit")]');
+    this.verifyMobileNumberError = this.gokwikFrame.locator('div.snackbar');
+    this.termsAndConditions = this.gokwikFrame.locator('//a[contains(text(),"T&C")]');
+    this.privacyNotice = this.gokwikFrame.locator('//div[@class="info-text-container svelte-c1kro1"]//a[@href="https://www.unilevernotices.com/privacy-notices/india-english.html"]').nth(0);
+    this.checkoutCheckbox = this.gokwikFrame.locator('[id="marketingConsent"]');
+    this.unileverBrands = this.gokwikFrame.locator('//span[@id="marketingConsentWrapper"]//a').first();
+    this.unileverBrandsMobile = this.gokwikFrame.locator('//u[contains(text(),"Unilever Brands")]');
+    this.loginToContinue= this.gokwikFrame.locator('//span[contains(text(),"Login to continue")]');
+    this.enterMobileNumber = this.gokwikFrame.locator('//label[contains(text(),"Enter Mobile")]');
+    this.privacyNotice2 = this.gokwikFrame.locator('//div[@class="info-text-container svelte-c1kro1"]//a[@href="https://www.unilevernotices.com/privacy-notices/india-english.html"]').nth(1);
+    this.privacyNotice2Mobile = this.gokwikFrame.locator('//u[contains(text(),"Privacy Notice")]').nth(0);
+    this.checkoutPhone = this.gokwikFrame.locator('[class="phone-input input svelte-10to7ak"]');
+    this.verifyMobileNumber = this.gokwikFrame.locator('//p[contains(text(),"Verify mobile number")]');
+    this.otpField = this.page.frameLocator('#gokwik-iframe').locator('input.new-input[autocomplete="one-time-code"]');
+    this.otpError = this.gokwikFrame.locator('//p[contains(text(),"OTP entered is invalid. Please try again.")]');
+    this.cartCount = page.locator('//div[@class="cart-count-bubble"]//span[@aria-hidden="true"]');
+    this.viewOffers = page.locator('//button[contains(text(),"View offers")]');
+    this.offerCard = page.locator('[class="buy3at1399-car row"]');
+    this.add1More = page.locator('//a[contains(text(),"Add ")]').first();
+
+
+
+
+
+
+
 
   }
-async buy3At1399andBuy4OfferAt1799() {
+  async phoneValidationGokwik() {
+    await this.checkoutButton.click();
+    await this.gokwikPopup.waitFor();
+    await this.checkoutPhone.fill('1111111111');
+    await expect(this.verifyMobileNumberError).toBeVisible();
+    await expect(this.continueDisabled).toBeVisible();
+    await this.checkoutPhone.fill('7026085704');
+    await expect(this.verifyMobileNumber).toBeVisible();
+    await this.otpField.fill('1234');
+    await expect(this.otpError).toBeVisible();
+  }
+  async checkoutGokwikStaticPageRedirection() {
 
-  await this.announcementBarLink.click();
+    await this.checkoutButton.click();
+    await this.gokwikPopup.waitFor();
 
-  const plpPriceText = await this.plpPrice.nth(0).textContent();
+    // -----------------------------
+    // Terms & Conditions
+    // -----------------------------
+    const termsPagePromise = this.page.context().waitForEvent('page');
 
-  const plpPrice = parseFloat(
-    plpPriceText.replace(/[^\d.]/g, '')
-  );
+    await this.termsAndConditions.click();
 
-  await this.plpATCButton.nth(0).click();
+    const termsPage = await termsPagePromise;
+    await termsPage.waitForLoadState();
 
-  await this.viewCart.click();
+    await expect(termsPage).toHaveURL(
+      'https://lovebeautyandplanet.in/pages/terms-conditions-1/'
+    );
 
-  // Quantity 2
-  await this.firstProductPlusIcon.click();
-  await this.page.waitForTimeout(2000);
+    await termsPage.close();
 
-  let netPayableText = await this.netPayable.textContent();
-  let netPayable = parseFloat(
-    netPayableText.replace(/[^\d.]/g, '')
-  );
+    // Make sure GoKwik popup/original page is active
+    await this.page.bringToFront();
 
-  expect(netPayable).toBe(2 * plpPrice);
 
-  // Quantity 3 → ₹1399
-  await this.firstProductPlusIcon.click();
-  await this.page.waitForTimeout(2000);
+    // -----------------------------
+    // Privacy Notice
+    // -----------------------------
+    const privacyPagePromise = this.page.context().waitForEvent('page');
 
-  netPayableText = await this.netPayable.textContent();
-  netPayable = parseFloat(
-    netPayableText.replace(/[^\d.]/g, '')
-  );
+    await this.privacyNotice.click();
 
-  expect(netPayable).toBe(1399);
-  await expect(this.buy3message).toBeVisible();
-  // Quantity 4 → ₹1799
-  await this.firstProductPlusIcon.click();
-  await this.page.waitForTimeout(2000);
+    const privacyPage = await privacyPagePromise;
+    await privacyPage.waitForLoadState();
 
-  netPayableText = await this.netPayable.textContent();
-  netPayable = parseFloat(
-    netPayableText.replace(/[^\d.]/g, '')
-  );
+    await expect(privacyPage).toHaveURL(
+      'https://www.unilevernotices.com/privacy-notices/india-english.html'
+    );
 
-  expect(netPayable).toBe(1799);
+    await privacyPage.close();
+
+    await this.page.bringToFront();
+
+
+    // -----------------------------
+    // Unilever Brands
+    // -----------------------------
+    const brandsPagePromise = this.page.context().waitForEvent('page');
+    await this.unileverBrands.click();
+
+    const brandsPage = await brandsPagePromise;
+    await brandsPage.waitForLoadState();
+
+    await expect(brandsPage).toHaveURL(
+      'https://www.hul.co.in/brands/'
+    );
+
+    await brandsPage.close();
+
+    await this.page.bringToFront();
+
+
+    // -----------------------------
+    // Privacy Notice 2
+    // -----------------------------
+    const privacyPage2Promise = this.page.context().waitForEvent('page');
+
+    await this.privacyNotice2.click();
+
+    const privacyPage2 = await privacyPage2Promise;
+    await privacyPage2.waitForLoadState();
+
+    await expect(privacyPage2).toHaveURL(
+      'https://www.unilevernotices.com/privacy-notices/india-english.html'
+    );
+
+    await privacyPage2.close();
+
+    await this.page.bringToFront();
+  }
+  async checkoutGokwikStaticPageRedirectionMobile() {
+
+    await this.checkoutButton.click();
+    await this.gokwikPopup.waitFor();
+
+    // -----------------------------
+    // Terms & Conditions
+    // -----------------------------
+    const termsPagePromise = this.page.context().waitForEvent('page');
+
+    await this.termsAndConditions.click();
+
+    const termsPage = await termsPagePromise;
+    await termsPage.waitForLoadState();
+
+    await expect(termsPage).toHaveURL(
+      'https://lovebeautyandplanet.in/pages/terms-conditions-1/'
+    );
+
+    await termsPage.close();
+
+    // Make sure GoKwik popup/original page is active
+    await this.page.bringToFront();
+
+
+    // -----------------------------
+    // Privacy Notice
+    // -----------------------------
+    const privacyPagePromise = this.page.context().waitForEvent('page');
+
+    await this.privacyNotice.click();
+
+    const privacyPage = await privacyPagePromise;
+    await privacyPage.waitForLoadState();
+
+    await expect(privacyPage).toHaveURL(
+      'https://www.unilevernotices.com/privacy-notices/india-english.html'
+    );
+
+    await privacyPage.close();
+
+    await this.page.bringToFront();
+
+
+    // -----------------------------
+    // Privacy Notice 2
+    // -----------------------------
+    const privacyPage2Promise = this.page.context().waitForEvent('page');
+
+    await this.privacyNotice2Mobile.click();
+
+    const privacyPage2 = await privacyPage2Promise;
+    await privacyPage2.waitForLoadState();
+
+    await expect(privacyPage2).toHaveURL(
+      'https://www.unilevernotices.com/privacy-notices/india-english.html'
+    );
+
+    await privacyPage2.close();
+
+    await this.page.bringToFront();
+  }
+
+
+
+  async checkoutGokwikCouponValidation() {
+
+    await this.checkoutButton.click();
+
+    await this.gokwikPopup.waitFor();
+
+    await expect(this.gokwikPopup).toBeVisible();
+
+    await expect(this.checkoutLogo).toBeVisible();
+
+    await this.checkoutAllPrice.click();
+
+    // Price before coupon
+    const checkoutProductPrice = await this.checkoutToPay.textContent();
+
+    const normalizedCheckoutPrice = Number(
+      checkoutProductPrice.replace(/[^\d.]/g, '')
+    );
+
+    await this.checkoutAllPrice.click();
+
+    // Invalid coupon
+    await this.checkoutDiscount.fill("WAVESLP");
+    await this.checkoutApply.click();
+
+    await expect(this.couponError).toBeVisible();
+
+    // Valid coupon
+    await this.checkoutDiscount.fill("WAVESLBP");
+    await this.checkoutApply.click();
+
+    await expect(this.checkoutApplied).toBeVisible();
+
+    await this.checkoutAllPrice.click();
+
+    // Price after coupon
+    const checkoutProductPrice2 = await this.checkoutToPay.textContent();
+
+    const normalizedCheckoutPrice2 = Number(
+      checkoutProductPrice2.replace(/[^\d.]/g, '')
+    );
+
+    await expect(normalizedCheckoutPrice2).toBeLessThan(
+      normalizedCheckoutPrice
+    );
+
+    // Remove coupon
+    await this.checkoutAllPrice.click();
+
+    await this.couponRemove.click();
+
+    await this.checkoutAllPrice.click();
+
+    // Price after removing coupon
+    const checkoutProductPrice3 = await this.checkoutToPay.textContent();
+
+    const normalizedCheckoutPrice3 = Number(
+      checkoutProductPrice3.replace(/[^\d.]/g, '')
+    );
+
+    await expect(normalizedCheckoutPrice3).toBe(
+      normalizedCheckoutPrice
+    );
+
+        await this.checkoutAllPrice.click();
+ await this.checkoutDiscount.fill("WAVESLBP");
+    await this.checkoutApply.click();
+    await this.backbutton.click();
+    await this.skipandExit.click();
+    await this.checkoutButton.click();
+    await expect(this.checkoutDiscount).toBeEmpty();
+  }
+  async checkoutGokwikkValidation() {
+    const cartTitle = await this.productTitle.textContent();
+    const cartPrice = await this.cartPrice.textContent();
+    const cartItem = await this.cartItem.textContent();
+    const cartQuantity = await this.cartQuantity.inputValue();
+    await this.checkoutButton.click();
+    await this.gokwikPopup.waitFor();
+    await expect(this.gokwikPopup).toBeVisible();
+    await expect(this.checkoutLogo).toBeVisible();
+    await expect(this.poweredLogo).toBeVisible();
+    await expect(this.continueDisabled).toBeVisible();
+    await expect(this.loginToContinue).toBeVisible();
+    await expect(this.enterMobileNumber).toBeVisible();
+    const checkoutItem = await this.checkoutItem.textContent();
+    const normalizedCartItem = cartItem.replace(/[()]/g, '').trim();
+    const normalizedCheckoutItem = checkoutItem.replace(/[()]/g, '').trim();
+    await expect(normalizedCheckoutItem).toContain(normalizedCartItem);
+    await this.checkoutAllPrice.click();
+    const checkoutProduct = await this.checkoutProduct.textContent();
+    await expect(checkoutProduct).toContain(cartTitle);
+    const checkoutProductPrice = await this.checkoutProductPrice.textContent();
+    const normalizedCartPrice = cartPrice.replace(/[^\d.]/g, '');
+    const normalizedCheckoutPrice = checkoutProductPrice.replace(/[^\d.]/g, '');
+    await expect(normalizedCheckoutPrice).toBe(normalizedCartPrice);
+    const checkoutQuantity = await this.checkoutQuantity.textContent();
+    await expect(checkoutQuantity).toContain(cartQuantity);
+    await expect(this.checkoutShipping).toBeVisible();
+    const toPay = await this.checkoutToPay.textContent();
+    const normalizedtoPay = toPay.replace(/[^\d.]/g, '');
+    await expect(normalizedtoPay).toBe(normalizedCartPrice);
+
+  }
+
+  async buy3At1399andBuy4OfferAt1799() {
+
+    await this.announcementBarLink.click();
+    //combo should not be visible
+    const productTitles = await this.plpProductTitle.allTextContents();
+
+    expect(productTitles.length).toBeGreaterThan(0);
+
+    for (const title of productTitles) {
+      expect(
+        title.toLowerCase(),
+        `Combo product found in PLP: ${title}`
+      ).not.toContain('combo');
+    }
+
+    const plpPriceText = await this.plpPrice.nth(0).textContent();
+
+    const plpPrice = parseFloat(
+      plpPriceText.replace(/[^\d.]/g, '')
+    );
+
+    await this.plpATCButton.nth(0).click();
+
+    await this.viewCart.click();
+
+    // Quantity 2
+    await this.firstProductPlusIcon.click();
+    await this.page.waitForTimeout(2000);
+
+    let netPayableText = await this.netPayable.textContent();
+    let netPayable = parseFloat(
+      netPayableText.replace(/[^\d.]/g, '')
+    );
+
+    await expect(netPayable).toBe(2 * plpPrice);
+    await expect(this.add1More).toBeVisible();
+
+
+    // Quantity 3 → ₹1399
+    await this.firstProductPlusIcon.click();
+    await this.page.waitForTimeout(2000);
+
+    netPayableText = await this.netPayable.textContent();
+    netPayable = parseFloat(
+      netPayableText.replace(/[^\d.]/g, '')
+    );
+
+    expect(netPayable).toBe(1399);
+    await expect(this.buy3message).toBeVisible();
+    await this.viewOffers.click();
+    await expect(this.offerCard).toBeVisible();
+    // Quantity 4 → ₹1799
+    await this.firstProductPlusIcon.click();
+    await this.page.waitForTimeout(2000);
+
+    netPayableText = await this.netPayable.textContent();
+    netPayable = parseFloat(
+      netPayableText.replace(/[^\d.]/g, '')
+    );
+
+    expect(netPayable).toBe(1799);
     await expect(this.buy4message).toBeVisible();
+    await this.viewOffers.click();
+    await expect(this.offerCard).toBeVisible();
+    await this.page.waitForTimeout(2000);
 
-  // // Quantity 5 → ₹1799 + plpPrice
-  // await this.firstProductPlusIcon.click();
-  // await this.page.waitForTimeout(2000);
+    await this.firstProductMinusIcon.click();
+    await this.firstProductMinusIcon.click();
 
-  // netPayableText = await this.netPayable.textContent();
-  // netPayable = parseFloat(
-  //   netPayableText.replace(/[^\d.]/g, '')
-  // );
+    await expect(this.add1More).toBeVisible();
 
-  // expect(netPayable).toBe(1799 + plpPrice);
-}
+    // // Quantity 5 → ₹1799 + plpPrice
+    // await this.firstProductPlusIcon.click();
+    // await this.page.waitForTimeout(2000);
 
-async combinationOfBuy3At1399andBuy4OfferAt1799andCombo(){
-   await this.announcementBarLink.click();
+    // netPayableText = await this.netPayable.textContent();
+    // netPayable = parseFloat(
+    //   netPayableText.replace(/[^\d.]/g, '')
+    // );
 
-  const plpPriceText = await this.plpPrice.nth(0).textContent();
+    // expect(netPayable).toBe(1799 + plpPrice);
+  }
 
-  const plpPrice = parseFloat(
-    plpPriceText.replace(/[^\d.]/g, '')
-  );
+  async combinationOfBuy3At1399andBuy4OfferAt1799andCombo() {
+    await this.announcementBarLink.click();
 
-  await this.plpATCButton.nth(0).click();
+    const plpPriceText = await this.plpPrice.nth(0).textContent();
 
-  await this.viewCart.click();
+    const plpPrice = parseFloat(
+      plpPriceText.replace(/[^\d.]/g, '')
+    );
 
-  // Quantity 2
-  await this.firstProductPlusIcon.click();
-  await this.page.waitForTimeout(2000);
+    await this.plpATCButton.nth(0).click();
 
-  let netPayableText = await this.netPayable.textContent();
-  let netPayable = parseFloat(
-    netPayableText.replace(/[^\d.]/g, '')
-  );
+    await this.viewCart.click();
 
-  expect(netPayable).toBe(2 * plpPrice);
+    // Quantity 2
+    await this.firstProductPlusIcon.click();
+    await this.page.waitForTimeout(2000);
 
-  // Quantity 3 → ₹1399
-  await this.firstProductPlusIcon.click();
-  await this.page.waitForTimeout(2000);
+    let netPayableText = await this.netPayable.textContent();
+    let netPayable = parseFloat(
+      netPayableText.replace(/[^\d.]/g, '')
+    );
 
-  netPayableText = await this.netPayable.textContent();
-  netPayable = parseFloat(
-    netPayableText.replace(/[^\d.]/g, '')
-  );
+    expect(netPayable).toBe(2 * plpPrice);
 
-  expect(netPayable).toBe(1399);
-  await expect(this.buy3message).toBeVisible();
-  await this.closeCart.click();
-return netPayable;
-}
-async combinePrice(offer) {
+    // Quantity 3 → ₹1399
+    await this.firstProductPlusIcon.click();
+    await this.page.waitForTimeout(2000);
 
-  const productPriceText = await this.productPrice.textContent();
+    netPayableText = await this.netPayable.textContent();
+    netPayable = parseFloat(
+      netPayableText.replace(/[^\d.]/g, '')
+    );
 
-  const productPrice = parseFloat(
-    productPriceText.replace(/[^\d.]/g, '')
-  );
+    expect(netPayable).toBe(1399);
+    await expect(this.buy3message).toBeVisible();
+    await this.closeCart.click();
+    return netPayable;
+  }
+  async combinePrice(offer) {
 
-  await this.pdpatcButton.click();
+    const productPriceText = await this.productPrice.textContent();
 
-  const total = productPrice + offer;
+    const productPrice = parseFloat(
+      productPriceText.replace(/[^\d.]/g, '')
+    );
 
-  await this.cartLink.click();
+    await this.pdpatcButton.click();
 
-  await expect(this.netPayable).toHaveText(`₹${total}`);
-}
+    const total = productPrice + offer;
+
+    await this.cartLink.click();
+
+    await expect(this.netPayable).toHaveText(`₹${total}`);
+  }
 
 
 
@@ -213,7 +542,7 @@ async combinePrice(offer) {
     const secondProductMRP = await this.cartMRP2.first().textContent();
     const subTotal = await this.subTotal.first().textContent();
     const netPayable = await this.netPayable.first().textContent();
-    const subtotal=firstProductMRP + secondProductMRP;
+    const subtotal = firstProductMRP + secondProductMRP;
     const firstProductDiscount = parseFloat(firstProductMRP.replace(/[^0-9.-]+/g, "")) - parseFloat(firstProductPrice.replace(/[^0-9.-]+/g, ""));
     const secondProductDiscount = parseFloat(secondProductMRP.replace(/[^0-9.-]+/g, "")) - parseFloat(secondProductPrice.replace(/[^0-9.-]+/g, ""));
     const totalDiscount = firstProductDiscount + secondProductDiscount;
@@ -226,7 +555,7 @@ async combinePrice(offer) {
 
 
   }
-async addToCartAndVerifySavedandShippingMessage() {
+  async addToCartAndVerifySavedandShippingMessage() {
     await this.pdpatcButton.click();
 
     // Wait for cart product
@@ -247,9 +576,9 @@ async addToCartAndVerifySavedandShippingMessage() {
     console.log("Total Saved: " + totalsaved);
 
     await expect(this.youHaveSavedMessage)
-        .toContainText(String(totalsaved));
-        await expect(this.freeShippingMessage).toBeVisible();
-}
+      .toContainText(String(totalsaved));
+    await expect(this.freeShippingMessage).toBeVisible();
+  }
   async addToCartAndVerifyTheDiscount() {
     await this.pdpatcButton.click();
 
@@ -303,10 +632,31 @@ async addToCartAndVerifySavedandShippingMessage() {
   }
   async removeFirstProductFromCart() {
     await this.cartLink.click();
-    await this.deleteFirstProduct.click();
-    await this.closeCart.click();
-    await expect(this.filledCartWithQuantity).toHaveText('1');
 
+    const cartInitialPriceText = await this.netPayable.textContent();
+
+    await this.deleteFirstProduct.click();
+
+    await this.page.waitForTimeout(8000);
+
+    const cartFinalPriceText = await this.netPayable.textContent();
+
+    // Convert price text to numbers
+    // Example: "₹1,299.00" → 1299
+    const cartInitialPrice = parseFloat(
+      cartInitialPriceText.replace(/[₹,\s]/g, '')
+    );
+
+    const cartFinalPrice = parseFloat(
+      cartFinalPriceText.replace(/[₹,\s]/g, '')
+    );
+
+    // Verify price changed after removing product
+    expect(cartFinalPrice).not.toBe(cartInitialPrice);
+
+    await this.closeCart.click();
+
+    await expect(this.filledCartWithQuantity).toHaveText('1');
   }
   async removeProductFromCart() {
     await this.cartLink.click();
@@ -350,30 +700,30 @@ async addToCartAndVerifySavedandShippingMessage() {
     expect(parseInt(finalQuantity)).toBeLessThan(parseInt(afterQuantity));
   }
 
-async increaseQuantityandVerifyTheQuantity() {
-  await this.atcButton.click();
-  await this.page.waitForTimeout(4000);
+  async increaseQuantityandVerifyTheQuantity() {
+    await this.atcButton.click();
+    await this.page.waitForTimeout(4000);
 
-  if (await this.cartHeading.isVisible()) {
-    await this.closeCart.click();
+    if (await this.cartHeading.isVisible()) {
+      await this.closeCart.click();
+    }
+
+    await this.qtyPlus.click();
+    await this.qtyPlus.click();
+    await this.page.waitForTimeout(4000);
+
+    const totalQuantity = parseInt(
+      await this.qtyInput.getAttribute('data-cart-quantity'),
+      10
+    );
+
+    const cartQuantity = parseInt(
+      await this.cartQuantity.inputValue(),
+      10
+    );
+
+    await expect(totalQuantity).toEqual(cartQuantity);
   }
-
-  await this.qtyPlus.click();
-  await this.qtyPlus.click();
-  await this.page.waitForTimeout(4000);
-
-  const totalQuantity = parseInt(
-    await this.qtyInput.getAttribute('data-cart-quantity'),
-    10
-  );
-
-  const cartQuantity = parseInt(
-    await this.cartQuantity.inputValue(),
-    10
-  );
-
-  await expect(totalQuantity).toEqual(cartQuantity);
-}
 
 
   async quantitySelectorDisableFunctionality() {
@@ -431,6 +781,7 @@ async increaseQuantityandVerifyTheQuantity() {
     await this.closeCart.click();
   }
   async emptycartVisibility() {
+    await expect(this.cartCount).not.toBeVisible();
     await this.cartLink.click();
     await expect(this.emptyCartMessage).toBeVisible();
   }

@@ -23,7 +23,7 @@ test.describe('Cookie popup validation', () => {
         await hp.cookieAcceptFunctionality();
     });
 });
-
+//>>>>>>>dont copy login<<<<<<<<< 
 test.describe('All', () => {
     test.beforeEach(async ({ page }, testInfo) => {
         lp = new Login(page);
@@ -36,33 +36,34 @@ test.describe('All', () => {
         await hp.removeCookiePopup(page);
 
     });
-    test('@desktop Login1 Verify navigation to login page via account link', async ({ page }) => {
+    test('@all Login1 Verify navigation to login page via account link', async ({ page }) => {
         await lp.loginNavigation();
     });
 
-    test('@desktop Login2 Verify user can register and login', async ({ page }) => {
+    test('@all Login2 Verify user can register and login', async ({ page }) => {
         const lp = new Login(page);
         await lp.registerUser();
-        await expect(page).toHaveURL("https://lovebeautyandplanet.in/account");
-        await lp.logout();
+        await expect(page).toHaveURL(/\/account/);
+        await lp.loginapageVisibilityandlogout();
         await lp.login();
-        await expect(page).toHaveURL("https://lovebeautyandplanet.in/account");
+        await expect(page).toHaveURL(/\/account/);
     });
-    test('@desktop Login3 Verify reset password', async ({ page }) => {
-        await lp.loginNavigation();
-        await lp.forgotPasswordFunctionality();
-    })
-    test('@desktop Login4 Verify login error message', async ({ page }) => {
+   
+    test('@all Login3 Verify login error message', async ({ page }) => {
         await lp.loginNavigation();
         await lp.loginErrorValidation();
     })
-    test('@desktop Login5 Verify register error message', async ({ page }) => {
+    test('@all Login4 Verify register error message', async ({ page }) => {
         await lp.loginNavigation();
         await lp.registerErrorValidation();
     })
-    test('@desktop Login6 Verify recover password error message', async ({ page }) => {
+    test('@all Login5 Verify recover password error message', async ({ page }) => {
         await lp.loginNavigation();
         await lp.recoveryEmailErrorValidation();
+    })
+     test('@all Login6 Verify recover password error message', async ({ page }) => {
+        await lp.loginNavigation();
+        await lp.recoveryEmailSuccessValidation();
     })
 
     //HP-------------------
@@ -337,8 +338,10 @@ test.describe('All', () => {
         test.setTimeout(300000);
         await hp.knowYourIngredientsRedirections(page);
     })
-    test('@desktop HP67 Verify add and delete address functionality', async ({ page }) => {
-        await hp.loginFunctionality(page);
+    test('@all HP67 Verify add and delete address functionality', async ({ page }) => {
+        const lp = new Login(page);
+        await lp.registerUser();
+        await expect(page).toHaveURL(/\/account/);
         await hp.addAddressFunctionality(page);
     })
     //PLP-------------

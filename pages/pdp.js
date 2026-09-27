@@ -1,4 +1,5 @@
 import { expect } from '@playwright/test';
+import { generateUser } from '../pages/utils.js';
 
 exports.PDP = class PDP {
 
@@ -27,6 +28,7 @@ exports.PDP = class PDP {
     this.qtyInput = page.locator('(//input[@class="quantity__input"])[1]').first();
 
     // Pincode validation
+    this.pincodeEnterMessage = page.locator('[class="pincode-info-message"]');
     this.pincodeInput = page.locator('[id="pincode"]');
     this.pincodeCheckBtn = page.locator('[class="submit-pincode-button"]');
     this.pincodeError = page.locator('//p[contains(text(),"Destination pincode is not serviceable")]');
@@ -117,6 +119,7 @@ exports.PDP = class PDP {
     this.reelPopupTitle = page.locator('[class="reelUp_modal_product_title"]');
     this.trendingOnSocialSection = page.locator("//div[contains(text(),'wha')]");
     this.reelShopNow = page.locator('//button[@class="reelUp_custom_action reelUp_modal_shop_now_btn"]');
+        this.reelPrice = page.locator('[class="money"]');
     this.bounceATC = page.locator('[class="product-form__submit button button--full-width button--primary"]');
     this.bounceQuantityMinus = page.locator('(//button[@class="custom-qty-btn qty-minus"])[1]');
     this.bounceQuantityPlus = page.locator('(//button[@class="custom-qty-btn qty-plus"])[1]');
@@ -131,44 +134,111 @@ exports.PDP = class PDP {
     this.bouncefaqAccordion = page.locator('//section[@class="faq-section plp-faq collection-faq"]//h3[@class="accordion-header"]');
     this.bouncefaqAccordionAnswer = page.locator('//section[@class="faq-section plp-faq collection-faq"]//div[@class="accordion-body"]');
     this.firstProductPlusIcon = page.locator('//tr[@id="CartDrawer-Item-1"]//button[@name="plus"]');
-    this.shippingBar=page.locator('[class="free-shipping--content"]');
-    this.freeShippingMessage=page.locator('[class="free-shipping--success-message"]');
+    this.shippingBar = page.locator('[class="free-shipping--content"]');
+    this.freeShippingMessage = page.locator('[class="free-shipping--success-message"]');
+    this.imageSlider = page.locator('//ul[@class="thumbnail-list list-unstyled slider slider--mobile slider--tablet-up"]//li').nth(1);
+    this.rightNavigation = page.locator('[class="arrow_desktop_slider--next slider-button slider-button--next"]').first();
+    this.leftNavigation = page.locator('[class="arrow_desktop_slider--prev slider-button slider-button--pre"]').first();
+    this.productcardReview = page.locator('[class="custom-review--rating-conatiner"]').first();
+    this.productCardCategory = page.locator('//div[@class="h-pro-card-cnt"]//p').first();
+    this.productCardTitle = page.locator('[class="h-pro-card-cnt-description"]').first();
+    this.productCardVariant = page.locator('[class="h-pro-quant hm-pro-variant"]').first();
+    this.productCardPrice = page.locator('//div[@class="h-pro-price"]//span[@class="pro-variant-price active"]').first();
+    this.compareAtPrice = page.locator('//div[@class="h-pro-price"]//span[@class="text-decoration-line-through active"]').first();
+    this.discountPercentage = page.locator('//div[@class="h-pro-card-sale active"]').first();
+    this.productCardATC = page.locator('[class="product-form__buttons"]').first();
+    this.quantityPlus = page.locator('//quantity-input[@class="quantity cart-quantity  "]//button[@name="plus"]').first();
+    this.quantityMinus = page.locator('//quantity-input[@class="quantity cart-quantity  "]//button[@name="minus"]').first();
+    this.ATCSuccessMessage = page.locator('[class="add-to-cart-pop active"]');
+    this.productimage = page.locator('[class="product-image"]').first();
+    this.rvProductcardReview = page.locator('//div[@data-section-type="wizaah-recently-viewed-products"]//div[@class="custom-review--rating-conatiner"]').first();
+    this.rvProductCradCategory = page.locator('//div[@data-section-type="wizaah-recently-viewed-products"]//p').first();
+    this.rvProductCardTitle = page.locator('//div[@data-section-type="wizaah-recently-viewed-products"]//p[@class="h-pro-card-cnt-description"]').first();
+    this.rvProductCardVariant = page.locator('//div[@data-section-type="wizaah-recently-viewed-products"]//div[@class="h-pro-quant hm-pro-variant"]').first();
+    this.rvProductCardPrice = page.locator('//div[@data-section-type="wizaah-recently-viewed-products"]//span[@class="pro-variant-price active"]').first();
+    this.rvCompareAtPrice = page.locator('//div[@data-section-type="wizaah-recently-viewed-products"]//span[@class="text-decoration-line-through active"]').first();
+    this.rvDiscountPercentage = page.locator('//div[@data-section-type="wizaah-recently-viewed-products"]//div[@class="h-pro-card-sale active"]').first();
+
   }
-async deliveryChargeFunctionality(page) {
+  async recentlyViewedToPDP(page, a, b) {
+    await expect(this.rvProductcardReview).toBeVisible();
+    await expect(this.rvProductCradCategory).toBeVisible();
+    await expect(this.rvProductCardTitle).toBeVisible();
+    await expect(this.rvProductCardVariant).toBeVisible();
+    await expect(this.rvProductCardPrice).toBeVisible();
+    await expect(this.rvCompareAtPrice).toBeVisible();
+    await expect(this.rvDiscountPercentage).toBeVisible();
+    const productTitle = (await this.recentlyViewedTitle.nth(0).textContent())
+      ?.replace(/\s+/g, ' ')
+      .trim();
 
-  const finalPrice = await this.bounceProductPrice.textContent();
+    expect(productTitle).toBeTruthy();
 
-  await this.bounceATC.click();
-  await this.cartLink.click();
+    for (const word of [a, b]) {
+      expect(
+        productTitle.toLowerCase(),
+        `Recently viewed title "${productTitle}" should contain "${word}"`
+      ).toContain(word.toLowerCase());
+    }
 
-  // Convert product price to number
-  const finalPriceValue = parseFloat(
-    finalPrice.replace(/[^\d.]/g, '')
-  );
+    await this.recentlyViewedTitle.nth(0).click();
 
-  // Initial Net Payable = Product Price + Shipping
-  const expectedNetPayable = finalPriceValue + 49;
+    const pdpProductTitle = (await this.productTitle.textContent())
+      ?.replace(/\s+/g, ' ')
+      .trim();
 
-  await expect(this.netPayable)
-    .toHaveText(`₹${expectedNetPayable}`);
+    expect(pdpProductTitle.toLowerCase()).toContain(productTitle.toLowerCase());
+  }
 
-  await expect(this.shippingBar).toBeVisible();
+  async productCardDetailsVerification(page) {
+    await this.productcardReview.scrollIntoViewIfNeeded();
+    await expect(this.productimage).toBeVisible();
+    await expect(this.productcardReview).toBeVisible();
+    await expect(this.productCardCategory).toBeVisible();
+    await expect(this.productCardTitle).toBeVisible();
+    await expect(this.productCardVariant).toBeVisible();
+    await expect(this.productCardPrice).toBeVisible();
+    await expect(this.compareAtPrice).toBeVisible();
+    await expect(this.discountPercentage).toBeVisible();
+    await this.ymalATC.nth(0).click();
+    await expect(this.ATCSuccessMessage).toBeVisible();
 
-  // Increase quantity to 2
-  await this.firstProductPlusIcon.click();
+  }
+  async deliveryChargeFunctionality(page) {
 
-  await this.page.waitForTimeout(1000);
+    const finalPrice = await this.bounceProductPrice.textContent();
 
-  // Get updated Net Payable
-  const netPayableText = await this.netPayable.textContent();
+    await this.bounceATC.click();
+    await this.cartLink.click();
 
-  const netPayableValue = parseFloat(
-    netPayableText.replace(/[^\d.]/g, '')
-  );
+    // Convert product price to number
+    const finalPriceValue = parseFloat(
+      finalPrice.replace(/[^\d.]/g, '')
+    );
 
-  // Compare Net Payable with product price × 2
-  expect(netPayableValue).toBe(finalPriceValue * 2);
-}
+    // Initial Net Payable = Product Price + Shipping
+    const expectedNetPayable = finalPriceValue + 49;
+
+    await expect(this.netPayable)
+      .toHaveText(`₹${expectedNetPayable}`);
+
+    await expect(this.shippingBar).toBeVisible();
+
+    // Increase quantity to 2
+    await this.firstProductPlusIcon.click();
+
+    await this.page.waitForTimeout(1000);
+
+    // Get updated Net Payable
+    const netPayableText = await this.netPayable.textContent();
+
+    const netPayableValue = parseFloat(
+      netPayableText.replace(/[^\d.]/g, '')
+    );
+
+    // Compare Net Payable with product price × 2
+    expect(netPayableValue).toBe(finalPriceValue * 2);
+  }
   async bounceFAQFunctionality(page) {
     await this.bounceFAQViewAll.click();
     for (let i = 0; i < await this.bouncefaqAccordion.count(); i++) {
@@ -264,12 +334,13 @@ async deliveryChargeFunctionality(page) {
 
   async reelSectionATCFunctinality(page) {
     await this.trendingOnSocialSection.scrollIntoViewIfNeeded();
-
+    await expect(this.reelPrice.nth(0)).toBeVisible();
     const productName = (await this.reelProductTitle.first().textContent())
       .trim()
       .toLowerCase();
 
     await this.reelAddToCart.first().click();
+    await expect(this.ATCSuccessMessage).toBeVisible();
     await this.viewCartButton.click();
 
     const cartProducts = (await this.cartproductTitle.allTextContents())
@@ -366,6 +437,8 @@ async deliveryChargeFunctionality(page) {
 
     // Click the YMAL product
     await this.recentlyViewedATC.click();
+    await expect(this.ATCSuccessMessage).toBeVisible();
+    await expect(this.cartCount).toContainText('1');
     await this.viewCartButton.click();
 
     // Wait for visible cart product
@@ -407,6 +480,10 @@ async deliveryChargeFunctionality(page) {
     await this.bounceProductVarinat.nth(1).click();
     const finalPrice = await this.bounceProductPrice.textContent();
     await expect(initialPrice).not.toBe(finalPrice);
+    await this.bounceProductVarinat.nth(0).click();
+    const finalPrice2 = await this.bounceProductPrice.textContent();
+    await expect(initialPrice).toBe(finalPrice2);
+
   }
 
   async youmayalsoLikeRelevantProductVisibility(page) {
@@ -491,6 +568,8 @@ async deliveryChargeFunctionality(page) {
 
     // Click the YMAL product
     await this.ymalATC.nth(0).click();
+    await expect(this.ATCSuccessMessage).toBeVisible();
+    await expect(this.cartCount).toContainText('1');
     await this.viewCartButton.click();
 
     // Wait for visible cart product
@@ -549,8 +628,10 @@ async deliveryChargeFunctionality(page) {
     await this.writeareviewLink.click();
     await this.fivestar.click();
     await this.reviewHeadline.fill("Nice");
-    await this.reviewName.fill("Anvitha Jain");
-    await this.reviewEmail.fill("jain1998@gmail.com");
+    const firstName = generateUser().firstName;
+    await this.reviewName.fill(firstName);
+    const email = generateUser().email;
+    await this.reviewEmail.fill(email);
     await this.writeaReview.fill("recomended");
     await this.reviewcheckbox.click();
     await this.reviewSend.click();
@@ -581,7 +662,9 @@ async deliveryChargeFunctionality(page) {
   }
 
 
-
+  async closeCartDrawer() {
+    await this.closeCart.click();
+  }
 
 
 
@@ -590,6 +673,7 @@ async deliveryChargeFunctionality(page) {
     await this.imageRightNaigation.nth(0).click();
     await this.imageRightNaigation.nth(0).click();
     await this.imageLeftNavigation.click();
+    await this.imageSlider.click();
     await this.mainimage.click();
     await expect(this.imageclose).toBeVisible();
   }
@@ -661,6 +745,7 @@ async deliveryChargeFunctionality(page) {
   }
 
   async checkValidPincode(value) {
+    await expect(this.pincodeEnterMessage).toBeVisible();
     await this.pincodeInput.fill(value);
     await this.pincodeCheckBtn.click();
     await expect(this.pincodeResponse).toBeVisible();

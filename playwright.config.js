@@ -16,7 +16,7 @@ export default defineConfig({
   workers: 1,
 
   forbidOnly: isCI,
-  retries: isCI ? 2 : 2,
+  retries: isCI ? 2 : 0,
 
   reporter: [['html'], ['list']],
 

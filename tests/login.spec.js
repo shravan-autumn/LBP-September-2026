@@ -13,7 +13,7 @@ test.beforeEach(async ({ page }) => {
   await hp.cookieAccept;
 });
 test.describe('Login / Account', () => {
-  test('@desktop Login1 Verify navigation to login page via account link', async ({ page }) => {
+  test('@all Login1 Verify navigation to login page via account link', async ({ page }) => {
     await lp.loginNavigation();
   });
 
@@ -37,7 +37,7 @@ test.describe('Login / Account', () => {
     await lp.loginNavigation();
     await lp.registerErrorValidation();
   })
-  test.only('@desktop Login6 Verify recover password error message', async ({ page }) => {
+  test('@desktop Login6 Verify recover password error message', async ({ page }) => {
         await lp.loginNavigation();
     await lp.recoveryEmailErrorValidation();
   })

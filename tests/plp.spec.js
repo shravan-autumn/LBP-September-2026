@@ -26,11 +26,14 @@ test.describe('PLP', () => {
     await hp.PLPRedirectionFromMegaMenu('New Launches');
     await expect(page).toHaveURL('https://lovebeautyandplanet.in/collections/new-launches');
     await plp.productDetailsVisibility();
+    await plp.productCardDetailsVerification(page);
+
   });
   test('@mobile PLP1 Verify user naviagtes to PLP and verify product details,banner and breadcrumb are disaplyed', async ({ page }) => {
     await hp.PLPRedirectionHambergerMenu('New Launches');
     await expect(page).toHaveURL('https://lovebeautyandplanet.in/collections/new-launches');
     await plp.productDetailsVisibility();
+    await plp.productCardDetailsVerification(page);
   });
   test('@desktop PLP2 Verify user naviagtes to PLP applies filters and verify relevant products are disaplyed', async ({ page }) => {
     await hp.PLPRedirectionFromMegaMenu('New Launches');
@@ -83,24 +86,24 @@ test.describe('PLP', () => {
     await plp.openBeautyEditsViewAll();
     await expect(page).toHaveURL("https://lovebeautyandplanet.in/blogs/hair");
   });
-  test('@mobile PLP7 Verify Beauty Archives View All redirection', async ({ page }) => {
-    await hp.PLPRedirectionHambergerMenu('Value Combos');
+  test('@mobile PLP7 Verify Beauty Archives navigation and View All redirection', async ({ page }) => {
+    await hp.PLPRedirectionHambergerMenu('View All Products');
     await plp.openBeautyEditsViewAll();
     await expect(page).toHaveURL("https://lovebeautyandplanet.in/blogs/hair");
   });
-  test('@desktop PDP8 Verify beauty archives functionality', async ({ page }) => {
+  test('@desktop PLP8 Verify beauty archives functionality', async ({ page }) => {
     await hp.PLPRedirectionFromMegaMenu('View All Products');
     await plp.beautyArchivesFunctionality();
   })
-  test('@mobile PDP8 Verify beauty archives functionality', async ({ page }) => {
+  test('@mobile PLP8 Verify beauty archives functionality', async ({ page }) => {
     await hp.PLPRedirectionHambergerMenu('View All Products');
     await plp.beautyArchivesFunctionality();
   })
-  test('@desktop PDP9 Verify combo products', async ({ page }) => {
+  test.only('@desktop PLP9 Verify combo products', async ({ page }) => {
     await hp.PLPRedirectionFromMegaMenu('Value Combos');
     await plp.comboProductFunctionality();
   })
-  test('@mobile PDP9 Verify  combo products', async ({ page }) => {
+  test('@mobile PLP9 Verify combo products', async ({ page }) => {
     await hp.PLPRedirectionHambergerMenu('Value Combos');
     await plp.comboProductFunctionality();
   })
@@ -130,36 +133,71 @@ test.describe('PLP', () => {
     await hp.PLPRedirectionHambergerMenu('View All Products');
     await plp.movetoTopFunctionality();
   });
-  test('@desktop PLP13 Verify search functionality with valid data', async ({ page }) => {
+  test('@all PLP13 Verify search functionality with valid data', async ({ page }) => {
     await plp.searchPLPToPDPNavigation("hair");
   });
-  test('@desktop PLP14 Verify search functionality with invalid data', async ({ page }) => {
+  test('@all PLP14 Verify search functionality with invalid data', async ({ page }) => {
     await plp.searchPLPToPDPNavigation("invalidproduct");
   });
 
-  test('@desktop PDP15 Verify you may also like to PDP redirection', async ({ page }) => {
+  test('@desktop PLP15 Verify you may also like to PDP redirection', async ({ page }) => {
     await hp.PLPRedirectionFromMegaMenu('View All Products');
     await plp.youmayalsoLikePDPRedirection(page);
   })
-  test('@mobile PDP16 Verify you may also like to PDP redirection', async ({ page }) => {
+  test('@mobile PLP15 Verify you may also like to PDP redirection', async ({ page }) => {
     await hp.PLPRedirectionHambergerMenu('View All Products');
     await plp.youmayalsoLikePDPRedirection(page);
   })
-  test('@desktop PDP17 Verify you may also like ATC functionality', async ({ page }) => {
+   test('@desktop PLP16 Verify you may also like > view all redirection', async ({ page }) => {
+    await hp.PLPRedirectionFromMegaMenu('View All Products');
+    await plp.youmayalsoLikeViewAllRedirection(page);
+  })
+  test('@mobile PLP16 Verify you may also like  > view all redirection', async ({ page }) => {
+    await hp.PLPRedirectionHambergerMenu('View All Products');
+    await plp.youmayalsoLikeViewAllRedirection(page);
+  })
+  test('@desktop PLP17 Verify you may also like ATC functionality', async ({ page }) => {
     await hp.PLPRedirectionFromMegaMenu('View All Products');
     await plp.youmayalsoLikeATC(page);
   })
-  test('@mobile PDP17 Verify you may also like ATC functionality', async ({ page }) => {
+  test('@mobile PLP17 Verify you may also like ATC functionality', async ({ page }) => {
     await hp.PLPRedirectionHambergerMenu('View All Products');
     await plp.youmayalsoLikeATC(page);
   })
-  test('@desktop PDP18 Verify sold out product functionality', async ({ page }) => {
+  test('@desktop PLP18 Verify sold out product functionality', async ({ page }) => {
     await hp.PLPRedirectionFromMegaMenu('View All Products');
     await plp.soldoutFunctionality(page);
   })
-  test('@mobile PDP18 Verify sold out product functionality', async ({ page }) => {
+  test('@mobile PLP18 Verify sold out product functionality', async ({ page }) => {
     await hp.PLPRedirectionHambergerMenu('View All Products');
     await plp.soldoutFunctionality(page);
+  })
+  test('@all PLP19 Verify search PLP redirection', async ({ page }) => {
+    await plp.hpToSearchPLPNavigation("hair");
+  })
+  test('@all PLP20 Verify search PLP - product count', async ({ page }) => {
+    await plp.hpToSearchPLPNavigation("hair");
+    await plp.searchPLPProductCount();
+  })
+  test('@desktop PLP21 Verify search PLP -filter functionality', async ({ page }) => {
+    await plp.hpToSearchPLPNavigation("hair");
+    await plp.wizzyFilterFunctionality("Shampoo");
+  })
+  test('@mobile PLP21 Verify search PLP -filter functionality', async ({ page }) => {
+    await plp.hpToSearchPLPNavigation("hair");
+    await plp.wizzyFilterFunctionalityMobile("Shampoo");
+  })
+  test('@all PLP22 Verify search PLP - to PDP redirection', async ({ page }) => {
+    await plp.hpToSearchPLPNavigation("hair");
+    await plp.wizzysearchPLPToPDPNavigation();
+  })
+  test('@all PLP23 Verify search PLP - ATC functionality', async ({ page }) => {
+    await plp.hpToSearchPLPNavigation("oil");
+    await plp.wizzysearchPLPATC();
+  })
+  test('@all PLP23 Verify sproduct card quantity selector functionality', async ({ page }) => {
+    await plp.hpToSearchPLPNavigation("oil");
+    await plp.quantitySelectorFunctionality();
   })
 
 });

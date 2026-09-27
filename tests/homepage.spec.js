@@ -3,12 +3,13 @@ import { HomePage } from '../pages/homepage.js';
 import { PLP } from '../pages/plp.js';
 import { Cart } from '../pages/cart.js';
 import { PDP } from '../pages/pdp.js';
+import { Login } from '../pages/login.js';
 
 let hp;
 let plp;
 let c;
 let pdp;
-let l;
+let lp;
 test.describe('Cookie popup validation', () => {
   test.beforeEach(async ({ page }, testInfo) => {
     hp = new HomePage(page);
@@ -26,7 +27,7 @@ test.describe('Cookie popup validation', () => {
 
 test.describe('Homepage', () => {
   test.beforeEach(async ({ page }, testInfo) => {
-    l=new LoginPage(page);
+    lp = new Login(page);
     hp = new HomePage(page);
     plp = new PLP(page);
     c = new Cart(page);
@@ -128,9 +129,9 @@ test.describe('Homepage', () => {
   test('@all HP25 Verify variant switch functionality', async ({ page }) => {
     await hp.variantswtachFunctionality(page);
   });
-test('@all HP26 Verify product card quantity slector functionality', async ({ page }) => {
-  await hp.quantitySelectorunctionality();
-})
+  test('@all HP26 Verify product card quantity slector functionality', async ({ page }) => {
+    await hp.quantitySelectorunctionality();
+  })
   test('@all HP27 Verify Shop by Concern section', async ({ page }) => {
     await hp.shopByConcernSectionRedirections(page);
   });
@@ -141,7 +142,7 @@ test('@all HP26 Verify product card quantity slector functionality', async ({ pa
   });
 
   test('@all HP29 Verify In the Spotlight section and add to cart functionality', async ({ page }) => {
-    await hp.inTheSpotLightSection();
+    await hp.inTheSpotLightSection(page);
   });
 
   test('@all HP30 Verify What Sets Us Apart section', async ({ page }) => {
@@ -170,8 +171,8 @@ test('@all HP26 Verify product card quantity slector functionality', async ({ pa
   test('@desktop HP36 Verify trending on social Reels section - you may also like functionality', async ({ page }) => {
     await hp.reelYoumayalsolike(page);
   });
-  test('@desktop HP37 Verify trending on social Reels section - popup close functionality', async ({ page }) => {
-    await hp.reelPopupClose(page);
+  test('@desktop HP37 Verify trending on social Reels section - popup functionality', async ({ page }) => {
+    await hp.reelPopupFunctionality(page);
   });
   test('@desktop HP38 Verify whatsapp functionality', async ({ page }) => {
     await hp.whatsappRedirection(page);
@@ -182,7 +183,7 @@ test('@all HP26 Verify product card quantity slector functionality', async ({ pa
   });
 
   test('@all HP40 Verify Customer Love section display', async ({ page }) => {
-    await expect(hp.customerLoveSection).toBeVisible();
+    await hp.customerLoveSectionVisibility(page);
   });
 
   test('@all HP41 Verify Discover Our Story navigation', async ({ page }) => {
@@ -252,12 +253,12 @@ test('@all HP26 Verify product card quantity slector functionality', async ({ pa
   });
 
   test('@all HP53 Verify caution notice display', async ({ page }) => {
-    await expect(hp.cautionNotice).toBeVisible();
+    await hp.cautionNoticeVisibility(page);
   });
   test('@mobile HP54 Verify circular collection banner redirection', async ({ page }) => {
     await hp.mobileCollectionBanner(page);
   });
-  test('@all HP55 Verify product card details verification', async ({ page }) => {
+  test.only('@all HP55 Verify product card details verification', async ({ page }) => {
     await hp.productCardDetailsVerification(page);
   });
   test('@desktop HP56 Verify contact us functionality', async ({ page }) => {
@@ -275,40 +276,92 @@ test('@all HP26 Verify product card quantity slector functionality', async ({ pa
   test('@all HP58 Verify blog details page title and details visibility', async ({ page }) => {
     await hp.blogDetailsPageDetails(page);
   })
-  test('@all HP58 Verify blog details page pagination to newerpost, older post, back to hair', async ({ page }) => {
-    await hp.blogDetailsPagePagination(page);
-  })
-  test('@desktop HP59 Verify blog details page share functionlity', async ({ page }) => {
-    await hp.blogDetailsShare(page);
-  })
+
   test('@all HP59 Verify blog details - in this article functionlity', async ({ page }) => {
     await hp.whyThisArticle(page);
   })
   test('@all HP60 Verify blog details - FAQ functionlity', async ({ page }) => {
     await hp.blogFAQFunctionality(page);
   })
-    test('@all HP61 Verify blog - add to cart functionality from blog details page', async ({ page }) => {
-        await hp.blogPageATC();
-    });
-    test('@all HP62 Verify blog - read stories from blog details page', async ({ page }) => {
-        await hp.readStoriesFunctionality();
-    });
-    test('@desktop HP63 Verify blog page dropdown', async ({ page }) => {
-      await hp.blogdropdownfunctionality();
-    })
-     test('@all HP64 Verify blog read by category functionality', async ({ page }) => {
-      await hp.readByCategoryFunctionality(page);
-    })
-    test('@all HP65 Verify blog sort functionality', async ({ page }) => {
-      await hp.sortByDate(page);
-    })
-    test('@all HP66 Verify know ypur ingredients functionality', async ({ page }) => {
-          test.setTimeout(300000);
-      await hp.knowYourIngredientsRedirections(page);
-    })
-    test('@desktop HP67 Verify add and delete address functionality', async ({ page }) => {
-      await hp.loginFunctionality(page);
-      await hp.addAddressFunctionality(page);
-    })
+  test('@all HP61 Verify blog - add to cart functionality from blog details page', async ({ page }) => {
+    await hp.blogPageATC();
+  });
+  test('@all HP62 Verify blog - read stories from blog details page', async ({ page }) => {
+    await hp.readStoriesFunctionality();
+  });
+  test('@desktop HP63 Verify blog page dropdown', async ({ page }) => {
+    await hp.blogdropdownfunctionality();
+  })
+  test('@all HP64 Verify blog read by category functionality', async ({ page }) => {
+    await hp.readByCategoryFunctionality(page);
+  })
+  test('@all HP65 Verify blog Listing sort functionality', async ({ page }) => {
+    await hp.sortByDate(page);
+  })
+  test('@all HP66 Verify know your ingredients functionality', async ({ page }) => {
+    test.setTimeout(300000);
+    await hp.knowYourIngredientsRedirections(page);
+  })
+  test('@all HP67 Verify add and delete address functionality', async ({ page }) => {
+    const lp = new Login(page);
+    await lp.registerUser();
+    await expect(page).toHaveURL(/\/account/);
+    await hp.addAddressFunctionality(page);
+  })
+  test('@all HP68 Verify newsletter error validation', async ({ page }) => {
+    await hp.newsletterErrorValidation(page);
+  })
+  test('@all HP69 Verify newsletter success validation', async ({ page }) => {
+    await hp.newsletterSuccessValidation(page);
+  })
+  test('@all HP70 Verify newsletter redirections and legal text visibility', async ({ page }) => {
+    await hp.newsletterRedirections(page);
+  })
+  test('@all HP71 Verify orders page functionality', async ({ page }) => {
+    await hp.orderPageFunctionality(page);
+  })
+ 
+  test('@all HP72 Verify hero banner video visibility', async ({ page }) => {
+    await hp.bannerVideoVisibility(page);
+  })
+  test('@desktop HP73 Verify hero banner navigation arrow functionality', async ({ page }) => {
+    await hp.herobannerNavigationArrows(page);
+  })
+  test('@all HP73 Verify reel section video and thumbnail visibility', async ({ page }) => {
+    await hp.reelSectionVideoAndThumbnail(page);
+  })
+  test('@all HP74 Verify footer contact us and logo visibility', async ({ page }) => {
+    await hp.footerContactAndLogo(page);
+  })
+  test('@mobile HP75 Verify mobile social footer links', async ({ page }) => {
+    await hp.mobileSocialLinksRedirection(page);
+  })
+  test('@all HP76 Verify contact us page static links redirection', async ({ page }) => {
+    await hp.conatctUsPageStaticLinksRedirection(page);
+  })
+  test('@all HP77 Verify contact us page chackshu redirection', async ({ page }) => {
+    await hp.contactUsPageChackshuRedirection(page);
+  })
+  test('@all HP78 Verify blog details page pagination to newerpost, older post, back to hair', async ({ page }) => {
+    await hp.blogDetailsPagePagination(page);
+  })
+  test('@desktop HP79 Verify blog details page share functionlity', async ({ page }) => {
+    await hp.blogDetailsShare(page);
+  })
+  test('@all HP80 Verify blog details page notify me functionlity', async ({ page }) => {
+    await hp.blogPageNotifyMe(page);
+  })
+  test('@all HP81 Verify blog details page to PDP redirection', async ({ page }) => {
+    await hp.blogPageToPDP(page);
+  })
+   test('@all HP82 Verify track order functionality - cancelled order', async ({ page }) => {
+    await hp.TrackOrderFunctionalityCancelledOrder(page);
+  })
+  test('@all HP83 Verify track order functionality - Delivered order', async ({ page }) => {
+    await hp.TrackOrderFunctionalityOrderDelivered(page);
+  })
+  test('@all HP84 Verify track order functionality - RTO', async ({ page }) => {
+    await hp.TrackOrderFunctionalityRTO(page);
+  })
 });
 

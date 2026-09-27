@@ -31,7 +31,7 @@ test.describe('PDP', () => {
       .toContain(firstProductName.trim().toLowerCase());
   });
 
-  test('@all PDP2 Verify PDP to PLP navigation links', async ({ page }) => {
+  test('@all PDP2 Verify [offer] PDP to PLP navigation links', async ({ page }) => {
     await pdp.searchPLPToPDPNavigation("hair");
     await pdp.PDPtoPLPnavigation(page);
   });
@@ -81,8 +81,9 @@ test.describe('PDP', () => {
     await expect(page).toHaveURL("https://lovebeautyandplanet.in/pages/contact-us");
   });
 
-  test('@all PDP12 Verify reels section visibility', async ({ page }) => {
+  test('@all PDP12 Verify reels section video and thumbnail visibility', async ({ page }) => {
     await pdp.searchPLPToPDPNavigation("best");
+    await hp.reelSectionVideoAndThumbnail(page);
     await expect(pdp.reelsSection).toBeVisible();
   });
   test('@all PDP13 Verify You may also like section presence and navigation', async ({ page }) => {
@@ -118,13 +119,14 @@ test.describe('PDP', () => {
     await pdp.notifyMeFunctionality(page);
   });
 
-  test('@all PDP21 Verify you may aslo like to PDP redirection', async ({ page }) => {
+  test('@all PDP21 Verify you may aslo like to PDP redirection and naigation arrow functionality', async ({ page }) => {
     await pdp.searchPLPToPDPNavigation("argan");
     await pdp.youmayalsoLikePDPRedirection(page);
   })
   test('@all PDP22 Verify you may aslo like - relevant product visibility', async ({ page }) => {
     await pdp.searchPLPToPDPNavigation("argan");
     await pdp.youmayalsoLikeRelevantProductVisibility(page);
+    await pdp.productCardDetailsVerification(page);
   })
   test('@all PDP23 Verify you may aslo like ATC functionality', async ({ page }) => {
     await pdp.searchPLPToPDPNavigation("argan");
@@ -134,14 +136,18 @@ test.describe('PDP', () => {
     await pdp.searchPLPToPDPNavigation("bounce back");
     await pdp.variantChangeFunctionality(page);
   })
-  test('@all PDP25 Verify recently viewed product pdp redirection', async ({ page }) => {
-    await pdp.searchPLPToPDPNavigation("argan");
-    await pdp.searchPLPToPDPNavigation("cocunut");
-    await pdp.recentlyViewedToPDP(page);
+  const search1 = "argan";
+  const search2 = "cocunut";
+  const search3 = "serum";
+  test('@all PDP25 Verify recently viewed relevant product visisbility and pdp redirection', async ({ page }) => {
+    await pdp.searchPLPToPDPNavigation(search1);
+    await pdp.searchPLPToPDPNavigation(search2);
+    await pdp.searchPLPToPDPNavigation(search3);
+    await pdp.recentlyViewedToPDP(page, search1, search2);
   })
   test('@all PDP26 Verify recently viewed product ATC functionality', async ({ page }) => {
-    await pdp.searchPLPToPDPNavigation("argan");
-    await pdp.searchPLPToPDPNavigation("cocunut");
+    await pdp.searchPLPToPDPNavigation(search1);
+    await pdp.searchPLPToPDPNavigation(search2);
     await pdp.recentlyViewedATCFuntionality(page);
   })
   test('@all PDP27 Verify trending on social Reels section - ATC functionality', async ({ page }) => {
@@ -183,12 +189,19 @@ test.describe('PDP', () => {
     await pdp.bounceFAQFunctionality(page);
   })
   test('@all PDP35 Verify Delivery Charge & Free Shipping Threshold Functionality', async ({ page }) => {
-        await pdp.searchPLPToPDPNavigation("bounce back");
-        await pdp.deliveryChargeFunctionality(page);
+    await pdp.searchPLPToPDPNavigation("bounce back");
+    await pdp.deliveryChargeFunctionality(page);
   })
-    test('@all PDP36 Verify Have another questions section', async ({ page }) => {
+  test('@all PDP36 Verify Have another questions section', async ({ page }) => {
     await pdp.searchPLPToPDPNavigation("best");
     await pdp.haveAnotherQuestionSectionFunctionality();
+  });
+  test('@all PDP37 Verify add to cart from different pages', async ({ page }) => {
+    await pdp.searchPLPToPDPNavigation("argan");
+    await pdp.addToCartFromPDP();
+    await pdp.closeCartDrawer();
+    await pdp.youmayalsoLikeATC(page);
+
   });
 });
 

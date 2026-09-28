@@ -119,7 +119,7 @@ exports.PDP = class PDP {
     this.reelPopupTitle = page.locator('[class="reelUp_modal_product_title"]');
     this.trendingOnSocialSection = page.locator("//div[contains(text(),'wha')]");
     this.reelShopNow = page.locator('//button[@class="reelUp_custom_action reelUp_modal_shop_now_btn"]');
-        this.reelPrice = page.locator('[class="money"]');
+    this.reelPrice = page.locator('[class="money"]');
     this.bounceATC = page.locator('[class="product-form__submit button button--full-width button--primary"]');
     this.bounceQuantityMinus = page.locator('(//button[@class="custom-qty-btn qty-minus"])[1]');
     this.bounceQuantityPlus = page.locator('(//button[@class="custom-qty-btn qty-plus"])[1]');
@@ -158,8 +158,98 @@ exports.PDP = class PDP {
     this.rvProductCardPrice = page.locator('//div[@data-section-type="wizaah-recently-viewed-products"]//span[@class="pro-variant-price active"]').first();
     this.rvCompareAtPrice = page.locator('//div[@data-section-type="wizaah-recently-viewed-products"]//span[@class="text-decoration-line-through active"]').first();
     this.rvDiscountPercentage = page.locator('//div[@data-section-type="wizaah-recently-viewed-products"]//div[@class="h-pro-card-sale active"]').first();
+    this.bounceVideo = page.locator('[class="video-section page-width"]');
+    this.bounceScrollUI = page.locator('[class="custom-scroll-wrapper"]');
+    this.bounceCollectionBanner = page.locator('[class="collection-banner"]');
+    this.bounceProductTitle = page.locator('[class="pro-card-tag"]');
+    this.bounceProductDescription1 = page.locator('[class="h-pro-card-cnt-description"]');
+    this.bounceProductDescription2 = page.locator('[class="pro-card-description"]');
+    this.bounceNext = page.locator('//span[@class="owl-next"]');
+    this.bouncePrev = page.locator('//span[@class="owl-prev"]');
+    this.bounnceSlideDot = page.locator('[class="owl-dot"]');
+    this.viewLess = page.locator('//button[contains(text(),"View Less")]');
+    this.bounceReelSection = page.locator('[id="shopify-block-AY3JRckRtc3Z2OVlXS__reelup_shoppable_videos_reels_reelup_playlist_D3kthF"]');
+    this.bounceWhatgirlsaresaying = page.locator('//div[contains(text(),"What the girlies are saying")]/parent::section');
+    this.bouncePlus = page.locator('[class="custom-qty-btn qty-plus"]');
+    this.bounceMinus = page.locator('[class="custom-qty-btn qty-minus"]');
 
   }
+  async changeVriantandATC(page) {
+    await expect(this.bounceVideo).toBeVisible();
+    await expect(this.bounceScrollUI).toBeVisible();
+    await expect(this.bounceCollectionBanner).toBeVisible();
+    await expect(this.bounceProductTitle).toBeVisible();
+    await expect(this.bounceProductDescription1).toBeVisible();
+    await expect(this.bounceProductDescription2).toBeVisible();
+    await expect(this.bounceWhatgirlsaresaying).toBeVisible();
+    await expect(this.bounceReelSection).toBeVisible();
+    await this.bounceNext.click();
+    await this.bouncePrev.click();
+    await this.bounnceSlideDot.nth(1).click();
+    // Get product title
+
+    const productTitle = await this.bounceproductTitle.textContent();
+
+    // Change variant
+    const initialPrice = await this.bounceProductPrice.textContent();
+
+    await this.bounceProductVarinat.nth(1).click();
+
+    const finalPrice = await this.bounceProductPrice.textContent();
+
+    await expect(initialPrice).not.toBe(finalPrice);
+
+    await this.bounceATC.click();
+    await expect(this.ATCSuccessMessage).toBeVisible();
+    await expect(this.cartCount).toContainText('1');
+    await this.bouncePlus.nth(1).click();
+    await expect(this.cartCount).toContainText('2');
+    await this.bounceMinus.nth(1).click();
+    await expect(this.cartCount).toContainText('1');
+
+    await this.cartLink.click();
+
+    // Wait for visible cart product
+    const visibleCartProduct = this.cartproductTitle
+      .filter({ visible: true })
+      .first();
+
+    await visibleCartProduct.waitFor({
+      state: 'visible',
+      timeout: 30000
+    });
+
+    // Get cart product title
+    const cartTitle =
+      await visibleCartProduct.textContent() || '';
+
+    // Take first 5 words from PDP title
+    const expectedText = productTitle
+      .toLowerCase()
+      .trim()
+      .split(' ')
+      .slice(0, 5)
+      .join(' ');
+
+    // Validate cart product title
+    expect(cartTitle.toLowerCase())
+      .toContain(expectedText);
+
+    // Calculate expected Net Payable
+    const finalPriceValue = parseFloat(
+      finalPrice.replace(/[^\d.]/g, '')
+    );
+
+    const expectedNetPayable = finalPriceValue + 49;
+
+    // Validate Net Payable
+    await expect(this.netPayable)
+      .toHaveText(`₹${expectedNetPayable}`);
+  }
+
+
+
+
   async recentlyViewedToPDP(page, a, b) {
     await expect(this.rvProductcardReview).toBeVisible();
     await expect(this.rvProductCradCategory).toBeVisible();
@@ -241,6 +331,7 @@ exports.PDP = class PDP {
   }
   async bounceFAQFunctionality(page) {
     await this.bounceFAQViewAll.click();
+    await expect(this.viewLess).toBeVisible();
     for (let i = 0; i < await this.bouncefaqAccordion.count(); i++) {
       await this.bouncefaqAccordion.nth(i).click();
       await expect(this.bouncefaqAccordionAnswer.nth(i)).toBeVisible();
@@ -256,59 +347,6 @@ exports.PDP = class PDP {
     await this.bouncePincode.fill('560037');
     await this.bounceSubmitPincode.click();
     //success message is missing in live
-  }
-  async changeVriantandATC(page) {
-
-    const productTitle = await this.bounceproductTitle.textContent();
-
-    // Change variant
-    const initialPrice = await this.bounceProductPrice.textContent();
-
-    await this.bounceProductVarinat.nth(1).click();
-
-    const finalPrice = await this.bounceProductPrice.textContent();
-
-    await expect(initialPrice).not.toBe(finalPrice);
-
-    await this.bounceATC.click();
-    await this.cartLink.click();
-
-    // Wait for visible cart product
-    const visibleCartProduct = this.cartproductTitle
-      .filter({ visible: true })
-      .first();
-
-    await visibleCartProduct.waitFor({
-      state: 'visible',
-      timeout: 30000
-    });
-
-    // Get cart product title
-    const cartTitle =
-      await visibleCartProduct.textContent() || '';
-
-    // Take first 5 words from PDP title
-    const expectedText = productTitle
-      .toLowerCase()
-      .trim()
-      .split(' ')
-      .slice(0, 5)
-      .join(' ');
-
-    // Validate cart product title
-    expect(cartTitle.toLowerCase())
-      .toContain(expectedText);
-
-    // Calculate expected Net Payable
-    const finalPriceValue = parseFloat(
-      finalPrice.replace(/[^\d.]/g, '')
-    );
-
-    const expectedNetPayable = finalPriceValue + 49;
-
-    // Validate Net Payable
-    await expect(this.netPayable)
-      .toHaveText(`₹${expectedNetPayable}`);
   }
 
 

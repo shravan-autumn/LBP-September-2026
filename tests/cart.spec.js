@@ -43,8 +43,8 @@ test.describe('Cart', () => {
         await pdp.searchPLPToPDPNavigation("argan");
         await c.addToCartAndVerifyTheDiscount();
     });
-    test('@all Cart6 Verify you have saved and shipping message visibility', async ({ page }) => {
-        await pdp.searchPLPToPDPNavigation("argan");
+    test.only('@all Cart6 Verify you have saved and shipping message visibility', async ({ page }) => {
+        await pdp.searchPLPToPDPNavigation("Argan Oil & Lavender Shampoo - 200 ml");
         await c.addToCartAndVerifySavedandShippingMessage();
     });
     test('@all Cart7 Verify adding multiple products to cart and verify if cart count is correct', async ({ page }) => {
@@ -133,7 +133,7 @@ test.describe('Cart', () => {
         await c.checkoutGokwikkValidation();
     });
     
-     test.only('@all Cart22 Verify checkout gokwikk coupon validation', async ({ page }) => {
+     test('@all Cart22 Verify checkout gokwikk coupon validation', async ({ page }) => {
         await pdp.searchPLPToPDPNavigation("waves");
         var productTitle = await pdp.addToCart();
         await c.checkoutGokwikCouponValidation();

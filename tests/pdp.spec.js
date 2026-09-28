@@ -172,7 +172,7 @@ test.describe('PDP', () => {
     await pdp.searchPLPToPDPNavigation("argan");
     await pdp.reelYoumayalsolike(page);
   });
-  test('@all PDP31 Verify bounce back product redirection', async ({ page }) => {
+  test.only('@all PDP31 Verify bounce back product redirection', async ({ page }) => {
     await pdp.searchPLPToPDPNavigation("bounce back");
     await pdp.changeVriantandATC(page);
   })

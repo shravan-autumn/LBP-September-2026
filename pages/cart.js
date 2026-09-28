@@ -61,7 +61,9 @@ exports.Cart = class Cart {
     this.ATCSuccessMessage = page.locator('[class="add-to-cart-pop active"]');
     this.discountPrice = page.locator('[class="discount-price"]');
     this.youHaveSavedMessage = page.locator('//div[@class="cart-saving"]//span');
+    this.shippingRemaining = page.locator('//div[@class="free-shipping--content"]//span');
     this.freeShippingMessage = page.locator('[class="free-shipping--success-message"]');
+    this.cartSavingsMessage = page.locator('[class="cart-saving"]');
     this.shippinhPrice = page.locator('//span[@class="cart-shipping-price"]//s');
     this.beautyArchives = page.locator('(//a[contains(text(),"Beauty Archives")])[1]');
     this.beautyArchivesMobile = page.locator('(//a[contains(text(),"Beauty Archives")])[2]');
@@ -96,15 +98,15 @@ exports.Cart = class Cart {
     this.checkoutApplied = this.gokwikFrame.locator('[class="flex flex-col gap-y-1 w-full"]');
     this.couponRemove = this.gokwikFrame.locator('[class="text-sm font-semibold"]');
     this.couponError = this.gokwikFrame.locator('#discount');
-    this.backbutton= this.gokwikFrame.locator('[src="./assets/icons/arrow-left.svg"]');
-    this.skipandExit= this.gokwikFrame.locator('//button[contains(text(),"Skip and exit")]');
+    this.backbutton = this.gokwikFrame.locator('[src="./assets/icons/arrow-left.svg"]');
+    this.skipandExit = this.gokwikFrame.locator('//button[contains(text(),"Skip and exit")]');
     this.verifyMobileNumberError = this.gokwikFrame.locator('div.snackbar');
     this.termsAndConditions = this.gokwikFrame.locator('//a[contains(text(),"T&C")]');
     this.privacyNotice = this.gokwikFrame.locator('//div[@class="info-text-container svelte-c1kro1"]//a[@href="https://www.unilevernotices.com/privacy-notices/india-english.html"]').nth(0);
     this.checkoutCheckbox = this.gokwikFrame.locator('[id="marketingConsent"]');
     this.unileverBrands = this.gokwikFrame.locator('//span[@id="marketingConsentWrapper"]//a').first();
     this.unileverBrandsMobile = this.gokwikFrame.locator('//u[contains(text(),"Unilever Brands")]');
-    this.loginToContinue= this.gokwikFrame.locator('//span[contains(text(),"Login to continue")]');
+    this.loginToContinue = this.gokwikFrame.locator('//span[contains(text(),"Login to continue")]');
     this.enterMobileNumber = this.gokwikFrame.locator('//label[contains(text(),"Enter Mobile")]');
     this.privacyNotice2 = this.gokwikFrame.locator('//div[@class="info-text-container svelte-c1kro1"]//a[@href="https://www.unilevernotices.com/privacy-notices/india-english.html"]').nth(1);
     this.privacyNotice2Mobile = this.gokwikFrame.locator('//u[contains(text(),"Privacy Notice")]').nth(0);
@@ -116,8 +118,9 @@ exports.Cart = class Cart {
     this.viewOffers = page.locator('//button[contains(text(),"View offers")]');
     this.offerCard = page.locator('[class="buy3at1399-car row"]');
     this.add1More = page.locator('//a[contains(text(),"Add ")]').first();
-
-
+    this.awayFromShipping = page.locator('[class="free-shipping--content"]');
+    this.progressBar = page.locator('[class="free-shipping--threshold-bar"]');
+    this.deleviryChange = page.locator('//div[@class="price-details"]//li');
 
 
 
@@ -125,6 +128,60 @@ exports.Cart = class Cart {
 
 
   }
+  async addToCartAndVerifySavedandShippingMessage() {
+    await this.pdpatcButton.click();
+    await expect(this.awayFromShipping).toBeVisible();
+    await expect(this.progressBar).toBeVisible();
+    const parsePrice = text => Number(text.replace(/[^\d.]/g, ''));
+
+    const cartPrice = parsePrice(await this.cartPrice.first().textContent());
+    const message = parsePrice(await this.shippingRemaining.textContent());
+
+    expect(message).toBe(399 - cartPrice);
+    await expect(this.deleviryChange.nth(2)).toBeVisible();
+
+    await expect.poll(async () =>
+      parsePrice(await this.netPayable.textContent())
+    ).toBe(cartPrice + 49);
+    await this.firstProductPlusIcon.click();
+    await this.page.waitForTimeout(3000);
+
+    // Wait for cart product
+    await this.productTitle.first().waitFor();
+
+    var cartPrice1 = await this.cartPrice.first().textContent();
+    var cartMRP = await this.cartMRP.first().textContent();
+
+    var mrp = parseFloat(cartMRP.replace(/[^0-9.-]+/g, ""));
+    var price = parseFloat(cartPrice1.replace(/[^0-9.-]+/g, ""));
+
+    var discount = Math.abs(mrp - price);
+    var totalsaved = discount + 49;
+
+    console.log("MRP: " + mrp);
+    console.log("Price: " + price);
+    console.log("Discount: " + discount);
+    console.log("Total Saved: " + totalsaved);
+
+    await expect(this.youHaveSavedMessage)
+      .toContainText(String(totalsaved));
+    await expect(this.freeShippingMessage).toBeVisible();
+    await expect(this.cartSavingsMessage).toBeVisible();
+    await expect.poll(async () =>
+      parsePrice(await this.netPayable.textContent())
+    ).toBe(cartPrice * 2);
+    await this.firstProductMinusIcon.click();
+    await this.page.waitForTimeout(3000);
+    await expect(this.awayFromShipping).toBeVisible();
+    await expect(this.progressBar).toBeVisible();
+    await expect.poll(async () =>
+      parsePrice(await this.netPayable.textContent())
+    ).toBe(cartPrice + 49);
+
+
+  }
+
+
   async phoneValidationGokwik() {
     await this.checkoutButton.click();
     await this.gokwikPopup.waitFor();
@@ -345,8 +402,8 @@ exports.Cart = class Cart {
       normalizedCheckoutPrice
     );
 
-        await this.checkoutAllPrice.click();
- await this.checkoutDiscount.fill("WAVESLBP");
+    await this.checkoutAllPrice.click();
+    await this.checkoutDiscount.fill("WAVESLBP");
     await this.checkoutApply.click();
     await this.backbutton.click();
     await this.skipandExit.click();
@@ -555,30 +612,7 @@ exports.Cart = class Cart {
 
 
   }
-  async addToCartAndVerifySavedandShippingMessage() {
-    await this.pdpatcButton.click();
 
-    // Wait for cart product
-    await this.productTitle.first().waitFor();
-
-    var cartPrice = await this.cartPrice.first().textContent();
-    var cartMRP = await this.cartMRP.first().textContent();
-
-    var mrp = parseFloat(cartMRP.replace(/[^0-9.-]+/g, ""));
-    var price = parseFloat(cartPrice.replace(/[^0-9.-]+/g, ""));
-
-    var discount = Math.abs(mrp - price);
-    var totalsaved = discount + 49;
-
-    console.log("MRP: " + mrp);
-    console.log("Price: " + price);
-    console.log("Discount: " + discount);
-    console.log("Total Saved: " + totalsaved);
-
-    await expect(this.youHaveSavedMessage)
-      .toContainText(String(totalsaved));
-    await expect(this.freeShippingMessage).toBeVisible();
-  }
   async addToCartAndVerifyTheDiscount() {
     await this.pdpatcButton.click();
 

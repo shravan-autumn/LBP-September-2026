@@ -637,6 +637,46 @@ exports.PDP = class PDP {
       .toContain(expectedText);
 
   }
+  async youmayalsoLikeATC2(page) {
+    // Get product title from YMAL and normalize whitespace
+    const productTitle = (await this.ymalProductTitle.nth(0).textContent())
+      ?.replace(/\s+/g, ' ')
+      .trim();
+ await this.page.waitForTimeout(3000);
+
+    // Click the YMAL product
+    await this.ymalATC.nth(0).click();
+    await expect(this.ATCSuccessMessage).toBeVisible();
+    await expect(this.cartCount).toContainText('2');
+    await this.viewCartButton.click();
+
+    // Wait for visible cart product
+    const visibleCartProduct = this.cartproductTitle
+      .filter({ visible: true })
+      .first();
+
+    await visibleCartProduct.waitFor({
+      state: 'visible',
+      timeout: 30000
+    });
+
+    // Get cart product title
+    const cartTitle =
+      await visibleCartProduct.textContent() || '';
+
+    // Take few words from PDP title
+    const expectedText = productTitle
+      .toLowerCase()
+      .trim()
+      .split(' ')
+      .slice(0, 5)
+      .join(' ');
+
+    // Validate cart contains similar text
+    expect(cartTitle.toLowerCase())
+      .toContain(expectedText);
+
+  }
   async youmayalsoLikePDPRedirection(page) {
     if (await this.ymalRightNavigaion.isVisible()) {
       await this.ymalRightNavigaion.click();
@@ -775,7 +815,7 @@ exports.PDP = class PDP {
 
   async checkInvalidPincode(value) {
     await this.pincodeInput.fill(value);
-    await this.pincodeInput.press('Enter');
+    //await this.pincodeInput.press('Enter');
     await this.pincodeCheckBtn.click();
     await this.page.waitForTimeout(8000);
 

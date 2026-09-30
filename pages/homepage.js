@@ -255,7 +255,7 @@ exports.HomePage = class HomePage {
     this.notifyMeSubmit = page.locator('[class="notify-submit-btn"]');
     this.knowYourIngredinetsLink = page.locator('(//a[contains(text(),"Know Your Ingredients")])[1]');
     this.knowYourIngredinetsLinkMobile = page.locator('(//a[contains(text(),"Know Your Ingredients")])[2]');
-
+    this.keepInTouch = page.locator('//b[contains(text(),"keep in touch!")]');
     this.findIngredients = page.locator('//a[@class="detail"]//h3');
     this.accountLink = page.locator('[class="header__icon header__icon--account link focus-inset"]');
     this.emailTextField = page.locator('[id="CustomerEmail"]');
@@ -326,7 +326,7 @@ exports.HomePage = class HomePage {
     this.orderPlacedOn = page.locator('[class="h4 pickup-date-display"]');
     this.orderPlacedOnShipRocket = page.locator('(//span[@class="pull-right fs-12px right_info"])[2]');
     this.bannerVideo = page.locator('//div[@id="home-banner-slide-1"]//video');
-    this.reelVideo = page.locator('[class="reelUp_video_elem"]');
+    this.reelVideo1 = page.locator('[class="reelUp_video_elem"]');
     this.reelThumbnail = page.locator('[class="reelUp_ratio_img_wrapper"]');
     this.newsletterLegal = page.locator('//label[@class="newsletter-consent consent-statement"]//p');
     this.callUs = page.locator('[title="tel:1800-203-5544"]').nth(1);
@@ -775,17 +775,39 @@ exports.HomePage = class HomePage {
     });
 
     await serumFilter.click();
-    await this.newsletterLegal.scrollIntoViewIfNeeded();
+     await page.waitForTimeout(2000);
+    await this.scrollSlowlyToBottom(page);
     await expect
       .poll(async () => {
         const titles = await this.blogListingTitle.allTextContents();
         return titles.some(title => /\bserum\b/i.test(title));
       }, { message: 'Expected at least one blog title to contain "Serum"' })
       .toBe(true);
-
   }
 
+  async scrollSlowlyToBottom(page) {
+  while (true) {
+    const reachedBottom = await page.evaluate(() => {
+      window.scrollBy(0, 300);
 
+      return (
+        window.scrollY + window.innerHeight >=
+        document.documentElement.scrollHeight
+      );
+    });
+
+    await page.waitForTimeout(500);
+
+    if (reachedBottom) {
+      const stillAtBottom = await page.evaluate(() =>
+        window.scrollY + window.innerHeight >=
+        document.documentElement.scrollHeight
+      );
+
+      if (stillAtBottom) break;
+    }
+  }
+}
 
 
   async readByCategoryFunctionality(page) {
@@ -811,23 +833,17 @@ exports.HomePage = class HomePage {
         .toLowerCase();
 
       await this.readByCategory.nth(i).click();
-
       const titles = (await this.blogListingTitle.allTextContents())
         .map(title => title.trim().toLowerCase());
-
       expect(
         titles.some(title => title.includes(option)),
         `Expected at least one blog title to contain "${option}". Found: ${titles.join(', ')}`
       ).toBe(true);
-
       await this.viewAllBlog.nth(i).click();
       await expect(page).toHaveURL(expectedUrls[i]);
-
       await page.goBack();
     }
   }
-
-
 
   async blogdropdownfunctionality() {
     if (await this.beautyArchives.isVisible()) {
@@ -1077,9 +1093,9 @@ exports.HomePage = class HomePage {
 
   }
   async reelSectionVideoAndThumbnail(page) {
-    for (let i = 0; i < await this.reelVideo.count(); i++) {
-      await this.reelVideo.nth(i).scrollIntoViewIfNeeded();
-      await expect(this.reelVideo.nth(i)).toBeVisible();
+    for (let i = 0; i < await this.reelVideo1.count(); i++) {
+      await this.reelVideo1.nth(i).scrollIntoViewIfNeeded();
+      await expect(this.reelVideo1.nth(i)).toBeVisible();
       await expect(this.reelThumbnail.nth(i)).toBeVisible();
     }
   }
@@ -2511,36 +2527,36 @@ exports.HomePage = class HomePage {
     expect(lowerCaseProducts).toContain(productName);
   }   */
   async shopByConcernSectionRedirections(page) {
-  const expectedUrls = [
-    'https://lovebeautyandplanet.in/collections/argan-oil-lavender',
-    'https://lovebeautyandplanet.in/collections/onion-blackseed-patchouli',
-    'https://lovebeautyandplanet.in/collections/bond-repair',
-    'https://lovebeautyandplanet.in/collections/curry-leaves-biotin-mandarin',
-    'https://lovebeautyandplanet.in/collections/rice-water-angelica',
-    'https://lovebeautyandplanet.in/collections/tea-tree-and-vetiver',
-  ];
+    const expectedUrls = [
+      'https://lovebeautyandplanet.in/collections/argan-oil-lavender',
+      'https://lovebeautyandplanet.in/collections/onion-blackseed-patchouli',
+      'https://lovebeautyandplanet.in/collections/bond-repair',
+      'https://lovebeautyandplanet.in/collections/curry-leaves-biotin-mandarin',
+      'https://lovebeautyandplanet.in/collections/rice-water-angelica',
+      'https://lovebeautyandplanet.in/collections/tea-tree-and-vetiver',
+    ];
 
-  for (let i = 0; i < expectedUrls.length; i++) {
-    await this.shopByConcernLinks.nth(i).click();
-    await expect(page).toHaveURL(expectedUrls[i]);
+    for (let i = 0; i < expectedUrls.length; i++) {
+      await this.shopByConcernLinks.nth(i).click();
+      await expect(page).toHaveURL(expectedUrls[i]);
 
-    const slug = new URL(expectedUrls[i]).pathname.split('/').pop();
-    const keywords = slug.split('-').filter(word => word !== 'and');
+      const slug = new URL(expectedUrls[i]).pathname.split('/').pop();
+      const keywords = slug.split('-').filter(word => word !== 'and');
 
-    await expect(this.plpProductTitle.first()).toBeVisible();
+      await expect(this.plpProductTitle.first()).toBeVisible();
 
-    const titles = (await this.plpProductTitle.allTextContents())
-      .map(title => title.toLowerCase());
+      const titles = (await this.plpProductTitle.allTextContents())
+        .map(title => title.toLowerCase());
 
-    expect(
-      titles.some(title => keywords.some(word => title.includes(word))),
-      `No product title contains a word from "${slug}". Titles: ${titles.join(' | ')}`
-    ).toBe(true);
+      expect(
+        titles.some(title => keywords.some(word => title.includes(word))),
+        `No product title contains a word from "${slug}". Titles: ${titles.join(' | ')}`
+      ).toBe(true);
 
-    await page.goBack();
-    await expect(this.shopByConcernLinks.nth(i)).toBeVisible();
+      await page.goBack();
+      await expect(this.shopByConcernLinks.nth(i)).toBeVisible();
+    }
   }
-}
   async whatSetsUsApartDropdown() {
     for (let i = 0; i < await this.whatSetsUsApartCard.count(); i++) {
       await this.whatSetsUsApartCard.nth(i).click();

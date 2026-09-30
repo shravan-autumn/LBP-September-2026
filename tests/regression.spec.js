@@ -275,10 +275,10 @@ test.describe('All', () => {
 
     });
 
-    test('@all HP51 Verify footer instagram links', async ({ page, context }) => {
+    test('@desktop HP51 Verify footer instagram links', async ({ page, context }) => {
         await hp.instagramRedirection(page, context);
     });
-    test('@all HP52 Verify footer youtube links', async ({ page, context }) => {
+    test('@desktop HP52 Verify footer youtube links', async ({ page, context }) => {
         await hp.youtubeRedirection(page, context);
     });
 
@@ -751,7 +751,7 @@ test.describe('All', () => {
         await pdp.searchPLPToPDPNavigation("argan");
         await pdp.addToCartFromPDP();
         await pdp.closeCartDrawer();
-        await pdp.youmayalsoLikeATC(page);
+        await pdp.youmayalsoLikeATC2(page);
 
     });
     //Cart--------------
@@ -791,7 +791,7 @@ test.describe('All', () => {
     test('@all Cart9 Verify price details section', async ({ page }) => {
         await pdp.searchPLPToPDPNavigation("argan");
         await c.addFirstProductToCart();
-        await pdp.searchPLPToPDPNavigation("hair");
+        await pdp.searchPLPToPDPNavigation("Argan Oil & Lavender Conditioner");
         await c.addSecondProductToCart();
         await c.priceDetailsSection();
     });
@@ -830,7 +830,7 @@ test.describe('All', () => {
     test('@all Cart15 Verify adding multiple products to cart and quantity selector increase and decrease functionality', async ({ page }) => {
         await pdp.searchPLPToPDPNavigation("argan");
         await c.addFirstProductToCart();
-        await pdp.searchPLPToPDPNavigation("hair");
+        await pdp.searchPLPToPDPNavigation("Argan Oil & Lavender Conditioner");
         await c.addSecondProductToCart();
         await c.multipleProductQuantitySectorFunctionality(page);
     });

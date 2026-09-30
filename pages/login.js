@@ -264,6 +264,5 @@ exports.Login = class Login {
         await this.resetPasswordEmailPlaceholder.fill("shravan@weareautumn.com");
         await this.submitButton.click();
         await expect(this.resetPasswordMessage).toBeVisible();
-        a
     }
 }
